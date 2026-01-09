@@ -1,0 +1,95 @@
+{
+  "nav": {
+    "home": "Home",
+    "products": "Products",
+    "about": "About Us",
+    "contact": "Contact",
+    "getQuote": "Get Quote"
+  },
+  "hero": {
+    "title": "Kokorozashi Kibou LLC",
+    "subtitle": "10+ Years of Quality Guarantee",
+    "description": "Your trusted partner in Mongolia's construction industry. We supply quality building materials at fair prices.",
+    "cta": "Chat on WhatsApp",
+    "viewProducts": "View Products"
+  },
+  "usp": {
+    "freeDelivery": "FREE Delivery for 100+ Items",
+    "weightGuarantee": "Weight Guaranteed",
+    "standardFormula": "Standard Formulation",
+    "mnsStandard": "MNS Standard"
+  },
+  "stats": {
+    "years": "Years Experience",
+    "products": "Products",
+    "clients": "Satisfied Clients",
+    "projects": "Major Projects"
+  },
+  "categories": {
+    "title": "Product Categories",
+    "subtitle": "All types of building materials",
+    "puttyWhite": "White Putty",
+    "puttyBlack": "Black Putty",
+    "tileAdhesive": "Tile Adhesive",
+    "knauf": "Knauf",
+    "facadePlaster": "Facade Plaster",
+    "primer": "Primer"
+  },
+  "products": {
+    "title": "Products",
+    "subtitle": "Quality Building Materials",
+    "inquirePrice": "Inquire Wholesale Price",
+    "viewDetails": "View Details",
+    "inStock": "In Stock",
+    "outOfStock": "Out of Stock"
+  },
+  "about": {
+    "title": "About Us",
+    "subtitle": "10+ Years of Trusted Partnership",
+    "story": "Kokorozashi Kibou LLC was founded in 2014 and has become one of the leading companies in Mongolia's building materials market.",
+    "mission": "Our Mission",
+    "missionText": "To deliver quality building materials at fair prices and contribute to the development of Mongolia's construction sector.",
+    "values": "Our Values",
+    "quality": "Quality",
+    "qualityText": "All products meet MNS standard requirements",
+    "trust": "Trust",
+    "trustText": "Weight guaranteed, honest business",
+    "service": "Service",
+    "serviceText": "Professional advice, fast delivery"
+  },
+  "distribution": {
+    "title": "Distribution Network",
+    "retailers": "Retail Points",
+    "retailersCount": "50+",
+    "majorProjects": "Major Construction Projects",
+    "projectsCount": "100+"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "Get in touch with us",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone Number",
+    "company": "Company Name",
+    "message": "Message",
+    "submit": "Submit",
+    "address": "Address",
+    "addressText": "Ulaanbaatar, Khan-Uul District",
+    "whatsapp": "WhatsApp",
+    "workingHours": "Working Hours",
+    "workingHoursText": "Monday - Saturday: 09:00 - 18:00"
+  },
+  "footer": {
+    "description": "Your reliable partner for building materials. 10+ years of experience, quality guarantee.",
+    "quickLinks": "Quick Links",
+    "contactInfo": "Contact Information",
+    "followUs": "Follow Us",
+    "rights": "All rights reserved"
+  },
+  "cta": {
+    "whatsapp": "Chat on WhatsApp",
+    "call": "Call Us",
+    "quote": "Get Quote"
+  }
+}
+
