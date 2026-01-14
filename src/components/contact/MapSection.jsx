@@ -11,13 +11,13 @@ export default function MapSection() {
       icon: MapPin,
       label: t('contact.address'),
       value: t('contact.addressText'),
-      href: 'https://maps.google.com/?q=Ulaanbaatar+Khan-Uul',
+      href: 'https://maps.app.goo.gl/o2TLeRyaNxHZnQKF9',
     },
     {
       icon: Phone,
       label: i18n.language === 'mn' ? 'Утас' : 'Phone',
-      value: '+976 9999 9999',
-      href: 'tel:+97699999999',
+      value: '+976 8820 4057',
+      href: 'tel:+97688204057',
     },
     {
       icon: Mail,
@@ -92,7 +92,7 @@ export default function MapSection() {
           <Button
             variant="whatsapp"
             icon={MessageCircle}
-            href="https://wa.me/97699999999"
+            href="https://wa.me/97688204057"
             className="w-full"
             size="lg"
           >
@@ -106,7 +106,7 @@ export default function MapSection() {
         <div className="aspect-video bg-neutral-gray relative">
           {/* Google Maps Embed */}
           <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d86088.54635255066!2d106.84686387632946!3d47.91869660261898!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5d969247c6d4ad29%3A0x71c23f8c0af42396!2sKhan-Uul%20District%2C%20Ulaanbaatar%2C%20Mongolia!5e0!3m2!1sen!2sus!4v1704800000000!5m2!1sen!2sus"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1001.4914800896232!2d106.81592376229223!3d47.923586451680826!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5d96ed8466551407%3A0xd930925513242d15!2sKokorozashi%20Kibou%20LLC!5e0!3m2!1sen!2sus!4v1768355159953!5m2!1sen!2sus"
             width="100%"
             height="100%"
             style={{ border: 0 }}
@@ -116,6 +116,7 @@ export default function MapSection() {
             title="Kokorozashi Kibou LLC Location"
             className="absolute inset-0"
           />
+
         </div>
       </div>
     </motion.div>

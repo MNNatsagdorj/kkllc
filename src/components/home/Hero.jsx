@@ -8,7 +8,7 @@ export default function Hero() {
 
   const features = [
     { icon: Shield, label: t('usp.standardFormula') },
-    { icon: Scale, label: t('usp.weightGuarantee') },
+    // { icon: Scale, label: t('usp.weightGuarantee') },
     { icon: Truck, label: t('usp.freeDelivery') },
   ];
 
@@ -47,11 +47,11 @@ export default function Hero() {
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
               {t('hero.title')}
             </h1>
-            
+
             <p className="text-xl md:text-2xl text-primary font-semibold mb-4">
               {t('hero.subtitle')}
             </p>
-            
+
             <p className="text-gray-300 text-lg mb-8 max-w-lg">
               {t('hero.description')}
             </p>
@@ -106,7 +106,7 @@ export default function Hero() {
             <div className="relative aspect-square max-w-lg mx-auto">
               {/* Background circles */}
               <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-primary/10 rounded-full blur-3xl" />
-              
+
               {/* Product showcase */}
               <div className="relative z-10 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/10">
                 <div className="grid grid-cols-2 gap-4">
@@ -117,7 +117,7 @@ export default function Hero() {
                     </div>
                     <p className="text-xs font-semibold text-secondary text-center">Цагаан замаск</p>
                   </div>
-                  
+
                   {/* Product 2 */}
                   <div className="bg-white rounded-2xl p-4 shadow-xl transform translate-y-6">
                     <div className="aspect-square bg-gradient-to-br from-gray-700 to-gray-800 rounded-xl mb-3 flex items-center justify-center">
@@ -125,7 +125,7 @@ export default function Hero() {
                     </div>
                     <p className="text-xs font-semibold text-secondary text-center">Хар замаск</p>
                   </div>
-                  
+
                   {/* Product 3 */}
                   <div className="bg-white rounded-2xl p-4 shadow-xl transform -translate-y-2">
                     <div className="aspect-square bg-gradient-to-br from-orange-100 to-orange-200 rounded-xl mb-3 flex items-center justify-center">
@@ -133,7 +133,7 @@ export default function Hero() {
                     </div>
                     <p className="text-xs font-semibold text-secondary text-center">Плятаны цавуу</p>
                   </div>
-                  
+
                   {/* Product 4 */}
                   <div className="bg-white rounded-2xl p-4 shadow-xl transform translate-y-4">
                     <div className="aspect-square bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl mb-3 flex items-center justify-center">
@@ -152,7 +152,7 @@ export default function Hero() {
               >
                 MNS ✓
               </motion.div>
-              
+
               <motion.div
                 animate={{ y: [0, 10, 0] }}
                 transition={{ duration: 3, repeat: Infinity, delay: 1.5 }}
@@ -168,7 +168,7 @@ export default function Hero() {
       {/* Bottom wave */}
       <div className="absolute bottom-0 left-0 right-0">
         <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 37.5C840 45 960 60 1080 67.5C1200 75 1320 75 1380 75L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="white"/>
+          <path d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 37.5C840 45 960 60 1080 67.5C1200 75 1320 75 1380 75L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="white" />
         </svg>
       </div>
     </section>

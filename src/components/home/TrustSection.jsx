@@ -7,14 +7,6 @@ export default function TrustSection() {
 
   const trustItems = [
     {
-      icon: Scale,
-      titleMN: 'Жиндээ бүрэн хүрдэг',
-      titleEN: 'Weight Guaranteed',
-      descriptionMN: 'Бүх бүтээгдэхүүн жинд бүрэн хүрдэг. Үйлдвэрлэлийн шат шатанд чанарын хяналт хийгддэг.',
-      descriptionEN: 'All products are full weight guaranteed. Quality control at every stage of production.',
-      color: 'bg-emerald-500',
-    },
-    {
       icon: Shield,
       titleMN: 'Стандарт найрлага',
       titleEN: 'Standard Formulation',
@@ -59,8 +51,8 @@ export default function TrustSection() {
             </div>
 
             <h2 className="font-display text-3xl md:text-4xl font-bold text-secondary mb-6">
-              {i18n.language === 'mn' 
-                ? 'Чанар, итгэлцэл, үйлчилгээ' 
+              {i18n.language === 'mn'
+                ? 'Чанар, итгэлцэл, үйлчилгээ'
                 : 'Quality, Trust, Service'}
             </h2>
 
@@ -102,9 +94,8 @@ export default function TrustSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className={`bg-concrete rounded-2xl p-6 hover:shadow-lg transition-all duration-300 ${
-                  index % 2 === 1 ? 'sm:translate-y-6' : ''
-                }`}
+                className={`bg-concrete rounded-2xl p-6 hover:shadow-lg transition-all duration-300 ${index % 2 === 1 ? 'sm:translate-y-6' : ''
+                  }`}
               >
                 <div className={`w-12 h-12 ${item.color} rounded-xl flex items-center justify-center mb-4`}>
                   <item.icon className="w-6 h-6 text-white" />

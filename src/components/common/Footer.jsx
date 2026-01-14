@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { 
-  MapPin, 
-  Phone, 
-  Mail, 
+import {
+  MapPin,
+  Phone,
+  Mail,
   Clock,
   Facebook,
   Instagram,
@@ -75,17 +75,17 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-primary flex-shrink-0" />
-                <a 
-                  href="tel:+97699999999" 
+                <a
+                  href="tel:+97688204057"
                   className="text-gray-400 hover:text-primary transition-colors text-sm"
                 >
-                  +976 9999 9999
+                  +976 8820 4057
                 </a>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-primary flex-shrink-0" />
-                <a 
-                  href="mailto:info@kkllc.mn" 
+                <a
+                  href="mailto:info@kkllc.mn"
                   className="text-gray-400 hover:text-primary transition-colors text-sm"
                 >
                   info@kkllc.mn
@@ -123,7 +123,7 @@ export default function Footer() {
                 <Instagram className="w-5 h-5" />
               </a>
               <a
-                href="https://wa.me/97699999999"
+                href="https://wa.me/97688204057"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-[#25D366] rounded-lg flex items-center justify-center hover:bg-[#20BD5A] transition-colors"
@@ -134,7 +134,7 @@ export default function Footer() {
 
             {/* WhatsApp CTA */}
             <a
-              href="https://wa.me/97699999999"
+              href="https://wa.me/97688204057"
               className="inline-flex items-center gap-2 px-4 py-2 bg-[#25D366] rounded-lg text-sm font-semibold hover:bg-[#20BD5A] transition-colors"
             >
               <MessageCircle className="w-4 h-4" />

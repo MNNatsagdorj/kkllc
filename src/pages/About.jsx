@@ -1,9 +1,9 @@
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { 
-  Award, 
-  Users, 
-  Building2, 
+import {
+  Award,
+  Users,
+  Building2,
   TrendingUp,
   CheckCircle,
   Target,
@@ -80,26 +80,26 @@ export default function About() {
   ];
 
   const distributionStats = [
-    { 
-      icon: Building2, 
-      valueMN: '50+', 
-      valueEN: '50+', 
-      labelMN: 'Жижиглэнгийн цэг', 
-      labelEN: 'Retail Points' 
+    {
+      icon: Building2,
+      valueMN: '50+',
+      valueEN: '50+',
+      labelMN: 'Жижиглэнгийн цэг',
+      labelEN: 'Retail Points'
     },
-    { 
-      icon: Users, 
-      valueMN: '100+', 
-      valueEN: '100+', 
-      labelMN: 'Томоохон төсөл', 
-      labelEN: 'Major Projects' 
+    {
+      icon: Users,
+      valueMN: '100+',
+      valueEN: '100+',
+      labelMN: 'Томоохон төсөл',
+      labelEN: 'Major Projects'
     },
-    { 
-      icon: TrendingUp, 
-      valueMN: '500+', 
-      valueEN: '500+', 
-      labelMN: 'Үйлчлүүлэгч', 
-      labelEN: 'Clients' 
+    {
+      icon: TrendingUp,
+      valueMN: '500+',
+      valueEN: '500+',
+      labelMN: 'Үйлчлүүлэгч',
+      labelEN: 'Clients'
     },
   ];
 
@@ -112,7 +112,7 @@ export default function About() {
             backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23FF6B00' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
           }} />
         </div>
-        
+
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -123,7 +123,7 @@ export default function About() {
               <Award className="w-5 h-5 text-primary" />
               <span className="text-primary font-semibold">10+ {t('stats.years')}</span>
             </div>
-            
+
             <h1 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
               {t('about.title')}
             </h1>
@@ -191,7 +191,7 @@ export default function About() {
                   <p className="text-gray-500">LLC • Since 2014</p>
                 </div>
               </div>
-              
+
               {/* Floating badge */}
               <div className="absolute -bottom-4 -right-4 bg-primary text-white px-6 py-3 rounded-xl font-bold shadow-lg">
                 10+ {i18n.language === 'mn' ? 'жил' : 'Years'}
@@ -265,9 +265,8 @@ export default function About() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className={`relative flex items-start gap-8 mb-8 ${
-                  index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
-                }`}
+                className={`relative flex items-start gap-8 mb-8 ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
+                  }`}
               >
                 {/* Dot */}
                 <div className="absolute left-8 md:left-1/2 w-4 h-4 bg-primary rounded-full transform -translate-x-1/2 border-4 border-white shadow z-10" />

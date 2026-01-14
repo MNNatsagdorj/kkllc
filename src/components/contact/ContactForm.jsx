@@ -8,7 +8,7 @@ import Button from '../common/Button';
 export default function ContactForm() {
   const { t, i18n } = useTranslation();
   const [submitStatus, setSubmitStatus] = useState(null);
-  
+
   const {
     register,
     handleSubmit,
@@ -19,13 +19,13 @@ export default function ContactForm() {
   const onSubmit = async (data) => {
     // Simulate form submission
     await new Promise(resolve => setTimeout(resolve, 1000));
-    
+
     // In production, send to your backend or email service
     console.log('Form data:', data);
-    
+
     setSubmitStatus('success');
     reset();
-    
+
     // Clear status after 5 seconds
     setTimeout(() => setSubmitStatus(null), 5000);
   };
@@ -58,8 +58,8 @@ export default function ContactForm() {
         >
           <CheckCircle className="w-5 h-5 flex-shrink-0" />
           <span>
-            {i18n.language === 'mn' 
-              ? 'Таны мессеж амжилттай илгээгдлээ!' 
+            {i18n.language === 'mn'
+              ? 'Таны мессеж амжилттай илгээгдлээ!'
               : 'Your message was sent successfully!'}
           </span>
         </motion.div>
@@ -71,8 +71,8 @@ export default function ContactForm() {
           <label className={labelClasses}>{t('contact.name')} *</label>
           <input
             type="text"
-            {...register('name', { 
-              required: i18n.language === 'mn' ? 'Нэр оруулна уу' : 'Name is required' 
+            {...register('name', {
+              required: i18n.language === 'mn' ? 'Нэр оруулна уу' : 'Name is required'
             })}
             className={inputClasses}
             placeholder={i18n.language === 'mn' ? 'Таны нэр' : 'Your name'}
@@ -113,11 +113,11 @@ export default function ContactForm() {
             <label className={labelClasses}>{t('contact.phone')} *</label>
             <input
               type="tel"
-              {...register('phone', { 
-                required: i18n.language === 'mn' ? 'Утасны дугаар оруулна уу' : 'Phone is required' 
+              {...register('phone', {
+                required: i18n.language === 'mn' ? 'Утасны дугаар оруулна уу' : 'Phone is required'
               })}
               className={inputClasses}
-              placeholder="+976 9999 9999"
+              placeholder="+976 8820 4057"
             />
             {errors.phone && <p className={errorClasses}>{errors.phone.message}</p>}
           </div>
@@ -127,7 +127,7 @@ export default function ContactForm() {
         <div>
           <label className={labelClasses}>{t('contact.message')} *</label>
           <textarea
-            {...register('message', { 
+            {...register('message', {
               required: i18n.language === 'mn' ? 'Мессеж оруулна уу' : 'Message is required',
               minLength: {
                 value: 10,
@@ -136,8 +136,8 @@ export default function ContactForm() {
             })}
             rows={4}
             className={inputClasses}
-            placeholder={i18n.language === 'mn' 
-              ? 'Таны мессеж... (Жишээ: Ямар бүтээгдэхүүн хэрэгтэй байгаа, хэдэн ширхэг гэх мэт)' 
+            placeholder={i18n.language === 'mn'
+              ? 'Таны мессеж... (Жишээ: Ямар бүтээгдэхүүн хэрэгтэй байгаа, хэдэн ширхэг гэх мэт)'
               : 'Your message... (e.g., which products you need, quantity, etc.)'}
           />
           {errors.message && <p className={errorClasses}>{errors.message.message}</p>}
@@ -153,7 +153,7 @@ export default function ContactForm() {
           className="w-full"
           disabled={isSubmitting}
         >
-          {isSubmitting 
+          {isSubmitting
             ? (i18n.language === 'mn' ? 'Илгээж байна...' : 'Sending...')
             : t('contact.submit')
           }

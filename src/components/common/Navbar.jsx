@@ -40,11 +40,10 @@ export default function Navbar() {
       <motion.header
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        className={`sticky top-0 z-50 transition-all duration-300 ${
-          isScrolled 
-            ? 'bg-white/95 backdrop-blur-md shadow-lg' 
-            : 'bg-white'
-        }`}
+        className={`sticky top-0 z-50 transition-all duration-300 ${isScrolled
+          ? 'bg-white/95 backdrop-blur-md shadow-lg'
+          : 'bg-white'
+          }`}
       >
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 md:h-20">
@@ -65,11 +64,10 @@ export default function Navbar() {
                 <Link
                   key={link.path}
                   to={link.path}
-                  className={`relative font-medium transition-colors ${
-                    location.pathname === link.path
-                      ? 'text-primary'
-                      : 'text-secondary hover:text-primary'
-                  }`}
+                  className={`relative font-medium transition-colors ${location.pathname === link.path
+                    ? 'text-primary'
+                    : 'text-secondary hover:text-primary'
+                    }`}
                 >
                   {link.label}
                   {location.pathname === link.path && (
@@ -99,7 +97,7 @@ export default function Navbar() {
                   variant="whatsapp"
                   size="sm"
                   icon={MessageCircle}
-                  href="https://wa.me/97699999999"
+                  href="https://wa.me/97688204057"
                 >
                   WhatsApp
                 </Button>
@@ -131,21 +129,20 @@ export default function Navbar() {
                     key={link.path}
                     to={link.path}
                     onClick={() => setIsOpen(false)}
-                    className={`block px-4 py-3 rounded-xl font-medium transition-colors ${
-                      location.pathname === link.path
-                        ? 'bg-primary/10 text-primary'
-                        : 'hover:bg-neutral-gray'
-                    }`}
+                    className={`block px-4 py-3 rounded-xl font-medium transition-colors ${location.pathname === link.path
+                      ? 'bg-primary/10 text-primary'
+                      : 'hover:bg-neutral-gray'
+                      }`}
                   >
                     {link.label}
                   </Link>
                 ))}
-                
+
                 <div className="pt-4 space-y-3">
                   <Button
                     variant="whatsapp"
                     icon={MessageCircle}
-                    href="https://wa.me/97699999999"
+                    href="https://wa.me/97688204057"
                     className="w-full"
                   >
                     WhatsApp
@@ -153,7 +150,7 @@ export default function Navbar() {
                   <Button
                     variant="outline"
                     icon={Phone}
-                    href="tel:+97699999999"
+                    href="tel:+97688204057"
                     className="w-full"
                   >
                     {t('cta.call')}

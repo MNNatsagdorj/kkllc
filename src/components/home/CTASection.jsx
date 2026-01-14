@@ -28,8 +28,8 @@ export default function CTASection() {
             className="text-white"
           >
             <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-              {i18n.language === 'mn' 
-                ? 'Бөөний үнийн санал авах уу?' 
+              {i18n.language === 'mn'
+                ? 'Бөөний үнийн санал авах уу?'
                 : 'Need a Wholesale Quote?'}
             </h2>
             <p className="text-gray-300 text-lg mb-8 max-w-lg">
@@ -42,7 +42,6 @@ export default function CTASection() {
             <div className="flex flex-wrap gap-4 mb-8">
               {[
                 i18n.language === 'mn' ? '🚚 Үнэгүй хүргэлт (100+)' : '🚚 Free Delivery (100+)',
-                i18n.language === 'mn' ? '⚖️ Жиндээ хүрдэг' : '⚖️ Weight Guaranteed',
                 i18n.language === 'mn' ? '💰 Бөөний үнэ' : '💰 Wholesale Pricing',
               ].map((feature, index) => (
                 <span
@@ -60,7 +59,7 @@ export default function CTASection() {
                 variant="whatsapp"
                 size="lg"
                 icon={MessageCircle}
-                href="https://wa.me/97699999999"
+                href="https://wa.me/97688204057"
               >
                 WhatsApp
               </Button>
@@ -68,10 +67,10 @@ export default function CTASection() {
                 variant="outline"
                 size="lg"
                 icon={Phone}
-                href="tel:+97699999999"
+                href="tel:+97688204057"
                 className="border-white/30 text-white hover:bg-white hover:text-secondary"
               >
-                +976 9999 9999
+                +976 8820 4057
               </Button>
             </div>
           </motion.div>
