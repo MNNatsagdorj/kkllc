@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { Search, Filter, X } from 'lucide-react';
+import { Search, X, SearchX } from 'lucide-react';
 import ProductCard from './ProductCard';
 import { products, categories } from '../../data/products';
 
@@ -10,7 +10,7 @@ export default function ProductGrid() {
   const { t, i18n } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchTerm, setSearchTerm] = useState('');
-  
+
   const activeCategory = searchParams.get('category') || 'all';
 
   const filteredProducts = useMemo(() => {
@@ -33,53 +33,55 @@ export default function ProductGrid() {
 
   return (
     <div>
-      {/* Filters */}
-      <div className="bg-white sticky top-16 md:top-20 z-40 py-4 border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
+      {/* Filter bar */}
+      <div className="bg-white sticky top-16 lg:top-20 z-40 border-b border-line">
+        <div className="container-enterprise py-5">
+          <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
             {/* Search */}
-            <div className="relative w-full md:w-80">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <div className="relative w-full lg:w-80">
+              <Search
+                className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-fg-subtle"
+                strokeWidth={2}
+              />
               <input
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder={i18n.language === 'mn' ? 'Бүтээгдэхүүн хайх...' : 'Search products...'}
-                className="w-full pl-10 pr-4 py-3 rounded-xl border border-neutral-gray focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                placeholder={
+                  i18n.language === 'mn' ? 'Бүтээгдэхүүн хайх...' : 'Search products...'
+                }
+                className="w-full h-11 pl-10 pr-10 rounded-sm border border-line bg-surface-muted focus:bg-white focus:border-fg-strong outline-none transition-colors text-sm"
               />
               {searchTerm && (
                 <button
                   onClick={() => setSearchTerm('')}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-fg-subtle hover:text-fg-strong transition-colors"
                 >
-                  <X className="w-5 h-5" />
+                  <X className="w-4 h-4" strokeWidth={2} />
                 </button>
               )}
             </div>
 
-            {/* Category Filter */}
-            <div className="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 w-full md:w-auto">
-              <Filter className="w-5 h-5 text-gray-500 hidden md:block" />
-              
+            {/* Category filter pills */}
+            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 lg:pb-0 w-full lg:w-auto">
               <button
                 onClick={() => handleCategoryChange('all')}
-                className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
+                className={`h-9 px-4 text-[12px] font-wide font-semibold uppercase tracking-[0.14em] whitespace-nowrap border rounded-sm transition-all ${
                   activeCategory === 'all'
-                    ? 'bg-primary text-white'
-                    : 'bg-concrete text-gray-600 hover:bg-neutral-gray'
+                    ? 'bg-ink text-white border-ink'
+                    : 'bg-white text-fg border-line hover:border-fg-strong hover:text-fg-strong'
                 }`}
               >
                 {i18n.language === 'mn' ? 'Бүгд' : 'All'}
               </button>
-
               {categories.map((category) => (
                 <button
                   key={category.id}
                   onClick={() => handleCategoryChange(category.id)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
+                  className={`h-9 px-4 text-[12px] font-wide font-semibold uppercase tracking-[0.14em] whitespace-nowrap border rounded-sm transition-all ${
                     activeCategory === category.id
-                      ? 'bg-primary text-white'
-                      : 'bg-concrete text-gray-600 hover:bg-neutral-gray'
+                      ? 'bg-ink text-white border-ink'
+                      : 'bg-white text-fg border-line hover:border-fg-strong hover:text-fg-strong'
                   }`}
                 >
                   {i18n.language === 'mn' ? category.nameMN : category.nameEN}
@@ -90,21 +92,27 @@ export default function ProductGrid() {
         </div>
       </div>
 
-      {/* Products Grid */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Grid */}
+      <div className="container-enterprise py-12 lg:py-16">
         {filteredProducts.length > 0 ? (
           <>
-            {/* Results count */}
-            <p className="text-gray-600 mb-6">
-              {filteredProducts.length} {i18n.language === 'mn' ? 'бүтээгдэхүүн олдлоо' : 'products found'}
-            </p>
+            {/* Results meta */}
+            <div className="flex items-center justify-between mb-8 pb-5 border-b border-line">
+              <p className="text-[11px] font-wide font-semibold uppercase tracking-[0.22em] text-fg-muted">
+                <span className="text-fg-strong font-display text-base font-semibold mr-2">
+                  {String(filteredProducts.length).padStart(2, '0')}
+                </span>
+                {i18n.language === 'mn' ? 'бүтээгдэхүүн олдлоо' : 'products found'}
+              </p>
+              <span className="section-index text-fg-subtle hidden md:block">CATALOG · 2024</span>
+            </div>
 
-            <motion.div 
+            <motion.div
               layout
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 lg:gap-6"
             >
-              {filteredProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
+              {filteredProducts.map((product, idx) => (
+                <ProductCard key={product.id} product={product} index={idx} />
               ))}
             </motion.div>
           </>
@@ -112,16 +120,14 @@ export default function ProductGrid() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-center py-16"
+            className="border border-line py-24 text-center"
           >
-            <div className="text-6xl mb-4">🔍</div>
-            <h3 className="text-xl font-semibold text-secondary mb-2">
+            <SearchX className="w-10 h-10 text-fg-subtle mx-auto mb-5" strokeWidth={1.25} />
+            <h3 className="font-display text-xl font-semibold text-fg-strong mb-2 tracking-tight">
               {i18n.language === 'mn' ? 'Бүтээгдэхүүн олдсонгүй' : 'No products found'}
             </h3>
-            <p className="text-gray-600">
-              {i18n.language === 'mn' 
-                ? 'Өөр хайлт хийж үзнэ үү' 
-                : 'Try a different search term'}
+            <p className="text-sm text-fg-muted">
+              {i18n.language === 'mn' ? 'Өөр хайлт хийж үзнэ үү' : 'Try a different search term'}
             </p>
           </motion.div>
         )}
@@ -129,4 +135,3 @@ export default function ProductGrid() {
     </div>
   );
 }
-

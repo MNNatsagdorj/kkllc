@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120" width="400" height="120">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&amp;family=Outfit:wght@300;500&amp;display=swap');
+    </style>
+  </defs>
+  <text x="12" y="88" font-family="'Cormorant Garamond', Georgia, serif" font-size="82" font-weight="700" fill="#F26522" opacity="0.15" letter-spacing="-2">K</text>
+  <text x="30" y="88" font-family="'Cormorant Garamond', Georgia, serif" font-size="82" font-weight="700" fill="#F26522" opacity="0.9" letter-spacing="-2">K</text>
+  <line x1="108" y1="18" x2="108" y2="102" stroke="#4A3520" stroke-width="1.2"/>
+  <text x="124" y="52" font-family="'Outfit', sans-serif" font-size="28" font-weight="500" fill="#FFFFFF" letter-spacing="3">KOKOROZASHI</text>
+  <text x="124" y="86" font-family="'Outfit', sans-serif" font-size="22" font-weight="300" fill="#F26522" letter-spacing="6">KIBOU</text>
+</svg>

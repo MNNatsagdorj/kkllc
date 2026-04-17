@@ -1,40 +1,40 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { ArrowRight, Layers, Grip, Building2, Home, Paintbrush } from 'lucide-react';
+import { ArrowUpRight, Layers, Grip, Building2, Home, Paintbrush } from 'lucide-react';
 import { categories } from '../../data/products';
 
-const iconMap = {
-  Layers,
-  Grip,
-  Building2,
-  Home,
-  Paintbrush,
-};
+const iconMap = { Layers, Grip, Building2, Home, Paintbrush };
 
 export default function CategorySection() {
   const { t, i18n } = useTranslation();
 
   return (
-    <section className="py-16 md:py-24 bg-concrete">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="bg-surface-muted border-t border-line">
+      <div className="container-enterprise py-20 lg:py-28">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-12"
-        >
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-secondary mb-4">
-            {t('categories.title')}
-          </h2>
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-            {t('categories.subtitle')}
-          </p>
-        </motion.div>
+        <div className="grid lg:grid-cols-12 gap-8 mb-12 lg:mb-16">
+          <div className="lg:col-span-8">
+            <span className="section-index block mb-4">03 &nbsp;/&nbsp; {t('categories.title').toUpperCase()}</span>
+            <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-semibold text-fg-strong tracking-[-0.03em] leading-tight">
+              {t('categories.title')}
+              <span className="block serif-accent text-primary text-2xl md:text-3xl italic font-medium mt-3">
+                {t('categories.subtitle')}
+              </span>
+            </h2>
+          </div>
+          <div className="lg:col-span-4 lg:pt-6">
+            <div className="h-px w-12 bg-primary mb-5" />
+            <p className="text-sm text-fg-muted leading-relaxed">
+              {i18n.language === 'mn'
+                ? 'Бид таны төслийн бүх үе шатад тохирох барилгын материалын иж бүрэн шийдлийг санал болгодог.'
+                : 'We provide a complete portfolio of building materials for every stage of your project.'}
+            </p>
+          </div>
+        </div>
 
-        {/* Categories Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
+        {/* Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-line border border-line">
           {categories.map((category, index) => {
             const Icon = iconMap[category.icon] || Layers;
             const name = i18n.language === 'mn' ? category.nameMN : category.nameEN;
@@ -43,58 +43,52 @@ export default function CategorySection() {
             return (
               <motion.div
                 key={category.id}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
+                transition={{ delay: index * 0.06 }}
               >
                 <Link
                   to={`/products?category=${category.id}`}
-                  className="group block bg-white rounded-2xl p-6 text-center hover:shadow-xl transition-all duration-300 border-2 border-transparent hover:border-primary"
+                  className="group relative block bg-white p-8 lg:p-10 h-full transition-all duration-300 hover:bg-ink"
                 >
-                  {/* Icon */}
-                  <div className="w-16 h-16 mx-auto mb-4 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary transition-colors">
-                    <Icon className="w-8 h-8 text-primary group-hover:text-white transition-colors" />
+                  <div className="flex items-start justify-between mb-10">
+                    <span className="text-[10.5px] font-wide font-semibold uppercase tracking-[0.22em] text-fg-subtle group-hover:text-white/50 transition-colors">
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+                    <Icon className="w-6 h-6 text-primary" strokeWidth={1.5} />
                   </div>
 
-                  {/* Name */}
-                  <h3 className="font-semibold text-secondary mb-1 group-hover:text-primary transition-colors">
+                  <h3 className="font-display text-xl lg:text-2xl font-semibold text-fg-strong group-hover:text-white transition-colors mb-3 tracking-tight">
                     {name}
                   </h3>
-
-                  {/* Description */}
-                  <p className="text-gray-500 text-sm mb-3">
+                  <p className="text-[13px] text-fg-muted group-hover:text-white/60 transition-colors leading-relaxed mb-8">
                     {description}
                   </p>
 
-                  {/* Arrow */}
-                  <span className="inline-flex items-center text-primary text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">
-                    <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
-                  </span>
+                  <div className="inline-flex items-center gap-1.5 text-[11px] font-wide font-semibold uppercase tracking-[0.2em] text-primary">
+                    <span>Explore</span>
+                    <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" strokeWidth={2} />
+                  </div>
+
+                  <div className="absolute bottom-0 left-0 h-[2px] w-0 bg-primary group-hover:w-full transition-all duration-500" />
                 </Link>
               </motion.div>
             );
           })}
         </div>
 
-        {/* View All */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.5 }}
-          className="text-center mt-10"
-        >
+        {/* Bottom link */}
+        <div className="mt-12 flex justify-center">
           <Link
             to="/products"
-            className="inline-flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all"
+            className="group inline-flex items-center gap-2 text-sm font-wide font-semibold uppercase tracking-[0.18em] text-fg-strong hover:text-primary transition-colors"
           >
-            {t('hero.viewProducts')}
-            <ArrowRight className="w-5 h-5" />
+            <span>{t('hero.viewProducts')}</span>
+            <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" strokeWidth={2} />
           </Link>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
 }
-

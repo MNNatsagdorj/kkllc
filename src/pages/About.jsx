@@ -5,10 +5,10 @@ import {
   Users,
   Building2,
   TrendingUp,
-  CheckCircle,
+  CheckCircle2,
   Target,
   Heart,
-  Zap
+  Zap,
 } from 'lucide-react';
 
 export default function About() {
@@ -59,7 +59,6 @@ export default function About() {
       titleEN: 'Quality',
       descriptionMN: 'Бүх бүтээгдэхүүн MNS стандартын шаардлага хангасан.',
       descriptionEN: 'All products meet MNS standard requirements.',
-      color: 'bg-blue-500',
     },
     {
       icon: Heart,
@@ -67,7 +66,6 @@ export default function About() {
       titleEN: 'Trust',
       descriptionMN: 'Жиндээ бүрэн хүрдэг, шударга бизнес.',
       descriptionEN: 'Weight guaranteed, honest business.',
-      color: 'bg-red-500',
     },
     {
       icon: Zap,
@@ -75,126 +73,140 @@ export default function About() {
       titleEN: 'Service',
       descriptionMN: 'Мэргэжлийн зөвлөгөө, хурдан хүргэлт.',
       descriptionEN: 'Professional advice, fast delivery.',
-      color: 'bg-amber-500',
     },
   ];
 
   const distributionStats = [
-    {
-      icon: Building2,
-      valueMN: '50+',
-      valueEN: '50+',
-      labelMN: 'Жижиглэнгийн цэг',
-      labelEN: 'Retail Points'
-    },
-    {
-      icon: Users,
-      valueMN: '100+',
-      valueEN: '100+',
-      labelMN: 'Томоохон төсөл',
-      labelEN: 'Major Projects'
-    },
-    {
-      icon: TrendingUp,
-      valueMN: '500+',
-      valueEN: '500+',
-      labelMN: 'Үйлчлүүлэгч',
-      labelEN: 'Clients'
-    },
+    { icon: Building2, valueMN: '50+', valueEN: '50+', labelMN: 'Жижиглэнгийн цэг', labelEN: 'Retail Points' },
+    { icon: Users, valueMN: '100+', valueEN: '100+', labelMN: 'Томоохон төсөл', labelEN: 'Major Projects' },
+    { icon: TrendingUp, valueMN: '500+', valueEN: '500+', labelMN: 'Үйлчлүүлэгч', labelEN: 'Clients' },
   ];
 
   return (
-    <main className="min-h-screen">
-      {/* Hero */}
-      <section className="bg-secondary py-16 md:py-24 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23FF6B00' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-          }} />
-        </div>
+    <main>
+      {/* Page Hero */}
+      <section className="relative bg-ink text-white overflow-hidden border-b border-white/10">
+        <div className="absolute inset-0 bg-grid opacity-60" />
+        <div className="absolute top-0 right-0 w-[40%] h-full bg-gradient-to-bl from-primary/15 via-primary/5 to-transparent" />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center text-white"
-          >
-            <div className="inline-flex items-center gap-2 bg-primary/20 px-4 py-2 rounded-full mb-6">
-              <Award className="w-5 h-5 text-primary" />
-              <span className="text-primary font-semibold">10+ {t('stats.years')}</span>
-            </div>
+        <div className="relative container-enterprise py-20 lg:py-28">
+          <div className="flex items-center gap-4 mb-10">
+            <span className="section-index text-white/50">
+              {i18n.language === 'mn' ? 'КОМПАНИЙН ТУХАЙ' : 'ABOUT'}
+            </span>
+            <span className="flex-1 h-px bg-white/10" />
+            <span className="section-index text-white/50 inline-flex items-center gap-2">
+              <Award className="w-3.5 h-3.5 text-primary" strokeWidth={2} />
+              10+ {t('stats.years').toUpperCase()}
+            </span>
+          </div>
 
-            <h1 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-              {t('about.title')}
-            </h1>
-            <p className="text-gray-300 text-lg max-w-2xl mx-auto">
-              {t('about.subtitle')}
-            </p>
-          </motion.div>
+          <div className="grid lg:grid-cols-12 gap-10 items-end">
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="lg:col-span-8"
+            >
+              <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-semibold tracking-[-0.03em] leading-[1.05]">
+                {t('about.title')}
+                <span className="block serif-accent italic text-primary-light text-3xl md:text-4xl lg:text-5xl font-medium mt-3">
+                  {t('about.subtitle')}
+                </span>
+              </h1>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.15 }}
+              className="lg:col-span-4"
+            >
+              <div className="h-px w-12 bg-primary mb-5" />
+              <p className="text-[15px] text-white/65 leading-relaxed">
+                {t('about.story')}
+              </p>
+            </motion.div>
+          </div>
         </div>
       </section>
 
       {/* Story */}
-      <section className="py-16 md:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <section className="bg-white border-b border-line">
+        <div className="container-enterprise py-20 lg:py-28">
+          <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
+              className="lg:col-span-7"
             >
-              <h2 className="font-display text-3xl md:text-4xl font-bold text-secondary mb-6">
-                {i18n.language === 'mn' ? 'Бидний түүх' : 'Our Story'}
+              <span className="section-index block mb-4">01 &nbsp;/&nbsp; OUR STORY</span>
+              <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-semibold text-fg-strong tracking-[-0.03em] leading-tight mb-8">
+                {i18n.language === 'mn' ? 'Бидний' : 'Our'}{' '}
+                <span className="serif-accent italic text-primary font-medium">
+                  {i18n.language === 'mn' ? 'түүх' : 'journey'}
+                </span>
               </h2>
-              <p className="text-gray-600 text-lg mb-6">
-                {t('about.story')}
-              </p>
-              <p className="text-gray-600 mb-8">
-                {t('about.missionText')}
-              </p>
 
-              {/* Features */}
-              <div className="space-y-4">
+              <p className="text-[15px] text-fg leading-relaxed mb-5 max-w-xl">{t('about.story')}</p>
+              <p className="text-sm text-fg-muted leading-relaxed mb-10 max-w-xl">{t('about.missionText')}</p>
+
+              <ul className="space-y-3">
                 {[
                   i18n.language === 'mn' ? 'MNS стандартын бүтээгдэхүүн' : 'MNS standard products',
                   i18n.language === 'mn' ? 'Мэргэжлийн баг' : 'Professional team',
                   i18n.language === 'mn' ? 'Найдвартай түнш' : 'Reliable partner',
-                ].map((item, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, x: -20 }}
+                ].map((item, idx) => (
+                  <motion.li
+                    key={idx}
+                    initial={{ opacity: 0, x: -12 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
+                    transition={{ delay: idx * 0.08 }}
                     className="flex items-center gap-3"
                   >
-                    <CheckCircle className="w-5 h-5 text-primary flex-shrink-0" />
-                    <span className="text-secondary font-medium">{item}</span>
-                  </motion.div>
+                    <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0" strokeWidth={2} />
+                    <span className="text-sm text-fg-strong font-medium">{item}</span>
+                  </motion.li>
                 ))}
-              </div>
+              </ul>
             </motion.div>
 
-            {/* Image placeholder */}
+            {/* Brand panel */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="relative"
+              className="lg:col-span-5"
             >
-              <div className="aspect-square bg-gradient-to-br from-concrete to-neutral-gray rounded-2xl flex items-center justify-center">
-                <div className="text-center">
-                  <div className="w-32 h-32 bg-secondary rounded-2xl flex items-center justify-center mx-auto mb-4">
-                    <span className="text-primary font-display font-bold text-4xl">KK</span>
-                  </div>
-                  <p className="font-display font-bold text-secondary text-xl">Kokorozashi Kibou</p>
-                  <p className="text-gray-500">LLC • Since 2014</p>
-                </div>
-              </div>
+              <div className="relative bg-surface-muted border border-line rounded-sm p-10 lg:p-12 text-center">
+                <div className="absolute top-6 left-6 section-index text-fg-subtle">EST. 2014</div>
+                <div className="absolute top-6 right-6 section-index text-fg-subtle">ULAANBAATAR · MN</div>
 
-              {/* Floating badge */}
-              <div className="absolute -bottom-4 -right-4 bg-primary text-white px-6 py-3 rounded-xl font-bold shadow-lg">
-                10+ {i18n.language === 'mn' ? 'жил' : 'Years'}
+                <img
+                  src="/kk-icon.svg"
+                  alt="Kokorozashi Kibou LLC"
+                  className="w-28 h-28 rounded-sm mx-auto mb-8 mt-8"
+                />
+                <p className="font-display font-semibold text-fg-strong text-xl tracking-tight">
+                  Kokorozashi Kibou
+                </p>
+                <p className="serif-accent italic text-primary text-lg mt-1">Limited Liability Company</p>
+
+                <div className="mt-8 pt-6 border-t border-line grid grid-cols-3 gap-4">
+                  <div>
+                    <p className="font-display text-2xl font-semibold text-fg-strong">10+</p>
+                    <p className="text-[10px] font-wide uppercase tracking-[0.2em] text-fg-muted mt-1">Years</p>
+                  </div>
+                  <div className="border-l border-r border-line">
+                    <p className="font-display text-2xl font-semibold text-fg-strong">500+</p>
+                    <p className="text-[10px] font-wide uppercase tracking-[0.2em] text-fg-muted mt-1">Clients</p>
+                  </div>
+                  <div>
+                    <p className="font-display text-2xl font-semibold text-fg-strong">50+</p>
+                    <p className="text-[10px] font-wide uppercase tracking-[0.2em] text-fg-muted mt-1">Products</p>
+                  </div>
+                </div>
               </div>
             </motion.div>
           </div>
@@ -202,36 +214,40 @@ export default function About() {
       </section>
 
       {/* Values */}
-      <section className="py-16 md:py-24 bg-concrete">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-secondary mb-4">
-              {t('about.values')}
-            </h2>
-          </motion.div>
+      <section className="bg-surface-muted border-b border-line">
+        <div className="container-enterprise py-20 lg:py-28">
+          <div className="grid lg:grid-cols-12 gap-8 mb-14">
+            <div className="lg:col-span-8">
+              <span className="section-index block mb-4">02 &nbsp;/&nbsp; {t('about.values').toUpperCase()}</span>
+              <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-semibold text-fg-strong tracking-[-0.03em] leading-tight">
+                {i18n.language === 'mn' ? 'Үндсэн ' : 'Core '}
+                <span className="serif-accent italic text-primary font-medium">
+                  {i18n.language === 'mn' ? 'үнэт зүйлс' : 'values'}
+                </span>
+              </h2>
+            </div>
+          </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {values.map((value, index) => (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-line border border-line">
+            {values.map((value, i) => (
               <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
+                key={i}
+                initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-white rounded-2xl p-8 text-center hover:shadow-xl transition-shadow"
+                transition={{ delay: i * 0.08 }}
+                className="group bg-white p-10 lg:p-12 hover:bg-ink transition-colors duration-300"
               >
-                <div className={`w-16 h-16 ${value.color} rounded-xl flex items-center justify-center mx-auto mb-6`}>
-                  <value.icon className="w-8 h-8 text-white" />
+                <div className="flex items-start justify-between mb-12">
+                  <span className="text-[10.5px] font-wide font-semibold uppercase tracking-[0.22em] text-fg-subtle group-hover:text-white/50 transition-colors">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <value.icon className="w-6 h-6 text-primary" strokeWidth={1.5} />
                 </div>
-                <h3 className="font-display text-xl font-bold text-secondary mb-3">
+                <h3 className="font-display text-2xl font-semibold text-fg-strong group-hover:text-white transition-colors mb-3 tracking-tight">
                   {i18n.language === 'mn' ? value.titleMN : value.titleEN}
                 </h3>
-                <p className="text-gray-600">
+                <p className="text-[14px] text-fg-muted group-hover:text-white/65 transition-colors leading-relaxed">
                   {i18n.language === 'mn' ? value.descriptionMN : value.descriptionEN}
                 </p>
               </motion.div>
@@ -241,85 +257,96 @@ export default function About() {
       </section>
 
       {/* Timeline */}
-      <section className="py-16 md:py-24 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-secondary mb-4">
-              {i18n.language === 'mn' ? 'Бидний замнал' : 'Our Journey'}
-            </h2>
-          </motion.div>
+      <section className="bg-white border-b border-line">
+        <div className="container-enterprise py-20 lg:py-28">
+          <div className="max-w-5xl mx-auto">
+            <div className="mb-16 text-center">
+              <span className="section-index block mb-4">03 &nbsp;/&nbsp; MILESTONES</span>
+              <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-semibold text-fg-strong tracking-[-0.03em] leading-tight">
+                {i18n.language === 'mn' ? 'Бидний ' : 'Our '}
+                <span className="serif-accent italic text-primary font-medium">
+                  {i18n.language === 'mn' ? 'замнал' : 'journey'}
+                </span>
+              </h2>
+            </div>
 
-          <div className="relative">
-            {/* Timeline line */}
-            <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-neutral-gray transform md:-translate-x-0.5" />
+            <div className="relative">
+              {/* vertical line */}
+              <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-px bg-line md:-translate-x-1/2" />
 
-            {timeline.map((item, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className={`relative flex items-start gap-8 mb-8 ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
-                  }`}
-              >
-                {/* Dot */}
-                <div className="absolute left-8 md:left-1/2 w-4 h-4 bg-primary rounded-full transform -translate-x-1/2 border-4 border-white shadow z-10" />
+              <div className="space-y-14">
+                {timeline.map((item, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.08 }}
+                    className={`relative pl-10 md:pl-0 md:grid md:grid-cols-2 md:gap-12 ${
+                      i % 2 === 0 ? '' : 'md:[&>:first-child]:order-2'
+                    }`}
+                  >
+                    {/* dot */}
+                    <div className="absolute left-0 md:left-1/2 top-1 w-3 h-3 bg-primary rounded-full md:-translate-x-1/2 ring-4 ring-white z-10" />
 
-                {/* Content */}
-                <div className={`ml-16 md:ml-0 md:w-1/2 ${index % 2 === 0 ? 'md:pr-12 md:text-right' : 'md:pl-12'}`}>
-                  <span className="inline-block bg-primary text-white px-4 py-1 rounded-full text-sm font-bold mb-2">
-                    {item.year}
-                  </span>
-                  <h3 className="font-display text-xl font-bold text-secondary mb-2">
-                    {i18n.language === 'mn' ? item.titleMN : item.titleEN}
-                  </h3>
-                  <p className="text-gray-600">
-                    {i18n.language === 'mn' ? item.descriptionMN : item.descriptionEN}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
+                    <div className={i % 2 === 0 ? 'md:text-right md:pr-8' : 'md:pl-8'}>
+                      <div className="inline-flex items-center gap-2 mb-3">
+                        <span className="font-display text-2xl font-semibold text-primary tracking-tight">
+                          {item.year}
+                        </span>
+                        <span className="h-px w-8 bg-line" />
+                      </div>
+                      <h3 className="font-display text-xl font-semibold text-fg-strong mb-2 tracking-tight">
+                        {i18n.language === 'mn' ? item.titleMN : item.titleEN}
+                      </h3>
+                      <p className="text-[14px] text-fg-muted leading-relaxed">
+                        {i18n.language === 'mn' ? item.descriptionMN : item.descriptionEN}
+                      </p>
+                    </div>
+                    <div />
+                  </motion.div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Distribution Network */}
-      <section className="py-16 md:py-24 bg-secondary">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center text-white mb-12"
-          >
-            <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
-              {t('distribution.title')}
-            </h2>
-          </motion.div>
+      {/* Distribution */}
+      <section className="relative overflow-hidden bg-ink text-white border-b border-white/10">
+        <div className="absolute inset-0 bg-grid opacity-50" />
+        <div className="absolute top-0 right-0 w-[40%] h-full bg-gradient-to-bl from-primary/15 via-primary/5 to-transparent" />
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {distributionStats.map((stat, index) => (
+        <div className="relative container-enterprise py-20 lg:py-28">
+          <div className="grid lg:grid-cols-12 gap-8 mb-14">
+            <div className="lg:col-span-8">
+              <span className="section-index block text-white/50 mb-4">04 &nbsp;/&nbsp; {t('distribution.title').toUpperCase()}</span>
+              <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-semibold tracking-[-0.03em] leading-tight text-white">
+                {t('distribution.title')}
+              </h2>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 border-t border-l border-white/10">
+            {distributionStats.map((stat, i) => (
               <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
+                key={i}
+                initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 text-center"
+                transition={{ delay: i * 0.08 }}
+                className="relative border-b border-r border-white/10 p-8 lg:p-10 hover:bg-white/[0.03] transition-colors"
               >
-                <div className="w-16 h-16 bg-primary rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <stat.icon className="w-8 h-8 text-white" />
+                <div className="flex items-center justify-between mb-12">
+                  <span className="text-[10.5px] font-wide font-semibold uppercase tracking-[0.22em] text-white/40">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <stat.icon className="w-5 h-5 text-primary" strokeWidth={1.5} />
                 </div>
-                <div className="text-4xl font-display font-bold text-white mb-2">
+                <div className="font-display text-5xl lg:text-6xl font-semibold tracking-[-0.03em] text-white">
                   {i18n.language === 'mn' ? stat.valueMN : stat.valueEN}
                 </div>
-                <p className="text-gray-300">
+                <p className="mt-4 text-[11.5px] font-wide font-medium uppercase tracking-[0.2em] text-white/50">
                   {i18n.language === 'mn' ? stat.labelMN : stat.labelEN}
                 </p>
               </motion.div>
@@ -330,4 +357,3 @@ export default function About() {
     </main>
   );
 }
-

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 48" width="300" height="48">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&amp;family=Outfit:wght@300;500&amp;display=swap');
+    </style>
+  </defs>
+  <!-- KK badge -->
+  <rect x="0" y="4" width="40" height="40" rx="8" fill="#F26522"/>
+  <text x="4" y="34" font-family="'Cormorant Garamond', Georgia, serif" font-size="30" font-weight="700" fill="#FFFFFF" opacity="0.2" letter-spacing="-1">K</text>
+  <text x="14" y="34" font-family="'Cormorant Garamond', Georgia, serif" font-size="30" font-weight="700" fill="#FFFFFF" opacity="0.95" letter-spacing="-1">K</text>
+  <!-- Company name -->
+  <text x="52" y="22" font-family="'Outfit', sans-serif" font-size="16" font-weight="500" fill="#1A1A1A" letter-spacing="1">Kokorozashi Kibou</text>
+  <text x="52" y="40" font-family="'Outfit', sans-serif" font-size="11" font-weight="300" fill="#888888" letter-spacing="2">LLC</text>
+</svg>
