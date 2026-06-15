@@ -1,21 +1,23 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Globe, MessageCircle, Phone, Truck, ChevronRight } from 'lucide-react';
+import { Menu, X, Globe, Search, ShoppingCart, Phone, Truck, ChevronRight } from 'lucide-react';
 import Button from './Button';
+import { useCart } from '../../context/cartStore';
 
 export default function Navbar() {
   const { t, i18n } = useTranslation();
   const location = useLocation();
+  const { totalCount } = useCart();
   const [isOpen, setIsOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 8);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  // Close the mobile menu on navigation (render-time adjustment, no effect).
+  const [lastPath, setLastPath] = useState(location.pathname);
+  if (location.pathname !== lastPath) {
+    setLastPath(location.pathname);
+    if (isOpen) setIsOpen(false);
+  }
 
   const toggleLanguage = () => {
     i18n.changeLanguage(i18n.language === 'mn' ? 'en' : 'mn');
@@ -24,71 +26,58 @@ export default function Navbar() {
   const navLinks = [
     { path: '/', label: t('nav.home') },
     { path: '/products', label: t('nav.products') },
+    { path: '/delivery', label: t('nav.delivery') },
     { path: '/about', label: t('nav.about') },
     { path: '/contact', label: t('nav.contact') },
   ];
 
+  const Logo = (
+    <Link to="/" className="flex items-center gap-3 group">
+      <span className="w-10 h-10 lg:w-[42px] lg:h-[42px] rounded-[11px] bg-primary text-white font-display font-extrabold text-[17px] inline-flex items-center justify-center tracking-tight">
+        KK
+      </span>
+      <div className="hidden sm:block leading-tight">
+        <span className="block font-display font-bold text-fg-strong text-[15px] tracking-tight">
+          Kokorozashi Kibou
+        </span>
+        <span className="block text-[10px] font-semibold uppercase tracking-[0.18em] text-fg-subtle mt-0.5">
+          Барилгын материал
+        </span>
+      </div>
+    </Link>
+  );
+
   return (
     <>
       {/* Utility bar */}
-      <div className="hidden md:block bg-ink text-white/80 text-[12px]">
+      <div className="hidden md:block bg-ink text-white/65 text-[13px]">
         <div className="container-enterprise flex items-center justify-between h-9">
-          <div className="flex items-center gap-6">
-            <span className="inline-flex items-center gap-2">
-              <Truck className="w-3.5 h-3.5 text-primary" strokeWidth={2} />
-              <span className="tracking-tight">{t('usp.freeDelivery')}</span>
-            </span>
+          <span className="inline-flex items-center gap-2">
+            <Truck className="w-3.5 h-3.5 text-accent" strokeWidth={2} />
+            <span>{t('usp.freeDelivery')}</span>
+          </span>
+          <div className="flex items-center gap-4">
+            <span>{t('contact.workingHoursText')}</span>
             <span className="h-3 w-px bg-white/15" />
-            <a
-              href="tel:+97688204057"
-              className="inline-flex items-center gap-2 hover:text-white transition-colors"
-            >
-              <Phone className="w-3.5 h-3.5" strokeWidth={2} />
-              <span>+976 8820 4057</span>
+            <a href="tel:+97688204057" className="hover:text-white transition-colors">
+              +976 8820 4057
             </a>
           </div>
-          <div className="flex items-center gap-4 text-white/60">
-            <span className="tracking-[0.18em] uppercase text-[10.5px] font-wide">
-              {t('contact.workingHoursText')}
-            </span>
-          </div>
         </div>
       </div>
 
-      {/* Mobile top bar */}
-      <div className="md:hidden bg-ink text-white text-[11.5px] tracking-tight">
+      {/* Mobile utility bar */}
+      <div className="md:hidden bg-ink text-white text-[11.5px]">
         <div className="container-enterprise flex items-center justify-center h-8 gap-2">
-          <Truck className="w-3.5 h-3.5 text-primary" strokeWidth={2} />
-          <span className="text-white/80">{t('usp.freeDelivery')}</span>
+          <Truck className="w-3.5 h-3.5 text-accent" strokeWidth={2} />
+          <span className="text-white/75">{t('usp.freeDelivery')}</span>
         </div>
       </div>
 
-      <motion.header
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.3 }}
-        className={`sticky top-0 z-50 bg-white border-b transition-all duration-200 ${
-          isScrolled ? 'border-line shadow-[0_1px_0_rgba(15,16,18,0.04)]' : 'border-transparent'
-        }`}
-      >
+      <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-line">
         <nav className="container-enterprise">
-          <div className="flex items-center justify-between h-16 lg:h-20">
-            {/* Logo */}
-            <Link to="/" className="flex items-center gap-3 group">
-              <img
-                src="/kk-icon.svg"
-                alt="Kokorozashi Kibou LLC"
-                className="w-10 h-10 lg:w-11 lg:h-11 rounded-sm"
-              />
-              <div className="hidden sm:block leading-tight">
-                <span className="block font-display font-semibold text-fg-strong text-[15px] tracking-tight">
-                  Kokorozashi Kibou
-                </span>
-                <span className="block text-[10.5px] font-wide font-medium uppercase tracking-[0.22em] text-fg-muted mt-0.5">
-                  LLC · Since 2014
-                </span>
-              </div>
-            </Link>
+          <div className="flex items-center justify-between h-16 lg:h-[72px] gap-4">
+            {Logo}
 
             {/* Desktop Nav */}
             <div className="hidden lg:flex items-center gap-1">
@@ -98,15 +87,15 @@ export default function Navbar() {
                   <Link
                     key={link.path}
                     to={link.path}
-                    className={`relative px-4 py-2 text-sm font-medium transition-colors ${
-                      active ? 'text-primary' : 'text-fg hover:text-fg-strong'
+                    className={`relative px-4 py-2 text-[15px] font-medium transition-colors ${
+                      active ? 'text-fg-strong' : 'text-fg hover:text-fg-strong'
                     }`}
                   >
                     {link.label}
                     {active && (
                       <motion.span
                         layoutId="activeNav"
-                        className="absolute left-4 right-4 -bottom-[22px] h-[2px] bg-primary"
+                        className="absolute left-4 right-4 -bottom-[18px] h-[2.5px] bg-accent rounded-full"
                       />
                     )}
                   </Link>
@@ -118,13 +107,32 @@ export default function Navbar() {
             <div className="flex items-center gap-2">
               <button
                 onClick={toggleLanguage}
-                className="hidden sm:inline-flex items-center gap-1.5 h-9 px-3 text-[12px] font-wide font-medium uppercase tracking-[0.14em] text-fg-muted hover:text-fg-strong border border-transparent hover:border-line rounded-sm transition-all"
+                className="hidden sm:inline-flex items-center gap-1.5 h-10 px-3 text-[12px] font-semibold uppercase tracking-[0.1em] text-fg-muted hover:text-fg-strong rounded-xl hover:bg-surface-sunken transition-all"
               >
-                <Globe className="w-3.5 h-3.5" strokeWidth={2} />
+                <Globe className="w-4 h-4" strokeWidth={2} />
                 <span>{i18n.language}</span>
               </button>
 
-              <div className="hidden md:block h-6 w-px bg-line mx-1" />
+              <Link
+                to="/products"
+                aria-label={t('nav.products')}
+                className="hidden sm:inline-flex w-10 h-10 items-center justify-center rounded-xl text-fg hover:text-fg-strong hover:bg-surface-sunken transition-colors"
+              >
+                <Search className="w-[18px] h-[18px]" strokeWidth={2} />
+              </Link>
+
+              <Link
+                to="/cart"
+                aria-label={t('cart.title')}
+                className="relative inline-flex w-10 h-10 items-center justify-center rounded-xl text-fg hover:text-fg-strong hover:bg-surface-sunken transition-colors"
+              >
+                <ShoppingCart className="w-[18px] h-[18px]" strokeWidth={2} />
+                {totalCount > 0 && (
+                  <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 rounded-full bg-accent text-white text-[10px] font-bold inline-flex items-center justify-center">
+                    {totalCount}
+                  </span>
+                )}
+              </Link>
 
               <div className="hidden md:block">
                 <Button variant="primary" size="sm" icon={ChevronRight} iconPosition="right" href="/contact">
@@ -134,7 +142,7 @@ export default function Navbar() {
 
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="lg:hidden h-10 w-10 inline-flex items-center justify-center rounded-sm hover:bg-surface-sunken transition-colors"
+                className="lg:hidden h-10 w-10 inline-flex items-center justify-center rounded-xl hover:bg-surface-sunken transition-colors"
                 aria-label="Toggle menu"
               >
                 {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -154,7 +162,7 @@ export default function Navbar() {
               className="lg:hidden bg-white border-t border-line overflow-hidden"
             >
               <div className="container-enterprise py-4">
-                <div className="space-y-px">
+                <div className="space-y-1">
                   {navLinks.map((link) => {
                     const active = location.pathname === link.path;
                     return (
@@ -162,10 +170,10 @@ export default function Navbar() {
                         key={link.path}
                         to={link.path}
                         onClick={() => setIsOpen(false)}
-                        className={`flex items-center justify-between px-4 py-3.5 text-sm font-medium border-l-2 transition-colors ${
+                        className={`flex items-center justify-between px-4 py-3.5 text-sm font-medium rounded-xl transition-colors ${
                           active
-                            ? 'border-primary text-primary bg-primary-soft'
-                            : 'border-transparent text-fg hover:text-fg-strong hover:bg-surface-muted'
+                            ? 'text-primary bg-primary-soft'
+                            : 'text-fg hover:text-fg-strong hover:bg-surface-muted'
                         }`}
                       >
                         <span>{link.label}</span>
@@ -178,28 +186,28 @@ export default function Navbar() {
                 <div className="pt-5 mt-5 border-t border-line space-y-3">
                   <button
                     onClick={toggleLanguage}
-                    className="w-full flex items-center justify-between px-4 py-3 text-sm font-medium text-fg hover:bg-surface-muted rounded-sm transition-colors"
+                    className="w-full flex items-center justify-between px-4 py-3 text-sm font-medium text-fg hover:bg-surface-muted rounded-xl transition-colors"
                   >
                     <span className="inline-flex items-center gap-2">
                       <Globe className="w-4 h-4" strokeWidth={2} />
                       Language
                     </span>
-                    <span className="font-wide uppercase tracking-[0.14em] text-[12px] text-fg-muted">
+                    <span className="uppercase tracking-[0.1em] text-[12px] text-fg-muted">
                       {i18n.language}
                     </span>
                   </button>
                   <Button variant="primary" icon={ChevronRight} iconPosition="right" href="/contact" className="w-full">
                     {t('nav.getQuote')}
                   </Button>
-                  <Button variant="whatsapp" icon={MessageCircle} href="https://wa.me/97688204057" className="w-full">
-                    WhatsApp
+                  <Button variant="whatsapp" icon={Phone} href="tel:+97688204057" className="w-full">
+                    +976 8820 4057
                   </Button>
                 </div>
               </div>
             </motion.div>
           )}
         </AnimatePresence>
-      </motion.header>
+      </header>
     </>
   );
 }

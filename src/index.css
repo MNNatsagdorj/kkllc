@@ -1,41 +1,47 @@
 @import "tailwindcss";
 
 @theme {
-  /* Brand — aligned with logo SVG (#F26522) */
-  --color-primary: #F26522;
-  --color-primary-dark: #D9531A;
-  --color-primary-light: #F8895A;
-  --color-primary-soft: #FDF2EC;
+  /* Brand — Navy (trust) + Orange (accent), from newdesign/KK Site */
+  --color-primary: #15396B;        /* navy / trust — buttons, prices, icons */
+  --color-primary-dark: #0E2A52;
+  --color-primary-light: #2A5494;
+  --color-primary-soft: #EEF3FA;   /* navy tint bg for icon chips */
 
-  /* Deep neutrals */
-  --color-secondary: #0F1012;
-  --color-secondary-light: #1E2024;
-  --color-ink: #0F1012;
+  --color-accent: #F26C1B;         /* orange — CTAs, eyebrows, highlights */
+  --color-accent-dark: #D85C12;
+  --color-accent-light: #F8895A;
+  --color-accent-soft: #FDEFE4;
+
+  /* Ink / deep neutrals */
+  --color-secondary: #0E1B2E;
+  --color-secondary-light: #13243A;
+  --color-ink: #0E1B2E;            /* headings, dark bands, footer */
 
   /* Refined neutral scale */
-  --color-fg-strong: #0F1012;
-  --color-fg: #2A2D33;
-  --color-fg-muted: #5B6069;
-  --color-fg-subtle: #8C919B;
-  --color-line: #E3E5E9;
-  --color-line-strong: #C9CCD2;
+  --color-fg-strong: #0E1B2E;
+  --color-fg: #34435A;
+  --color-fg-muted: #5C6B82;
+  --color-fg-subtle: #8A95A6;
+  --color-line: #ECEFF4;
+  --color-line-strong: #E2E7F0;
   --color-surface: #FFFFFF;
-  --color-surface-muted: #F6F7F9;
-  --color-surface-sunken: #EDEEF1;
-  --color-neutral-gray: #E3E5E9;
-  --color-concrete: #F6F7F9;
-  --color-charcoal: #0F1012;
+  --color-surface-muted: #FAFBFD;
+  --color-surface-sunken: #F6F7FA;
+  --color-neutral-gray: #ECEFF4;
+  --color-concrete: #F6F7FA;
+  --color-charcoal: #0E1B2E;
 
-  /* Accent tokens */
-  --color-accent-emerald: #2E7D5B;
+  /* Accent / status tokens */
+  --color-accent-emerald: #22A06B;
+  --color-success: #22A06B;
   --color-accent-amber: #B88217;
   --color-accent-slate: #394452;
 
-  /* Typography */
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-display: 'Montserrat', system-ui, -apple-system, sans-serif;
-  --font-serif: 'Cormorant Garamond', Georgia, serif;
-  --font-wide: 'Outfit', 'Inter', system-ui, sans-serif;
+  /* Typography — Onest primary, Noto Sans fallback */
+  --font-sans: 'Onest', 'Noto Sans', system-ui, -apple-system, sans-serif;
+  --font-display: 'Onest', 'Noto Sans', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Onest', 'Noto Sans', system-ui, sans-serif;
+  --font-wide: 'Onest', 'Noto Sans', system-ui, sans-serif;
 }
 
 @layer base {
@@ -50,71 +56,70 @@
     font-family: var(--font-sans);
     background-color: var(--color-surface);
     color: var(--color-fg);
-    font-feature-settings: 'ss01', 'cv11';
     letter-spacing: -0.005em;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
     color: var(--color-fg-strong);
+    font-weight: 800;
     letter-spacing: -0.02em;
   }
 
   ::selection {
-    background: var(--color-primary);
+    background: var(--color-accent);
     color: #fff;
   }
 }
 
 @layer components {
-  /* Eyebrow label — small, uppercased, tracked */
+  /* Eyebrow label — small, orange, tracked */
   .eyebrow {
-    font-family: var(--font-wide);
-    font-size: 0.6875rem;
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
     font-weight: 600;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: var(--color-primary);
+    color: var(--color-accent);
   }
 
   .eyebrow-muted {
-    font-family: var(--font-wide);
-    font-size: 0.6875rem;
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
     font-weight: 500;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--color-fg-muted);
   }
 
   /* Section index — e.g. "01 / SERVICES" */
   .section-index {
-    font-family: var(--font-wide);
+    font-family: var(--font-display);
     font-size: 0.75rem;
     font-weight: 500;
-    letter-spacing: 0.22em;
+    letter-spacing: 0.18em;
     color: var(--color-fg-subtle);
   }
 
-  /* Serif accent for brand moments */
+  /* Legacy accent helper — kept harmless (no serif/italic in new design) */
   .serif-accent {
-    font-family: var(--font-serif);
-    font-style: italic;
-    font-weight: 500;
+    font-style: normal;
+    font-weight: 800;
   }
 
-  /* Container */
+  /* Container — 1180px content width */
   .container-enterprise {
-    max-width: 80rem;
+    max-width: 1180px;
     margin-left: auto;
     margin-right: auto;
-    padding-left: 1.25rem;
-    padding-right: 1.25rem;
+    padding-left: 1.125rem;
+    padding-right: 1.125rem;
   }
   @media (min-width: 640px) {
     .container-enterprise { padding-left: 1.5rem; padding-right: 1.5rem; }
   }
   @media (min-width: 1024px) {
-    .container-enterprise { padding-left: 2rem; padding-right: 2rem; }
+    .container-enterprise { padding-left: 1.5rem; padding-right: 1.5rem; }
   }
 
   /* Hairline divider */
@@ -124,29 +129,37 @@
     width: 100%;
   }
 
-  /* Enterprise card */
+  /* Rounded enterprise card */
   .card-enterprise {
     background: var(--color-surface);
     border: 1px solid var(--color-line);
-    border-radius: 0.375rem;
+    border-radius: 18px;
     transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
   }
   .card-enterprise:hover {
     border-color: var(--color-line-strong);
+    box-shadow: 0 2px 10px rgba(16, 30, 54, 0.06);
   }
 
-  /* Background grid overlay */
+  /* Striped image placeholders (light + dark) */
+  .bg-placeholder {
+    background-image: repeating-linear-gradient(135deg, #F4F6FA, #F4F6FA 11px, #EEF2F8 11px, #EEF2F8 22px);
+  }
+  .bg-placeholder-dark {
+    background-image: repeating-linear-gradient(135deg, #13243a, #13243a 18px, #0E1B2E 18px, #0E1B2E 36px);
+  }
+
+  /* Subtle background grids (kept for dark bands) */
   .bg-grid {
     background-image:
       linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px),
       linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
     background-size: 64px 64px;
   }
-
   .bg-grid-light {
     background-image:
-      linear-gradient(to right, rgba(15,16,18,0.04) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(15,16,18,0.04) 1px, transparent 1px);
+      linear-gradient(to right, rgba(15,16,18,0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(15,16,18,0.03) 1px, transparent 1px);
     background-size: 48px 48px;
   }
 }
@@ -170,7 +183,7 @@
 
 /* Focus ring */
 :focus-visible {
-  outline: 2px solid var(--color-primary);
+  outline: 2px solid var(--color-accent);
   outline-offset: 2px;
   border-radius: 2px;
 }

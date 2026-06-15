@@ -1,7 +1,10 @@
 import Hero from '../components/home/Hero';
 import Stats from '../components/home/Stats';
 import CategorySection from '../components/home/CategorySection';
-import TrustSection from '../components/home/TrustSection';
+import FeaturedProducts from '../components/home/FeaturedProducts';
+import ValueProps from '../components/home/ValueProps';
+import CompanyBand from '../components/home/CompanyBand';
+import Reviews from '../components/home/Reviews';
 import CTASection from '../components/home/CTASection';
 
 export default function Home() {
@@ -10,9 +13,11 @@ export default function Home() {
       <Hero />
       <Stats />
       <CategorySection />
-      <TrustSection />
+      <FeaturedProducts />
+      <ValueProps />
+      <CompanyBand />
+      <Reviews />
       <CTASection />
     </main>
   );
 }
-

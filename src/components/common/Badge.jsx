@@ -5,11 +5,13 @@ export default function Badge({
   className = '',
 }) {
   const variants = {
-    primary: 'bg-primary-soft text-primary border-primary/20',
-    secondary: 'bg-surface-sunken text-fg-strong border-line',
-    success: 'bg-emerald-50 text-accent-emerald border-emerald-200',
+    primary: 'bg-primary-soft text-primary border-primary/15',
+    secondary: 'bg-surface-sunken text-fg border-line',
+    success: 'bg-[#E7F6EF] text-success border-[#BFE6D4]',
     warning: 'bg-amber-50 text-accent-amber border-amber-200',
-    orange: 'bg-primary text-white border-primary',
+    accent: 'bg-accent text-white border-accent',
+    orange: 'bg-accent text-white border-accent',
+    brand: 'bg-accent-soft text-accent border-accent/20',
     outline: 'bg-transparent text-fg-muted border-line-strong',
   };
 
@@ -17,8 +19,8 @@ export default function Badge({
     <span
       className={`
         inline-flex items-center gap-1.5 px-2.5 py-1
-        text-[10.5px] font-wide font-semibold uppercase tracking-[0.12em]
-        rounded-sm border
+        text-[11px] font-semibold tracking-tight
+        rounded-full border
         ${variants[variant]}
         ${className}
       `}

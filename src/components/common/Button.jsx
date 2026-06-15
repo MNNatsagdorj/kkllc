@@ -12,10 +12,12 @@ export default function Button({
   const variants = {
     primary:
       'bg-primary text-white border border-primary hover:bg-primary-dark hover:border-primary-dark',
+    accent:
+      'bg-accent text-white border border-accent hover:bg-accent-dark hover:border-accent-dark shadow-[0_10px_24px_rgba(242,108,27,0.30)]',
     secondary:
-      'bg-secondary text-white border border-secondary hover:bg-secondary-light hover:border-secondary-light',
+      'bg-ink text-white border border-ink hover:bg-secondary-light hover:border-secondary-light',
     outline:
-      'bg-transparent border border-line-strong text-fg-strong hover:border-primary hover:text-primary',
+      'bg-white border border-line-strong text-primary hover:border-primary hover:bg-primary-soft',
     ghost:
       'bg-transparent text-fg-strong hover:bg-surface-sunken border border-transparent',
     whatsapp:
@@ -25,9 +27,9 @@ export default function Button({
   };
 
   const sizes = {
-    sm: 'h-9 px-4 text-[13px]',
-    md: 'h-11 px-5 text-sm',
-    lg: 'h-13 px-7 text-[15px]',
+    sm: 'h-11 px-4 text-[13.5px] rounded-xl',
+    md: 'h-12 px-6 text-[15px] rounded-xl',
+    lg: 'h-13 px-7 text-base rounded-2xl',
   };
 
   const Component = href ? 'a' : 'button';
@@ -44,11 +46,11 @@ export default function Button({
       onClick={onClick}
       className={`
         group relative inline-flex items-center justify-center gap-2.5
-        font-sans font-medium tracking-tight
-        rounded-sm
+        font-sans font-semibold tracking-tight
         transition-all duration-200 ease-out
         cursor-pointer select-none
         focus-visible:outline-offset-4
+        disabled:opacity-60 disabled:cursor-not-allowed
         ${variants[variant]}
         ${sizes[size]}
         ${className}

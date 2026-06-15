@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #fff; }
+  ::selection { background: #F26C1B; color: #fff; }
+  a { text-decoration: none; }
+</style>
+</helmet>
+
+<div style="font-family:'Onest','Noto Sans',system-ui,sans-serif;background:#fff;color:#0E1B2E;">
+
+  <!-- utility bar -->
+  <div style="background:#0E1B2E;color:#AEBBD0;font-size:13px;">
+    <div style="max-width:1180px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:10px 24px;">
+      <div style="display:flex;align-items:center;gap:9px;"><span style="width:15px;height:15px;color:#F26C1B;display:inline-block;">{{ icTruck }}</span><span>Улаанбаатар хотод <b style="color:#fff;font-weight:600;">үнэгүй хүргэлт</b> · 50,000₮-с дээш захиалгад</span></div>
+      <div style="display:flex;align-items:center;gap:24px;"><span>Ажиллах цаг: Да–Ба 09:00–19:00</span><a style="color:#fff;font-weight:600;display:flex;align-items:center;gap:7px;"><span style="width:14px;height:14px;color:#F26C1B;">{{ icPhone }}</span>7700-1234</a></div>
+    </div>
+  </div>
+
+  <!-- header -->
+  <div style="border-bottom:1px solid #ECEFF4;background:#fff;position:sticky;top:0;z-index:20;">
+    <div style="max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:24px;padding:18px 24px;">
+      <a style="display:flex;align-items:center;gap:11px;">
+        <span style="display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:12px;background:#15396B;color:#fff;font-weight:800;font-size:17px;letter-spacing:-.03em;">KK</span>
+        <span style="line-height:1.1;"><span style="display:block;font-weight:700;font-size:16px;color:#0E1B2E;letter-spacing:-.01em;">Kokorozashi Kibou</span><span style="display:block;font-size:11px;color:#8A95A6;font-weight:600;letter-spacing:.05em;">БАРИЛГЫН МАТЕРИАЛ</span></span>
+      </a>
+      <div style="display:flex;align-items:center;gap:28px;justify-self:center;">
+        <sc-for list="{{ nav }}" as="n" hint-placeholder-count="5"><a style="color:#3A475A;font-weight:500;font-size:15px;cursor:pointer;">{{ n }}</a></sc-for>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;justify-self:end;">
+        <button style="border:1.5px solid #ECEFF4;background:#fff;width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#0E1B2E;cursor:pointer;"><span style="width:20px;height:20px;">{{ icSearch }}</span></button>
+        <button style="position:relative;border:1.5px solid #ECEFF4;background:#fff;width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#0E1B2E;cursor:pointer;"><span style="width:21px;height:21px;">{{ icCart }}</span><span style="position:absolute;top:-7px;right:-7px;background:#F26C1B;color:#fff;font-size:11px;font-weight:700;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;">3</span></button>
+        <button style="border:0;background:#15396B;color:#fff;height:44px;padding:0 20px;border-radius:12px;font-weight:600;font-size:14.5px;font-family:inherit;cursor:pointer;">Үнийн санал</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- hero -->
+  <div style="background:linear-gradient(180deg,#FAFBFD,#fff);">
+    <div style="max-width:1180px;margin:0 auto;padding:64px 24px 56px;text-align:center;display:flex;flex-direction:column;align-items:center;">
+      <div style="display:inline-flex;align-items:center;gap:9px;background:#fff;border:1px solid #ECEFF4;color:#3A475A;font-weight:600;font-size:13px;padding:8px 16px;border-radius:22px;margin-bottom:26px;box-shadow:0 2px 8px rgba(16,30,54,.04);"><span style="width:7px;height:7px;border-radius:50%;background:#22A06B;display:inline-block;"></span>10+ жилийн туршлага · Чанарын баталгаа</div>
+      <h1 style="margin:0;font-size:52px;line-height:1.06;font-weight:800;letter-spacing:-.03em;color:#0E1B2E;max-width:780px;">Барилгын материалаа<br><span style="color:#F26C1B;">хялбархан</span> олж, хурдан аваарай</h1>
+      <p style="margin:20px 0 0;font-size:18px;line-height:1.55;color:#5C6B82;max-width:540px;">200+ нэр төрлийн чанартай материал, мэргэжлийн зөвлөгөө, Улаанбаатар даяар хурдан хүргэлт — бүгд нэг дороос.</p>
+      <div style="display:flex;align-items:center;width:100%;max-width:620px;margin-top:34px;background:#fff;border:1.5px solid #E2E7F0;border-radius:30px;padding:7px 7px 7px 22px;box-shadow:0 14px 34px rgba(16,30,54,.08);">
+        <span style="width:20px;height:20px;color:#9AA6B8;margin-right:12px;">{{ icSearch }}</span>
+        <input disabled placeholder="Цемент, арматур, будаг, дээвэр…" style="border:0;background:transparent;flex:1;font-size:16px;color:#0E1B2E;outline:none;font-family:inherit;"/>
+        <button style="border:0;background:#F26C1B;color:#fff;height:48px;padding:0 28px;border-radius:24px;font-weight:700;font-size:15px;font-family:inherit;cursor:pointer;">Хайх</button>
+      </div>
+      <div style="display:flex;gap:9px;margin-top:18px;flex-wrap:wrap;justify-content:center;align-items:center;">
+        <span style="font-size:13.5px;color:#9AA6B8;">Эрэлттэй:</span>
+        <a style="font-size:13.5px;color:#3A475A;background:#F4F6FA;padding:6px 14px;border-radius:16px;cursor:pointer;">Портланд цемент</a>
+        <a style="font-size:13.5px;color:#3A475A;background:#F4F6FA;padding:6px 14px;border-radius:16px;cursor:pointer;">Арматур D12</a>
+        <a style="font-size:13.5px;color:#3A475A;background:#F4F6FA;padding:6px 14px;border-radius:16px;cursor:pointer;">Гипсэн хавтан</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- stats strip -->
+  <div style="max-width:1180px;margin:0 auto;padding:0 24px;">
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;background:#F6F7FA;border-radius:18px;padding:8px;">
+      <sc-for list="{{ stats }}" as="s" hint-placeholder-count="4"><div style="text-align:center;padding:22px 12px;"><div style="font-size:30px;font-weight:800;color:#15396B;letter-spacing:-.02em;">{{ s.n }}</div><div style="font-size:13.5px;color:#6B7686;font-weight:500;margin-top:4px;">{{ s.l }}</div></div></sc-for>
+    </div>
+  </div>
+
+  <!-- categories -->
+  <div style="max-width:1180px;margin:0 auto;padding:64px 24px 0;">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:26px;">
+      <div><div style="font-size:13px;font-weight:600;color:#F26C1B;letter-spacing:.06em;margin-bottom:7px;">АНГИЛАЛ</div><h2 style="margin:0;font-size:30px;font-weight:800;color:#0E1B2E;letter-spacing:-.02em;">Юу хайж байна?</h2></div>
+      <a style="color:#15396B;font-weight:600;font-size:14.5px;cursor:pointer;">Бүх ангилал →</a>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(8,1fr);gap:12px;">
+      <sc-for list="{{ categories }}" as="cat" hint-placeholder-count="8">
+        <a style="display:flex;flex-direction:column;align-items:center;gap:12px;padding:22px 8px;border-radius:16px;background:#FAFBFD;border:1px solid #F0F2F6;cursor:pointer;text-align:center;">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:54px;height:54px;border-radius:16px;background:#fff;color:#15396B;box-shadow:0 2px 10px rgba(16,30,54,.06);"><span style="width:26px;height:26px;">{{ cat.icon }}</span></span>
+          <span style="font-weight:600;font-size:12.5px;color:#34435A;line-height:1.25;">{{ cat.name }}</span>
+        </a>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- featured products -->
+  <div style="max-width:1180px;margin:0 auto;padding:64px 24px 0;">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:26px;">
+      <div><div style="font-size:13px;font-weight:600;color:#F26C1B;letter-spacing:.06em;margin-bottom:7px;">ЭРЭЛТТЭЙ БАРАА</div><h2 style="margin:0;font-size:30px;font-weight:800;color:#0E1B2E;letter-spacing:-.02em;">Шинээр ирсэн материал</h2></div>
+      <a style="color:#15396B;font-weight:600;font-size:14.5px;cursor:pointer;">Дэлгүүр →</a>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:22px;">
+      <sc-for list="{{ products }}" as="p" hint-placeholder-count="6">
+        <div style="border:1px solid #ECEFF4;border-radius:18px;overflow:hidden;background:#fff;cursor:pointer;">
+          <div style="position:relative;height:210px;background:repeating-linear-gradient(135deg,#F4F6FA,#F4F6FA 11px,#EEF2F8 11px,#EEF2F8 22px);display:flex;align-items:center;justify-content:center;color:#BAC5D6;font-size:11px;font-weight:700;letter-spacing:.14em;">
+            ЗУРАГ
+            <sc-if value="{{ p.tag }}" hint-placeholder-val="x"><span style="position:absolute;top:14px;left:14px;background:#F26C1B;color:#fff;font-size:11px;font-weight:700;padding:6px 12px;border-radius:16px;">{{ p.tag }}</span></sc-if>
+          </div>
+          <div style="padding:18px;">
+            <div style="font-weight:600;font-size:16px;color:#0E1B2E;">{{ p.name }}</div>
+            <div style="font-size:13px;color:#8A95A6;margin-top:4px;">{{ p.spec }}</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:16px;">
+              <div style="font-weight:800;font-size:20px;color:#15396B;letter-spacing:-.01em;">{{ p.price }}</div>
+              <button style="display:flex;align-items:center;gap:8px;border:0;background:#15396B;color:#fff;height:42px;padding:0 16px;border-radius:12px;font-weight:600;font-size:13.5px;font-family:inherit;cursor:pointer;"><span style="width:18px;height:18px;">{{ icCart }}</span>Сагслах</button>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- value props -->
+  <div style="max-width:1180px;margin:0 auto;padding:64px 24px 0;">
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:22px;">
+      <sc-for list="{{ valueProps }}" as="v" hint-placeholder-count="4">
+        <div><span style="display:inline-flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:14px;background:#EEF3FA;color:#15396B;margin-bottom:16px;"><span style="width:26px;height:26px;">{{ v.icon }}</span></span><div style="font-weight:700;font-size:16.5px;color:#0E1B2E;">{{ v.t }}</div><div style="font-size:14px;color:#5C6B82;line-height:1.55;margin-top:7px;">{{ v.d }}</div></div>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- about / company band -->
+  <div style="max-width:1180px;margin:64px auto 0;padding:0 24px;">
+    <div style="background:#0E1B2E;border-radius:24px;overflow:hidden;display:grid;grid-template-columns:1.05fr .95fr;">
+      <div style="padding:48px 44px;display:flex;flex-direction:column;justify-content:center;">
+        <div style="font-size:13px;font-weight:600;color:#F26C1B;letter-spacing:.06em;margin-bottom:12px;">БИДНИЙ ТУХАЙ</div>
+        <h2 style="margin:0;font-size:30px;font-weight:800;color:#fff;letter-spacing:-.02em;line-height:1.15;">10 гаруй жил барилгачдын<br>найдвартай түнш</h2>
+        <p style="margin:18px 0 0;font-size:15.5px;line-height:1.65;color:#AEBBD0;max-width:440px;">2014 онд үүсгэн байгуулагдсан Kokorozashi Kibou ХХК нь барилгын материалын чанартай ханган нийлүүлэлтээр Улаанбаатар хотод тэргүүлдэг. 5,000 гаруй төсөлд цаг тухайд нь, бүрэн бүтэн материал нийлүүлж ирлээ.</p>
+        <div style="display:flex;gap:32px;margin-top:30px;">
+          <sc-for list="{{ stats }}" as="s" hint-placeholder-count="4"><div><div style="font-size:26px;font-weight:800;color:#F26C1B;letter-spacing:-.02em;">{{ s.n }}</div><div style="font-size:12.5px;color:#8FA0BC;font-weight:500;margin-top:2px;">{{ s.l }}</div></div></sc-for>
+        </div>
+        <a style="display:inline-flex;align-items:center;gap:8px;color:#fff;font-weight:600;font-size:14.5px;margin-top:30px;cursor:pointer;">Бидний түүхтэй танилцах <span style="width:16px;height:16px;">{{ icArrow }}</span></a>
+      </div>
+      <div style="position:relative;background:repeating-linear-gradient(135deg,#13243a,#13243a 18px,#0E1B2E 18px,#0E1B2E 36px);min-height:380px;display:flex;align-items:center;justify-content:center;">
+        <span style="color:#36486A;font-weight:700;letter-spacing:.18em;font-size:13px;">КОМПАНИЙН ЗУРАГ</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- reviews + map -->
+  <div style="max-width:1180px;margin:64px auto 0;padding:0 24px;display:grid;grid-template-columns:1.3fr 1fr;gap:28px;">
+    <div>
+      <div style="font-size:13px;font-weight:600;color:#F26C1B;letter-spacing:.06em;margin-bottom:7px;">СЭТГЭГДЭЛ</div>
+      <h2 style="margin:0 0 22px;font-size:30px;font-weight:800;color:#0E1B2E;letter-spacing:-.02em;">Харилцагчид юу гэж байна</h2>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <sc-for list="{{ reviews }}" as="r" hint-placeholder-count="3">
+          <div style="padding:24px;background:#FAFBFD;border:1px solid #F0F2F6;border-radius:16px;">
+            <div style="color:#F26C1B;font-size:15px;letter-spacing:2px;margin-bottom:10px;">★★★★★</div>
+            <p style="margin:0;font-size:15px;line-height:1.6;color:#34435A;">«{{ r.text }}»</p>
+            <div style="display:flex;align-items:center;gap:11px;margin-top:16px;"><span style="width:38px;height:38px;border-radius:50%;background:#15396B;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;">{{ r.ini }}</span><div><span style="font-weight:600;font-size:14px;color:#0E1B2E;">{{ r.name }}</span><span style="display:block;font-size:12.5px;color:#8A95A6;">{{ r.role }}</span></div></div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:13px;font-weight:600;color:#F26C1B;letter-spacing:.06em;margin-bottom:7px;">БАЙРШИЛ</div>
+      <h2 style="margin:0 0 22px;font-size:30px;font-weight:800;color:#0E1B2E;letter-spacing:-.02em;">Бидэнтэй холбогдох</h2>
+      <div style="height:230px;border-radius:16px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:#EDF0F5;background-image:linear-gradient(#E2E7F0 1px,transparent 1px),linear-gradient(90deg,#E2E7F0 1px,transparent 1px);background-size:28px 28px;">
+        <span style="display:flex;flex-direction:column;align-items:center;gap:8px;"><span style="width:32px;height:32px;color:#F26C1B;">{{ icPin }}</span><span style="color:#9AA6B8;font-size:12px;font-weight:600;letter-spacing:.1em;">ГАЗРЫН ЗУРАГ</span></span>
+      </div>
+      <div style="margin-top:18px;display:flex;flex-direction:column;gap:12px;">
+        <div style="display:flex;gap:11px;align-items:flex-start;"><span style="width:18px;height:18px;color:#F26C1B;margin-top:1px;flex-shrink:0;">{{ icPin }}</span><span style="font-size:14.5px;color:#34435A;">Улаанбаатар, Баянзүрх дүүрэг, 13-р хороо, Барилгын материалын төв</span></div>
+        <div style="display:flex;gap:11px;align-items:center;"><span style="width:18px;height:18px;color:#F26C1B;flex-shrink:0;">{{ icPhone }}</span><span style="font-size:14.5px;color:#34435A;font-weight:600;">7700-1234</span></div>
+        <div style="display:flex;gap:11px;align-items:center;"><span style="width:18px;height:18px;color:#F26C1B;flex-shrink:0;">{{ icClock }}</span><span style="font-size:14.5px;color:#34435A;">Да–Ба 09:00–19:00, Бямба 10:00–16:00</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- quote CTA band -->
+  <div style="max-width:1180px;margin:64px auto 0;padding:0 24px;">
+    <div style="background:#15396B;border-radius:24px;padding:52px;text-align:center;background-image:radial-gradient(circle at 85% 20%,rgba(242,108,27,.22),transparent 45%);">
+      <h2 style="margin:0;color:#fff;font-size:32px;font-weight:800;letter-spacing:-.02em;">Төслөө эхлүүлэхэд бэлэн үү?</h2>
+      <p style="margin:12px 0 0;color:#C6D2E5;font-size:16.5px;">Материалын жагсаалтаа илгээгээрэй — 24 цагийн дотор тусгай үнийн санал хүргэнэ.</p>
+      <div style="display:flex;gap:12px;justify-content:center;margin-top:28px;">
+        <button style="border:0;background:#F26C1B;color:#fff;height:52px;padding:0 30px;border-radius:26px;font-weight:700;font-size:16px;font-family:inherit;cursor:pointer;box-shadow:0 10px 24px rgba(242,108,27,.3);">Үнийн санал авах</button>
+        <button style="border:1.5px solid rgba(255,255,255,.25);background:transparent;color:#fff;height:52px;padding:0 28px;border-radius:26px;font-weight:600;font-size:16px;font-family:inherit;cursor:pointer;">7700-1234 руу залгах</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- footer -->
+  <div style="background:#0E1B2E;color:#9FACC2;margin-top:64px;">
+    <div style="max-width:1180px;margin:0 auto;padding:52px 24px 28px;">
+      <div style="display:grid;grid-template-columns:1.5fr 1fr 1fr 1.2fr;gap:32px;padding-bottom:32px;border-bottom:1px solid #22324C;">
+        <div style="max-width:300px;">
+          <div style="display:flex;align-items:center;gap:11px;margin-bottom:16px;"><span style="width:40px;height:40px;border-radius:11px;background:#15396B;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;">KK</span><span style="color:#fff;font-weight:700;font-size:15px;">Kokorozashi Kibou</span></div>
+          <div style="font-size:14px;line-height:1.65;">Барилгын материалын найдвартай ханган нийлүүлэгч. 10+ жилийн туршлага, чанарын баталгаа, хурдан хүргэлт.</div>
+        </div>
+        <div><div style="color:#fff;font-weight:600;font-size:14.5px;margin-bottom:14px;">Ангилал</div><div style="font-size:14px;line-height:2.1;"><a style="color:#9FACC2;display:block;cursor:pointer;">Цемент ба зуурмаг</a><a style="color:#9FACC2;display:block;cursor:pointer;">Арматур ба төмөр</a><a style="color:#9FACC2;display:block;cursor:pointer;">Дээврийн материал</a><a style="color:#9FACC2;display:block;cursor:pointer;">Будаг ба өнгөлгөө</a></div></div>
+        <div><div style="color:#fff;font-weight:600;font-size:14.5px;margin-bottom:14px;">Компани</div><div style="font-size:14px;line-height:2.1;"><a style="color:#9FACC2;display:block;cursor:pointer;">Бидний тухай</a><a style="color:#9FACC2;display:block;cursor:pointer;">Хүргэлтийн нөхцөл</a><a style="color:#9FACC2;display:block;cursor:pointer;">Үнийн санал</a><a style="color:#9FACC2;display:block;cursor:pointer;">Холбоо барих</a></div></div>
+        <div><div style="color:#fff;font-weight:600;font-size:14.5px;margin-bottom:14px;">Холбоо барих</div><div style="font-size:14px;line-height:1.9;"><div style="display:flex;gap:9px;align-items:center;margin-bottom:8px;"><span style="width:15px;height:15px;color:#F26C1B;">{{ icPhone }}</span>7700-1234</div><div style="display:flex;gap:9px;align-items:flex-start;margin-bottom:8px;"><span style="width:15px;height:15px;color:#F26C1B;margin-top:3px;">{{ icPin }}</span>Улаанбаатар, Баянзүрх дүүрэг</div><div style="display:flex;gap:9px;align-items:center;"><span style="width:15px;height:15px;color:#F26C1B;">{{ icMail }}</span>info@kkllc.mn</div></div></div>
+      </div>
+      <div style="padding-top:20px;display:flex;align-items:center;justify-content:space-between;font-size:13px;color:#6E7E99;"><span>© 2026 Kokorozashi Kibou LLC. Бүх эрх хуулиар хамгаалагдсан.</span><span>Нууцлалын бодлого · Үйлчилгээний нөхцөл</span></div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  icon(d, sw){
+    const paths = Array.isArray(d) ? d : [d];
+    return React.createElement('svg', { width:'100%', height:'100%', viewBox:'0 0 24 24', fill:'none', stroke:'currentColor', strokeWidth: sw||1.7, strokeLinecap:'round', strokeLinejoin:'round', style:{display:'block'} },
+      paths.map((p,i)=>React.createElement('path',{ key:i, d:p })));
+  }
+  renderVals(){
+    const I = (d,sw)=>this.icon(d,sw);
+    const icSearch = I('M11 11m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0 M21 21l-4.3-4.3');
+    const icCart = I(['M5 7h15l-1.5 9.5a2 2 0 0 1-2 1.5H9a2 2 0 0 1-2-1.7L5 4H2','M9 21a1 1 0 1 0 0-.01 M17 21a1 1 0 1 0 0-.01']);
+    const icTruck = I(['M3 7h11v9H3z','M14 10h3.5L21 13v3h-7','M7.5 18.5a1.8 1.8 0 1 0 0-3.6 1.8 1.8 0 0 0 0 3.6 M17.5 18.5a1.8 1.8 0 1 0 0-3.6 1.8 1.8 0 0 0 0 3.6']);
+    const icHeadset = I(['M4 13v-1a8 8 0 0 1 16 0v1','M4 13a2 2 0 0 1 2-2h1v6H6a2 2 0 0 1-2-2z','M20 13a2 2 0 0 0-2-2h-1v6h1a2 2 0 0 0 2-2z','M17 17v1a3 3 0 0 1-3 3h-2']);
+    const icShield = I(['M12 3l8 3v6c0 5-3.5 7.5-8 9-4.5-1.5-8-4-8-9V6z','M9 12l2 2 4-4']);
+    const icPin = I(['M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z','M12 10m-2.5 0a2.5 2.5 0 1 0 5 0a2.5 2.5 0 1 0 -5 0']);
+    const icClock = I(['M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0','M12 7v5l3 2']);
+    const icPhone = I('M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z');
+    const icMail = I(['M3 6h18v12H3z','M3 7l9 6 9-6']);
+    const icArrow = I(['M5 12h14','M13 6l6 6-6 6']);
+
+    const categories = [
+      { name:'Цемент ба зуурмаг', icon:I(['M8 4h8l1 4-1 12H8L7 8z','M10 4v2','M14 4v2']) },
+      { name:'Арматур ба төмөр', icon:I(['M5 4v16','M10 4v16','M15 4v16','M20 4v16']) },
+      { name:'Тоосго ба блок', icon:I(['M4 7h16v10H4z','M4 12h16','M9 7v5','M15 12v5']) },
+      { name:'Дээврийн материал', icon:I(['M3 12l9-7 9 7','M6 11v8h12v-8']) },
+      { name:'Дулаалга', icon:I(['M4 7c2 2 3 0 5 0s3 2 5 0 3 0 5 0','M4 12c2 2 3 0 5 0s3 2 5 0 3 0 5 0','M4 17c2 2 3 0 5 0s3 2 5 0 3 0 5 0']) },
+      { name:'Будаг ба өнгөлгөө', icon:I(['M14 4l6 6-8 8-3 1 1-3z','M4 21l3.5-1']) },
+      { name:'Гипсэн хавтан', icon:I(['M4 4h16v16H4z','M9 4v16','M4 9h5']) },
+      { name:'Сантехник', icon:I(['M4 8h6V4','M14 16v4h6','M10 8a6 6 0 0 1 6 6']) },
+    ];
+    const products = [
+      { name:'Портланд цемент M400', spec:'50кг шуудай', price:'18,500₮', tag:'Эрэлттэй' },
+      { name:'Арматур D12', spec:'1 метр', price:'4,200₮', tag:'' },
+      { name:'Улаан тоосго M150', spec:'1 ширхэг', price:'650₮', tag:'' },
+      { name:'Дулаалгын хөвөн 50мм', spec:'1 баглаа', price:'32,000₮', tag:'Хямдрал' },
+      { name:'Усан суурьт будаг', spec:'10 литр', price:'89,000₮', tag:'' },
+      { name:'Гипсэн хавтан 12.5мм', spec:'1 хавтан', price:'24,000₮', tag:'' },
+    ];
+    const valueProps = [
+      { t:'Чанарын баталгаа', d:'Олон улсын стандартад нийцсэн баталгаат материал', icon:icShield },
+      { t:'Үнэгүй хүргэлт', d:'Улаанбаатар хотод үнэгүй, орон нутагт хямд хүргэлт', icon:icTruck },
+      { t:'Мэргэжлийн зөвлөгөө', d:'Туршлагатай инженер, зөвлөхүүдийн дэмжлэг', icon:icHeadset },
+      { t:'Уян хатан төлбөр', d:'Бэлэн, шилжүүлэг болон лизингийн нөхцөл', icon:I(['M3 7h18v10H3z','M3 11h18','M7 15h4']) },
+    ];
+    const stats = [
+      { n:'10+', l:'жил туршлага' },
+      { n:'5,000+', l:'харилцагч' },
+      { n:'200+', l:'нэр төрлийн бараа' },
+      { n:'24ц', l:'дотор хүргэлт' },
+    ];
+    const reviews = [
+      { ini:'Б', name:'Б. Болдбаатар', role:'Хувийн орон сууц', text:'Хүргэлт маш хурдан, материалын чанар сайн. Дараагийн төслөө бас эндээс авна.' },
+      { ini:'Г', name:'Г. Сарангэрэл', role:'Засвар хийсэн', text:'Үнэ боломжийн, мэргэжлийн зөвлөгөө өгсөнд талархаж байна. Найдвартай түнш.' },
+      { ini:'Д', name:'Д. Энхбаяр', role:'Барилгын компани', text:'Том захиалгыг цаг алдалгүй, бүрэн бүтэн хүргэж өгсөн. Хамтын ажиллагаа сайн.' },
+    ];
+    const nav = ['Нүүр','Бүтээгдэхүүн','Хүргэлт','Бидний тухай','Холбоо барих'];
+
+    return { icSearch, icCart, icTruck, icHeadset, icShield, icPin, icClock, icPhone, icMail, icArrow,
+      categories, products, valueProps, stats, reviews, nav };
+  }
+}
+</script>
+</body>
+</html>

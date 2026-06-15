@@ -2,6 +2,7 @@
   "nav": {
     "home": "Home",
     "products": "Products",
+    "delivery": "Delivery",
     "about": "About Us",
     "contact": "Contact",
     "getQuote": "Get Quote"
@@ -11,10 +12,20 @@
     "subtitle": "10+ Years of Quality Guarantee",
     "description": "Your trusted partner in Mongolia's construction industry. We supply quality building materials at fair prices.",
     "cta": "Chat on WhatsApp",
-    "viewProducts": "View Products"
+    "viewProducts": "View Products",
+    "badge": "10+ years experience · Official Knauf supplier",
+    "headlineLead": "Putty, adhesives, Knauf materials —",
+    "headlineAccent": "quality",
+    "headlineTail": ", affordable, fast",
+    "subheadline": "Interior and facade putty, tile adhesive, and Knauf jointing materials — delivered across Ulaanbaatar with expert advice."
+  },
+  "search": {
+    "placeholder": "White putty, tile adhesive, Knauf...",
+    "button": "Search",
+    "popular": "Popular:"
   },
   "usp": {
-    "freeDelivery": "FREE Delivery for 100+ Items",
+    "freeDelivery": "Free delivery in Ulaanbaatar for 100,000₮+ orders",
     "weightGuarantee": "Weight Guaranteed",
     "standardFormula": "Standard Formulation",
     "mnsStandard": "MNS Standard"
@@ -27,7 +38,9 @@
   },
   "categories": {
     "title": "Product Categories",
+    "eyebrow": "Categories",
     "subtitle": "All types of building materials",
+    "itemsLabel": "items",
     "puttyWhite": "White Putty",
     "puttyBlack": "Black Putty",
     "tileAdhesive": "Tile Adhesive",
@@ -41,7 +54,106 @@
     "inquirePrice": "Inquire Wholesale Price",
     "viewDetails": "View Details",
     "inStock": "In Stock",
-    "outOfStock": "Out of Stock"
+    "outOfStock": "Out of Stock",
+    "all": "All",
+    "searchPlaceholder": "Search products...",
+    "found": "products found",
+    "notFoundTitle": "No products found",
+    "notFoundText": "Try a different search term",
+    "helpTitle": "Need help choosing?",
+    "helpText": "Ask our specialists which material fits your project.",
+    "helpCta": "Get advice"
+  },
+  "product": {
+    "addToCart": "Add",
+    "addToCartLong": "Add to cart",
+    "added": "Added to cart",
+    "inquire": "Ask price",
+    "quantity": "Quantity",
+    "specs": "Specifications",
+    "related": "Related products",
+    "breadcrumbHome": "Home",
+    "breadcrumbProducts": "Products",
+    "notFound": "Product not found",
+    "backToProducts": "Back to products",
+    "perPack": "pack"
+  },
+  "cart": {
+    "title": "Cart",
+    "empty": "Your cart is empty",
+    "emptyCta": "Browse products",
+    "item": "item",
+    "items": "items",
+    "quantity": "Qty",
+    "subtotal": "Subtotal",
+    "total": "Total",
+    "remove": "Remove",
+    "checkout": "Proceed to checkout",
+    "continue": "Continue shopping",
+    "summary": "Order summary",
+    "priceNote": "* Prices are indicative; the final price will be confirmed."
+  },
+  "checkout": {
+    "title": "Checkout",
+    "subtitle": "Leave your details — we'll get back to you shortly.",
+    "name": "Name",
+    "phone": "Phone",
+    "address": "Delivery address",
+    "note": "Additional note",
+    "notePlaceholder": "e.g. Please call during work hours",
+    "submit": "Send order (WhatsApp)",
+    "yourOrder": "Your order",
+    "successTitle": "Order sent!",
+    "successText": "A WhatsApp window will open. We'll contact you soon.",
+    "emptyTitle": "Your cart is empty",
+    "orderHeader": "New order"
+  },
+  "reviews": {
+    "eyebrow": "Reviews",
+    "title": "What our customers say"
+  },
+  "values": {
+    "eyebrow": "Why us",
+    "title": "Why choose us",
+    "qualityTitle": "Quality guarantee",
+    "qualityText": "Certified materials that meet international standards.",
+    "deliveryTitle": "Fast delivery",
+    "deliveryText": "Delivered within 24 hours across Ulaanbaatar.",
+    "priceTitle": "Wholesale prices",
+    "priceText": "Fair, low prices straight from the supplier.",
+    "supportTitle": "Expert advice",
+    "supportText": "Our experienced team advises which material fits."
+  },
+  "company": {
+    "eyebrow": "About us",
+    "title": "A reliable partner for builders",
+    "text": "Kokorozashi Kibou LLC supplies Ulaanbaatar's builders with quality interior and facade putty, tile adhesive, and Knauf-branded materials.",
+    "imageLabel": "COMPANY PHOTO"
+  },
+  "homeCta": {
+    "title": "Need a quote for your project?",
+    "text": "Send us your material list — we'll deliver a tailored quote within 24 hours.",
+    "primary": "Get a quote",
+    "secondary": "Browse products"
+  },
+  "delivery": {
+    "title": "Delivery information",
+    "subtitle": "Fast, reliable delivery across Ulaanbaatar",
+    "zonesEyebrow": "Zones",
+    "zonesTitle": "Delivery zones & pricing",
+    "zone": "Zone",
+    "price": "Price",
+    "eta": "Time",
+    "stepsEyebrow": "Steps",
+    "stepsTitle": "How to order",
+    "step1Title": "Choose products",
+    "step1Text": "Add the materials you need to your cart.",
+    "step2Title": "Send your order",
+    "step2Text": "Leave your details and confirm the order.",
+    "step3Title": "Receive delivery",
+    "step3Text": "Get it delivered to your address on time.",
+    "freeNote": "Free delivery within Ulaanbaatar for orders over 100,000₮.",
+    "cta": "Browse products"
   },
   "about": {
     "title": "About Us",
@@ -82,6 +194,7 @@
   "footer": {
     "description": "Your reliable partner for building materials. 10+ years of experience, quality guarantee.",
     "quickLinks": "Quick Links",
+    "categories": "Categories",
     "contactInfo": "Contact Information",
     "followUs": "Follow Us",
     "rights": "All rights reserved"
@@ -92,4 +205,3 @@
     "quote": "Get Quote"
   }
 }
-

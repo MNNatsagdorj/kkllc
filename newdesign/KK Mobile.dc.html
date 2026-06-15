@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #E7EAEF; }
+  .kkscroll::-webkit-scrollbar { width: 0; height: 0; }
+</style>
+</helmet>
+
+<div style="font-family:'Onest','Noto Sans',system-ui,sans-serif;background:#E7EAEF;min-height:100vh;padding:36px 20px 60px;display:flex;flex-direction:column;align-items:center;">
+  <div style="text-align:center;margin-bottom:24px;">
+    <div style="font-size:12px;font-weight:700;letter-spacing:.16em;color:#8A95A6;text-transform:uppercase;">Kokorozashi Kibou LLC</div>
+    <div style="font-size:24px;font-weight:800;color:#171C24;margin-top:6px;letter-spacing:-.02em;">Мобайл хувилбар</div>
+  </div>
+
+  <x-import component="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+    <div style="height:100%;display:flex;flex-direction:column;background:#fff;font-family:'Onest','Noto Sans',system-ui,sans-serif;color:#0E1B2E;overflow:hidden;">
+
+      <!-- top bar -->
+      <div style="flex-shrink:0;padding:56px 18px 12px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #F0F2F6;background:#fff;">
+        <div style="display:flex;align-items:center;gap:9px;">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:10px;background:#15396B;color:#fff;font-weight:800;font-size:14px;letter-spacing:-.03em;">KK</span>
+          <span style="font-weight:700;font-size:15px;letter-spacing:-.01em;">Kokorozashi Kibou</span>
+        </div>
+        <button onClick="{{ goCart }}" style="position:relative;border:0;background:#F4F6FA;width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;color:#0E1B2E;cursor:pointer;"><span style="width:20px;height:20px;">{{ icCart }}</span><sc-if value="{{ hasCart }}" hint-placeholder-val=""><span style="position:absolute;top:-6px;right:-6px;background:#F26C1B;color:#fff;font-size:10px;font-weight:700;min-width:18px;height:18px;padding:0 4px;border-radius:9px;display:flex;align-items:center;justify-content:center;">{{ cartCount }}</span></sc-if></button>
+      </div>
+
+      <!-- scroll body -->
+      <div class="kkscroll" style="flex:1;overflow-y:auto;overflow-x:hidden;background:#fff;">
+
+        <!-- ===== HOME ===== -->
+        <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+        <div style="padding:18px 18px 28px;">
+          <div style="display:flex;align-items:center;background:#F4F6FA;border:1.5px solid #E8ECF3;border-radius:14px;padding:0 6px 0 14px;height:48px;margin-bottom:22px;">
+            <span style="width:18px;height:18px;color:#9AA6B8;margin-right:10px;">{{ icSearch }}</span>
+            <input disabled placeholder="Замаск, цавуу, Knauf хайх…" style="border:0;background:transparent;flex:1;font-size:14.5px;color:#0E1B2E;outline:none;min-width:0;"/>
+          </div>
+
+          <div style="position:relative;background:#15396B;border-radius:20px;padding:24px;overflow:hidden;margin-bottom:24px;background-image:radial-gradient(circle at 88% 15%,rgba(242,108,27,.32),transparent 50%);">
+            <div style="display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.12);color:#fff;font-weight:600;font-size:11px;padding:5px 11px;border-radius:14px;margin-bottom:12px;"><span style="width:6px;height:6px;border-radius:50%;background:#5BD6A0;"></span>10+ жил · Knauf нийлүүлэгч</div>
+            <div style="color:#fff;font-size:23px;font-weight:800;line-height:1.18;letter-spacing:-.02em;">Замаск, цавуу,<br>Knauf материал</div>
+            <div style="color:#C6D2E5;font-size:13.5px;margin-top:8px;line-height:1.5;">Чанартай, хямд, хурдан хүргэлттэй.</div>
+            <button onClick="{{ goCatalog }}" style="margin-top:16px;border:0;background:#F26C1B;color:#fff;height:42px;padding:0 20px;border-radius:21px;font-weight:700;font-size:14px;cursor:pointer;">Бараа үзэх →</button>
+          </div>
+
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;"><div style="font-size:17px;font-weight:800;letter-spacing:-.01em;">Ангилал</div><button onClick="{{ goCatalog }}" style="border:0;background:none;color:#15396B;font-weight:600;font-size:13px;cursor:pointer;">Бүгд →</button></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:26px;">
+            <sc-for list="{{ categories }}" as="cat" hint-placeholder-count="4">
+              <button onClick="{{ cat.go }}" style="text-align:left;background:#FAFBFD;border:1px solid #F0F2F6;border-radius:16px;padding:16px;cursor:pointer;display:flex;align-items:center;gap:12px;">
+                <span style="display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:12px;background:#fff;color:#15396B;box-shadow:0 2px 8px rgba(16,30,54,.06);flex-shrink:0;"><span style="width:22px;height:22px;">{{ cat.icon }}</span></span>
+                <span><span style="display:block;font-weight:700;font-size:13.5px;line-height:1.2;">{{ cat.name }}</span><span style="display:block;font-size:11.5px;color:#8A95A6;margin-top:2px;">{{ cat.countLabel }}</span></span>
+              </button>
+            </sc-for>
+          </div>
+
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;"><div style="font-size:17px;font-weight:800;letter-spacing:-.01em;">Эрэлттэй бараа</div><button onClick="{{ goCatalog }}" style="border:0;background:none;color:#15396B;font-weight:600;font-size:13px;cursor:pointer;">Бүгд →</button></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+            <sc-for list="{{ featured }}" as="p" hint-placeholder-count="4">
+              <div onClick="{{ p.open }}" style="border:1px solid #ECEFF4;border-radius:16px;overflow:hidden;background:#fff;cursor:pointer;">
+                <div style="position:relative;height:120px;background:repeating-linear-gradient(135deg,#F4F6FA,#F4F6FA 9px,#EEF2F8 9px,#EEF2F8 18px);display:flex;align-items:center;justify-content:center;"><span style="width:34px;height:34px;color:#C2CDDE;">{{ p.icon }}</span><sc-if value="{{ p.tag }}" hint-placeholder-val="x"><span style="position:absolute;top:9px;left:9px;background:#F26C1B;color:#fff;font-size:10px;font-weight:700;padding:4px 8px;border-radius:12px;">{{ p.tag }}</span></sc-if></div>
+                <div style="padding:12px;">
+                  <sc-if value="{{ p.brand }}" hint-placeholder-val=""><span style="font-size:10px;font-weight:700;color:#F26C1B;letter-spacing:.06em;">{{ p.brand }}</span></sc-if>
+                  <div style="font-weight:600;font-size:13px;line-height:1.3;margin-top:2px;">{{ p.name }}</div>
+                  <div style="display:flex;align-items:center;justify-content:space-between;margin-top:10px;">
+                    <span style="font-weight:800;font-size:15px;color:#15396B;">{{ p.priceStr }}</span>
+                    <button onClick="{{ p.add }}" style="border:0;background:#15396B;color:#fff;width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;"><span style="width:18px;height:18px;">{{ icPlus }}</span></button>
+                  </div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- ===== CATALOG ===== -->
+        <sc-if value="{{ isCatalog }}" hint-placeholder-val="">
+        <div style="padding:18px 0 28px;">
+          <div style="font-size:22px;font-weight:800;letter-spacing:-.02em;padding:0 18px 4px;">Бүтээгдэхүүн</div>
+          <div style="font-size:13px;color:#8A95A6;padding:0 18px 14px;">{{ catalogCountLabel }}</div>
+          <div class="kkscroll" style="display:flex;gap:8px;overflow-x:auto;padding:0 18px 16px;">
+            <sc-for list="{{ catFilters }}" as="f" hint-placeholder-count="5">
+              <button onClick="{{ f.go }}" style="white-space:nowrap;border:1.5px solid {{ f.border }};background:{{ f.bg }};color:{{ f.color }};font-weight:600;font-size:13px;padding:9px 15px;border-radius:20px;cursor:pointer;flex-shrink:0;">{{ f.name }}</button>
+            </sc-for>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:0 18px;">
+            <sc-for list="{{ catalogProducts }}" as="p" hint-placeholder-count="6">
+              <div onClick="{{ p.open }}" style="border:1px solid #ECEFF4;border-radius:16px;overflow:hidden;background:#fff;cursor:pointer;display:flex;flex-direction:column;">
+                <div style="position:relative;height:120px;background:repeating-linear-gradient(135deg,#F4F6FA,#F4F6FA 9px,#EEF2F8 9px,#EEF2F8 18px);display:flex;align-items:center;justify-content:center;"><span style="width:32px;height:32px;color:#C2CDDE;">{{ p.icon }}</span><sc-if value="{{ p.tag }}" hint-placeholder-val="x"><span style="position:absolute;top:9px;left:9px;background:#F26C1B;color:#fff;font-size:10px;font-weight:700;padding:4px 8px;border-radius:12px;">{{ p.tag }}</span></sc-if></div>
+                <div style="padding:12px;display:flex;flex-direction:column;flex:1;">
+                  <sc-if value="{{ p.brand }}" hint-placeholder-val=""><span style="font-size:10px;font-weight:700;color:#F26C1B;letter-spacing:.06em;">{{ p.brand }}</span></sc-if>
+                  <div style="font-weight:600;font-size:12.5px;line-height:1.3;margin-top:2px;">{{ p.name }}</div>
+                  <div style="display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:10px;">
+                    <span style="font-weight:800;font-size:14.5px;color:#15396B;">{{ p.priceStr }}</span>
+                    <button onClick="{{ p.add }}" style="border:0;background:#EEF3FA;color:#15396B;width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;"><span style="width:18px;height:18px;">{{ icPlus }}</span></button>
+                  </div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- ===== PRODUCT ===== -->
+        <sc-if value="{{ isProduct }}" hint-placeholder-val="">
+        <div style="padding:14px 0 28px;">
+          <button onClick="{{ goCatalog }}" style="border:0;background:none;color:#15396B;font-weight:600;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:7px;padding:0 18px 12px;"><span style="width:16px;height:16px;transform:rotate(180deg);">{{ icArrow }}</span>Буцах</button>
+          <div style="height:240px;margin:0 18px;border-radius:18px;background:repeating-linear-gradient(135deg,#F4F6FA,#F4F6FA 11px,#EEF2F8 11px,#EEF2F8 22px);display:flex;align-items:center;justify-content:center;"><span style="display:flex;flex-direction:column;align-items:center;gap:8px;color:#9AABC2;"><span style="width:48px;height:48px;color:#C2CDDE;">{{ product.icon }}</span><span style="font-size:10px;font-weight:700;letter-spacing:.14em;">ЗУРАГ</span></span></div>
+          <div style="padding:20px 18px 0;">
+            <sc-if value="{{ product.brand }}" hint-placeholder-val=""><span style="font-size:11px;font-weight:700;color:#F26C1B;letter-spacing:.08em;">{{ product.brand }}</span></sc-if>
+            <h1 style="margin:6px 0 0;font-size:21px;font-weight:800;line-height:1.2;letter-spacing:-.01em;">{{ product.name }}</h1>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:10px;"><span style="color:#F26C1B;font-size:13px;letter-spacing:1px;">★★★★★</span><span style="font-size:12.5px;color:#8A95A6;">{{ product.rating }}</span><span style="font-size:12.5px;color:#22A06B;font-weight:600;">· Бэлэн</span></div>
+            <div style="display:flex;align-items:baseline;gap:8px;margin-top:16px;"><span style="font-size:28px;font-weight:800;color:#15396B;letter-spacing:-.02em;">{{ product.priceStr }}</span><span style="font-size:13px;color:#8A95A6;">/ {{ product.pack }}</span></div>
+            <p style="margin:14px 0 0;font-size:14px;line-height:1.6;color:#4A586E;">{{ product.desc }}</p>
+            <div style="display:flex;flex-direction:column;gap:9px;margin-top:16px;">
+              <sc-for list="{{ product.bullets }}" as="b" hint-placeholder-count="4"><div style="display:flex;align-items:flex-start;gap:9px;font-size:13.5px;color:#34435A;"><span style="width:17px;height:17px;color:#22A06B;flex-shrink:0;margin-top:1px;">{{ icCheck }}</span>{{ b }}</div></sc-for>
+            </div>
+            <div style="font-weight:700;font-size:15px;margin:22px 0 10px;">Үзүүлэлт</div>
+            <div style="border:1px solid #ECEFF4;border-radius:14px;overflow:hidden;">
+              <sc-for list="{{ product.specs }}" as="sp" hint-placeholder-count="6"><div style="display:flex;align-items:center;justify-content:space-between;padding:11px 14px;background:{{ sp.bg }};font-size:13.5px;"><span style="color:#6B7686;">{{ sp.k }}</span><span style="font-weight:600;">{{ sp.v }}</span></div></sc-for>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;margin-top:22px;">
+              <div style="display:flex;align-items:center;border:1.5px solid #E2E7F0;border-radius:12px;overflow:hidden;"><button onClick="{{ qtyDec }}" style="border:0;background:#fff;width:40px;height:48px;font-size:20px;color:#15396B;cursor:pointer;">−</button><span style="width:38px;text-align:center;font-weight:700;font-size:15px;">{{ qty }}</span><button onClick="{{ qtyInc }}" style="border:0;background:#fff;width:40px;height:48px;font-size:18px;color:#15396B;cursor:pointer;">+</button></div>
+              <button onClick="{{ addCurrent }}" style="flex:1;display:flex;align-items:center;justify-content:center;gap:9px;border:0;background:#15396B;color:#fff;height:48px;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;"><span style="width:19px;height:19px;">{{ icCart }}</span>Сагслах</button>
+            </div>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- ===== CART ===== -->
+        <sc-if value="{{ isCart }}" hint-placeholder-val="">
+        <div style="padding:18px 18px 28px;">
+          <div style="font-size:22px;font-weight:800;letter-spacing:-.02em;margin-bottom:16px;">Сагс</div>
+          <sc-if value="{{ cartEmpty }}" hint-placeholder-val="">
+            <div style="border:1px solid #ECEFF4;border-radius:18px;padding:48px 20px;text-align:center;">
+              <span style="display:inline-flex;align-items:center;justify-content:center;width:64px;height:64px;border-radius:50%;background:#F4F6FA;color:#9AABC2;margin-bottom:14px;"><span style="width:30px;height:30px;">{{ icCart }}</span></span>
+              <div style="font-size:18px;font-weight:800;">Сагс хоосон</div>
+              <div style="font-size:13.5px;color:#6B7686;margin-top:8px;">Бараа нэмээд захиалгаа эхлүүлээрэй.</div>
+              <button onClick="{{ goCatalog }}" style="margin-top:18px;border:0;background:#15396B;color:#fff;height:44px;padding:0 22px;border-radius:12px;font-weight:700;font-size:14px;cursor:pointer;">Бараа үзэх</button>
+            </div>
+          </sc-if>
+          <sc-if value="{{ cartFilled }}" hint-placeholder-val="">
+            <div style="border:1px solid #ECEFF4;border-radius:16px;overflow:hidden;margin-bottom:16px;">
+              <sc-for list="{{ cartItems }}" as="it" hint-placeholder-count="2">
+                <div style="display:flex;align-items:center;gap:12px;padding:14px;border-bottom:1px solid #F2F4F8;">
+                  <div style="width:54px;height:54px;border-radius:12px;background:repeating-linear-gradient(135deg,#F4F6FA,#F4F6FA 8px,#EEF2F8 8px,#EEF2F8 16px);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="width:24px;height:24px;color:#C2CDDE;">{{ it.icon }}</span></div>
+                  <div style="flex:1;min-width:0;"><div style="font-weight:600;font-size:13.5px;line-height:1.3;">{{ it.name }}</div><div style="font-size:12px;color:#8A95A6;margin-top:3px;">{{ it.priceStr }}</div></div>
+                  <div style="display:flex;align-items:center;border:1.5px solid #E2E7F0;border-radius:10px;overflow:hidden;flex-shrink:0;"><button onClick="{{ it.dec }}" style="border:0;background:#fff;width:30px;height:36px;font-size:17px;color:#15396B;cursor:pointer;">−</button><span style="width:28px;text-align:center;font-weight:700;font-size:13.5px;">{{ it.qty }}</span><button onClick="{{ it.inc }}" style="border:0;background:#fff;width:30px;height:36px;font-size:15px;color:#15396B;cursor:pointer;">+</button></div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="border:1px solid #ECEFF4;border-radius:16px;padding:18px;">
+              <div style="display:flex;justify-content:space-between;font-size:14px;color:#4A586E;margin-bottom:10px;"><span>Барааны дүн</span><span style="font-weight:600;color:#0E1B2E;">{{ cartTotalStr }}</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:14px;color:#4A586E;margin-bottom:14px;"><span>Хүргэлт</span><span style="font-weight:600;color:#22A06B;">{{ deliveryStr }}</span></div>
+              <div style="height:1px;background:#ECEFF4;margin-bottom:14px;"></div>
+              <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px;"><span style="font-weight:700;font-size:15px;">Нийт</span><span style="font-weight:800;font-size:21px;color:#15396B;">{{ grandTotalStr }}</span></div>
+              <button onClick="{{ goContact }}" style="width:100%;border:0;background:#F26C1B;color:#fff;height:50px;border-radius:13px;font-weight:700;font-size:15.5px;cursor:pointer;">Захиалга баталгаажуулах</button>
+            </div>
+          </sc-if>
+        </div>
+        </sc-if>
+
+        <!-- ===== CONTACT ===== -->
+        <sc-if value="{{ isContact }}" hint-placeholder-val="">
+        <div style="padding:18px 18px 28px;">
+          <div style="font-size:22px;font-weight:800;letter-spacing:-.02em;">Үнийн санал авах</div>
+          <p style="margin:8px 0 18px;font-size:13.5px;color:#6B7686;line-height:1.5;">Хэрэгцээгээ бичээрэй — 24 цагийн дотор холбогдоно.</p>
+          <sc-if value="{{ formSent }}" hint-placeholder-val="">
+            <div style="border:1px solid #ECEFF4;border-radius:18px;padding:40px 20px;text-align:center;">
+              <span style="display:inline-flex;align-items:center;justify-content:center;width:64px;height:64px;border-radius:50%;background:#E7F6EF;color:#22A06B;margin-bottom:16px;"><span style="width:32px;height:32px;">{{ icCheck }}</span></span>
+              <div style="font-size:19px;font-weight:800;">Хүсэлт хүлээн авлаа!</div>
+              <p style="margin:10px 0 0;font-size:13.5px;color:#5C6B82;line-height:1.55;">Бид удахгүй <b style="color:#0E1B2E;">{{ form.phone }}</b> руу холбогдоно.</p>
+              <button onClick="{{ resetForm }}" style="margin-top:18px;border:1.5px solid #E2E7F0;background:#fff;color:#15396B;height:44px;padding:0 22px;border-radius:12px;font-weight:600;font-size:14px;cursor:pointer;">Шинэ хүсэлт</button>
+            </div>
+          </sc-if>
+          <sc-if value="{{ formOpen }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;flex-direction:column;gap:14px;">
+              <div><label style="display:block;font-size:13px;font-weight:600;color:#34435A;margin-bottom:6px;">Нэр</label><input value="{{ form.name }}" onChange="{{ onName }}" placeholder="Таны нэр" style="width:100%;height:46px;border:1.5px solid #E2E7F0;border-radius:12px;padding:0 14px;font-size:15px;outline:none;"/></div>
+              <div><label style="display:block;font-size:13px;font-weight:600;color:#34435A;margin-bottom:6px;">Утас</label><input value="{{ form.phone }}" onChange="{{ onPhone }}" placeholder="9900-0000" style="width:100%;height:46px;border:1.5px solid #E2E7F0;border-radius:12px;padding:0 14px;font-size:15px;outline:none;"/></div>
+              <div><label style="display:block;font-size:13px;font-weight:600;color:#34435A;margin-bottom:6px;">Хэрэгцээ</label><textarea value="{{ form.msg }}" onChange="{{ onMsg }}" placeholder="Жишээ: Цагаан финиш замаск 20 шуудай…" style="width:100%;height:100px;border:1.5px solid #E2E7F0;border-radius:12px;padding:12px 14px;font-size:15px;outline:none;resize:none;line-height:1.5;"></textarea></div>
+              <button onClick="{{ submitForm }}" style="width:100%;border:0;background:#15396B;color:#fff;height:50px;border-radius:13px;font-weight:700;font-size:15.5px;cursor:pointer;">Хүсэлт илгээх</button>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px;margin-top:20px;">
+              <sc-for list="{{ contactCards }}" as="c" hint-placeholder-count="3">
+                <div style="display:flex;gap:12px;align-items:flex-start;border:1px solid #ECEFF4;border-radius:14px;padding:14px;">
+                  <span style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:11px;background:#EEF3FA;color:#15396B;flex-shrink:0;"><span style="width:20px;height:20px;">{{ c.icon }}</span></span>
+                  <div><div style="font-weight:700;font-size:13.5px;">{{ c.t }}</div><div style="font-size:13px;color:#5C6B82;margin-top:3px;line-height:1.4;">{{ c.d }}</div></div>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+        </div>
+        </sc-if>
+
+      </div>
+
+      <!-- bottom tab bar -->
+      <div style="flex-shrink:0;border-top:1px solid #F0F2F6;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);display:flex;padding:8px 8px 26px;">
+        <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+          <button onClick="{{ t.go }}" style="flex:1;border:0;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:5px;padding:6px 0;color:{{ t.color }};position:relative;">
+            <span style="width:24px;height:24px;position:relative;">{{ t.icon }}<sc-if value="{{ t.badge }}" hint-placeholder-val=""><span style="position:absolute;top:-5px;right:-8px;background:#F26C1B;color:#fff;font-size:9px;font-weight:700;min-width:15px;height:15px;padding:0 3px;border-radius:8px;display:flex;align-items:center;justify-content:center;">{{ cartCount }}</span></sc-if></span>
+            <span style="font-size:10.5px;font-weight:600;">{{ t.label }}</span>
+          </button>
+        </sc-for>
+      </div>
+
+    </div>
+  </x-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { route:'home', productId:'p1', activeCat:'all', qty:1, cart:{}, form:{name:'',phone:'',msg:''}, formSent:false };
+  icon(d, sw){ const paths = Array.isArray(d)?d:[d]; return React.createElement('svg',{width:'100%',height:'100%',viewBox:'0 0 24 24',fill:'none',stroke:'currentColor',strokeWidth:sw||1.7,strokeLinecap:'round',strokeLinejoin:'round',style:{display:'block'}}, paths.map((p,i)=>React.createElement('path',{key:i,d:p}))); }
+  fmt(n){ return n.toLocaleString('en-US')+'₮'; }
+  go(route){ this.setState({route}); }
+
+  renderVals(){
+    const I=(d,sw)=>this.icon(d,sw);
+    const icSearch=I('M11 11m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0 M21 21l-4.3-4.3');
+    const icCart=I(['M5 7h15l-1.5 9.5a2 2 0 0 1-2 1.5H9a2 2 0 0 1-2-1.7L5 4H2','M9 21a1 1 0 1 0 0-.01 M17 21a1 1 0 1 0 0-.01']);
+    const icPlus=I(['M12 5v14','M5 12h14']);
+    const icHome=I(['M4 11l8-7 8 7','M6 10v9h12v-9']);
+    const icGrid=I(['M4 4h7v7H4z','M13 4h7v7h-7z','M4 13h7v7H4z','M13 13h7v7h-7z']);
+    const icChat=I(['M4 5h16v11H9l-4 4V5z']);
+    const icCheck=I(['M5 12.5l4 4 10-10']);
+    const icArrow=I(['M5 12h14','M13 6l6 6-6 6']);
+    const icPhone=I('M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z');
+    const icPin=I(['M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z','M12 10m-2.5 0a2.5 2.5 0 1 0 5 0a2.5 2.5 0 1 0 -5 0']);
+    const icClock=I(['M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0','M12 7v5l3 2']);
+    const icTrowel=I(['M14 4l6 6-5 1-3-3z','M11 8l-7 7 2 2 7-7','M3 18l3 3']);
+    const icWall=I(['M3 5h18v14H3z','M3 10h18 M3 15h18','M9 5v5 M15 10v5 M9 15v4']);
+    const icBox=I(['M3 7l9-4 9 4v10l-9 4-9-4z','M3 7l9 4 9-4 M12 11v10']);
+    const icDoc=I(['M6 3h8l4 4v14H6z','M14 3v4h4','M9 12h6 M9 16h6']);
+    const ICN={trowel:icTrowel,wall:icWall,box:icBox,doc:icDoc};
+
+    const catMeta={ c1:{name:'Дотор замаск',ic:'trowel'}, c2:{name:'Фасадны замаск',ic:'wall'}, c3:{name:'Плитан цавуу',ic:'box'}, c4:{name:'Knauf материал',ic:'doc'} };
+    const P=[
+      {id:'p1',cat:'c1',brand:'',name:'Цагаан финиш замаск 25кг',pack:'25 кг',price:38000,tag:'Эрэлттэй',rating:'4.9 (124)',ic:'trowel',
+        desc:'Дотор хана, тааз будахын өмнө гадаргууг бэлтгэх гипсэн суурьтай нарийн финиш шпаклёвка. 1–3 мм давхаргаар түрхэж, зүлгэснээр гөлгөр цагаан гадаргуу үүсгэнэ.',
+        bullets:['Дотор хана, тааз','Будгийн өмнөх давхарга','Нимгэн 1–3 мм','Амархан зүлгэгддэг'],
+        specs:[['Суурь','Гипсэн'],['Хэрэглээ','Дотор'],['Давхарга','1–3 мм'],['Зарцуулалт','~1 кг/м²'],['Савлагаа','25 кг']]},
+      {id:'p2',cat:'c1',brand:'',name:'Цагаан старт замаск 25кг',pack:'25 кг',price:32000,tag:'',rating:'4.8 (86)',ic:'trowel',
+        desc:'Хана таазны том хотгор, тэгш бус байдлыг засаж тэгшлэх суурь (старт) замаск. 3–8 мм зузаан түрхэх боломжтой, финиш давхаргын бат бөх суурь болно.',
+        bullets:['3–8 мм зузаан','Том тэгшилгээ','Финиш суурь','Агшилт багатай'],
+        specs:[['Суурь','Гипсэн'],['Хэрэглээ','Дотор'],['Давхарга','3–8 мм'],['Зарцуулалт','~0.9 кг/м²'],['Савлагаа','25 кг']]},
+      {id:'p3',cat:'c2',brand:'',name:'Фасадны хар замаск 25кг',pack:'25 кг',price:36000,tag:'',rating:'4.8 (97)',ic:'wall',
+        desc:'Гадна фасадны ханыг тэгшлэх цементэн суурьтай саарал замаск. Чийг, хүйтэн жавар, температурын хэлбэлзэлд тэсвэртэй тул Монголын уур амьсгалд тохиромжтой.',
+        bullets:['Гадна фасад','Хүйтэн, чийгэнд тэсвэртэй','Цементэн бат бөх','Суурь давхарга'],
+        specs:[['Суурь','Цементэн'],['Хэрэглээ','Гадна'],['Давхарга','2–6 мм'],['Тэсвэр','Хүйтэн/чийг'],['Савлагаа','25 кг']]},
+      {id:'p4',cat:'c2',brand:'',name:'Фасадны цагаан финиш замаск 25кг',pack:'25 кг',price:45000,tag:'',rating:'4.9 (54)',ic:'wall',
+        desc:'Гадна фасадны эцсийн өнгөлгөөнд зориулсан цагаан цементэн-полимер финиш замаск. Усанд тэсвэртэй, гөлгөр цагаан гадаргуу үүсгэж будгийн зарцуулалтыг бууруулна.',
+        bullets:['Гадна финиш','Цагаан гөлгөр','Усанд тэсвэртэй','Будаг хэмнэнэ'],
+        specs:[['Суурь','Цемент-полимер'],['Хэрэглээ','Гадна'],['Давхарга','1–3 мм'],['Тэсвэр','Ус/хүйтэн'],['Савлагаа','25 кг']]},
+      {id:'p5',cat:'c3',brand:'',name:'Плитан цавуу (энгийн) 25кг',pack:'25 кг',price:28000,tag:'Хямд',rating:'4.7 (203)',ic:'box',
+        desc:'Керамик, шаазан плитыг хана шалд наах цементэн суурьтай цавуу. Усаар зуурч, шүдтэй малтай түрхэхэд хялбар, өндөр наалдацтай, гулсалт багатай.',
+        bullets:['Керамик плита','Дотор хана, шал','Усаар зуурдаг','Өндөр наалдац'],
+        specs:[['Суурь','Цементэн'],['Хэрэглээ','Дотор/Гадна'],['Наалдац','≥0.5 МПа'],['Зарцуулалт','~4–6 кг/м²'],['Савлагаа','25 кг']]},
+      {id:'p6',cat:'c3',brand:'',name:'Плитан цавуу (уян хатан) 25кг',pack:'25 кг',price:42000,tag:'',rating:'4.9 (71)',ic:'box',
+        desc:'Том плита, керамогранит, байгалийн чулуунд зориулсан уян хатан цементэн цавуу. Дулааны хэлбэлзэл, чичиргээнд тэсвэртэй, шалан доорх халаалт болон гадна талбайд тохиромжтой.',
+        bullets:['Том плита, керамогранит','Уян хатан','Шалан доорх халаалт','Гадна талбай'],
+        specs:[['Суурь','Цемент-полимер'],['Хэрэглээ','Дотор/Гадна'],['Наалдац','≥1.0 МПа'],['Ангилал','C2TE'],['Савлагаа','25 кг']]},
+      {id:'p7',cat:'c4',brand:'KNAUF',name:'Knauf Fugen холбоос бөглөгч 5кг',pack:'5 кг',price:18000,tag:'Жижиг',rating:'4.9 (158)',ic:'doc',
+        desc:'Гипсэн хавтангийн заадас, шурупны нүх, цууралтыг бэхжүүлэгч туузтай бөглөх Knauf гипсэн шпаклёвка. Хатахдаа цуурдаггүй, амархан зүлгэгддэг. Жижиг ажилд тохиромжтой 5 кг сав.',
+        bullets:['Хавтангийн заадас','Нүх, цууралт бөглөх','Бэхжүүлэгч туузтай','Цуурдаггүй'],
+        specs:[['Брэнд','Knauf'],['Суурь','Гипсэн'],['Хэрэглээ','Дотор'],['Зарцуулалт','~0.3 кг/м²'],['Савлагаа','5 кг']]},
+      {id:'p8',cat:'c4',brand:'KNAUF',name:'Knauf Fugen холбоос бөглөгч 25кг',pack:'25 кг',price:72000,tag:'Том',rating:'4.9 (142)',ic:'doc',
+        desc:'Knauf Fugen гипсэн холбоос бөглөгчийн том сав. Заадас, нүх бөглөх, хавтан болон гипсэн профайл наахад өргөн хэрэглэгдэнэ. Их хэмжээний барилга, засварт хэмнэлттэй.',
+        bullets:['Заадас, нүх бөглөх','Хавтан, профайл наах','Их ажилд хэмнэлттэй','Цуурдаггүй'],
+        specs:[['Брэнд','Knauf'],['Суурь','Гипсэн'],['Хэрэглээ','Дотор'],['Зарцуулалт','~0.3–0.8 кг/м²'],['Савлагаа','25 кг']]},
+      {id:'p9',cat:'c4',brand:'KNAUF',name:'Knauf Uniflott 25кг',pack:'25 кг',price:95000,tag:'',rating:'4.9 (63)',ic:'doc',
+        desc:'Тусгай ирмэгтэй гипсэн хавтангийн заадсыг бэхжүүлэгч туузгүйгээр бөглөх өндөр бат бөх Knauf шпаклёвка. Маш нягт, бат бөх холболт үүсгэж хагарлаас сэргийлнэ.',
+        bullets:['Туузгүй заадас','Маш бат бөх','Тусгай ирмэгт','Хагарлаас сэргийлнэ'],
+        specs:[['Брэнд','Knauf'],['Суурь','Гипсэн'],['Хэрэглээ','Дотор'],['Онцлог','Туузгүй'],['Савлагаа','25 кг']]},
+    ];
+
+    const route=this.state.route;
+    const decorate=(p)=>({...p, icon:ICN[p.ic], priceStr:this.fmt(p.price), open:()=>{this.setState({productId:p.id,qty:1,route:'product'});}, add:(e)=>{ if(e&&e.stopPropagation)e.stopPropagation(); this.addToCart(p.id,1); }});
+    const categories=['c1','c2','c3','c4'].map(id=>{ const m=catMeta[id]; const count=P.filter(p=>p.cat===id).length; return {name:m.name, icon:ICN[m.ic], countLabel:count+' бараа', go:()=>this.setState({activeCat:id,route:'catalog'})}; });
+    const featured=P.filter(p=>['p1','p7','p5','p8'].includes(p.id)).map(decorate);
+    const activeCat=this.state.activeCat;
+    const catalogList=(activeCat==='all'?P:P.filter(p=>p.cat===activeCat));
+    const catalogProducts=catalogList.map(decorate);
+    const catFilters=[{id:'all',name:'Бүгд'}, ...['c1','c2','c3','c4'].map(id=>({id,name:catMeta[id].name}))].map(f=>({ name:f.name, go:()=>this.setState({activeCat:f.id}), bg:activeCat===f.id?'#15396B':'#fff', color:activeCat===f.id?'#fff':'#3A475A', border:activeCat===f.id?'#15396B':'#E2E7F0' }));
+    const catalogCountLabel=catalogList.length+' бараа';
+
+    const prod=P.find(p=>p.id===this.state.productId)||P[0];
+    const product={...prod, icon:ICN[prod.ic], priceStr:this.fmt(prod.price), specs:prod.specs.map((s,i)=>({k:s[0],v:s[1],bg:i%2?'#FAFBFD':'#fff'}))};
+
+    const cart=this.state.cart;
+    const cartItems=Object.keys(cart).filter(id=>cart[id]>0).map(id=>{ const p=P.find(x=>x.id===id); const q=cart[id]; return {...p, icon:ICN[p.ic], qty:q, priceStr:this.fmt(p.price), inc:()=>this.changeQty(id,1), dec:()=>this.changeQty(id,-1)}; });
+    const cartCount=cartItems.reduce((a,b)=>a+b.qty,0);
+    const cartTotal=cartItems.reduce((a,b)=>a+b.price*b.qty,0);
+    const deliveryFee=(cartTotal>=100000||cartTotal===0)?0:8000;
+
+    const form=this.state.form;
+    const setField=(k)=>(e)=>{const v=e.target.value; this.setState(s=>({form:{...s.form,[k]:v}}));};
+
+    const tabDefs=[['home','Нүүр',icHome],['catalog','Бараа',icGrid],['cart','Сагс',icCart],['contact','Холбоо',icChat]];
+    const tabs=tabDefs.map(([r,label,icon])=>({ label, icon, color: route===r?'#15396B':'#9AA6B8', badge: r==='cart'&&cartCount>0, go:()=>this.go(r) }));
+
+    const contactCards=[ {t:'Утас',d:'7700-1234 · 9900-0000',icon:icPhone}, {t:'Хаяг',d:'Улаанбаатар, Баянзүрх дүүрэг, 13-р хороо',icon:icPin}, {t:'Цаг',d:'Да–Ба 09:00–19:00, Бя 10:00–16:00',icon:icClock} ];
+
+    return { icSearch, icCart, icPlus, icCheck, icArrow,
+      categories, featured, catalogProducts, catFilters, catalogCountLabel,
+      product, qty:this.state.qty,
+      cartItems, cartCount, hasCart:cartCount>0, cartEmpty:cartItems.length===0, cartFilled:cartItems.length>0,
+      cartTotalStr:this.fmt(cartTotal), deliveryStr: deliveryFee===0?'Үнэгүй':this.fmt(deliveryFee), grandTotalStr:this.fmt(cartTotal+deliveryFee),
+      form, formSent:this.state.formSent, formOpen:!this.state.formSent,
+      onName:setField('name'), onPhone:setField('phone'), onMsg:setField('msg'),
+      submitForm:()=>this.setState({formSent:true}), resetForm:()=>this.setState({formSent:false, form:{name:'',phone:'',msg:''}}),
+      qtyInc:()=>this.setState(s=>({qty:s.qty+1})), qtyDec:()=>this.setState(s=>({qty:Math.max(1,s.qty-1)})), addCurrent:()=>this.addToCart(prod.id,this.state.qty),
+      tabs, contactCards,
+      goCatalog:()=>this.setState({activeCat:'all',route:'catalog'}), goCart:()=>this.go('cart'), goContact:()=>this.go('contact'),
+      isHome:route==='home', isCatalog:route==='catalog', isProduct:route==='product', isCart:route==='cart', isContact:route==='contact',
+    };
+  }
+  addToCart(id,q){ this.setState(s=>({cart:{...s.cart,[id]:(s.cart[id]||0)+q}})); }
+  changeQty(id,delta){ this.setState(s=>{ const cur=(s.cart[id]||0)+delta; const c={...s.cart}; if(cur<=0) delete c[id]; else c[id]=cur; return {cart:c}; }); }
+}
+</script>
+</body>
+</html>

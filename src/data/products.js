@@ -6,13 +6,25 @@ export const products = [
     descriptionMN: "Дотор засалд зориулагдсан өндөр чанарын цагаан замаск. Хананы гадаргууг тэгшлэн, өнгөлгөөнд бэлтгэнэ.",
     descriptionEN: "High-quality white putty for interior finishing. Levels wall surfaces and prepares for painting.",
     category: "putty",
+    brand: null,
+    price: 32000,
+    rating: 4.8,
+    packMN: "25кг шуудай",
+    packEN: "25kg bag",
     isWeightGuaranteed: true,
     isFreeDelivery: true,
     isStandardFormula: true,
+    featured: true,
     image: "/images/white-putty.jpg",
     inStock: true,
     unit: "уут",
-    unitEN: "bag"
+    unitEN: "bag",
+    specs: [
+      { labelMN: "Жин", labelEN: "Weight", valueMN: "25 кг", valueEN: "25 kg" },
+      { labelMN: "Хэрэглээ", labelEN: "Use", valueMN: "Дотор хана, тааз", valueEN: "Interior walls, ceiling" },
+      { labelMN: "Стандарт", labelEN: "Standard", valueMN: "MNS", valueEN: "MNS" },
+      { labelMN: "Хадгалалтын хугацаа", labelEN: "Shelf life", valueMN: "12 сар", valueEN: "12 months" },
+    ],
   },
   {
     id: 2,
@@ -21,13 +33,25 @@ export const products = [
     descriptionMN: "Гадна засалд зориулагдсан хар замаск. Цаг агаарын хатуу нөхцөлд тэсвэртэй.",
     descriptionEN: "Black putty for exterior finishing. Resistant to harsh weather conditions.",
     category: "putty",
+    brand: null,
+    price: 28000,
+    rating: 4.7,
+    packMN: "25кг шуудай",
+    packEN: "25kg bag",
     isWeightGuaranteed: true,
     isFreeDelivery: true,
     isStandardFormula: true,
+    featured: false,
     image: "/images/black-putty.jpg",
     inStock: true,
     unit: "уут",
-    unitEN: "bag"
+    unitEN: "bag",
+    specs: [
+      { labelMN: "Жин", labelEN: "Weight", valueMN: "25 кг", valueEN: "25 kg" },
+      { labelMN: "Хэрэглээ", labelEN: "Use", valueMN: "Гадна хана", valueEN: "Exterior walls" },
+      { labelMN: "Стандарт", labelEN: "Standard", valueMN: "MNS", valueEN: "MNS" },
+      { labelMN: "Хадгалалтын хугацаа", labelEN: "Shelf life", valueMN: "12 сар", valueEN: "12 months" },
+    ],
   },
   {
     id: 3,
@@ -36,13 +60,25 @@ export const products = [
     descriptionMN: "Хана, шалны хавтан наахад зориулагдсан өндөр бат бэхтэй цавуу.",
     descriptionEN: "High-strength adhesive for wall and floor tiles.",
     category: "adhesive",
+    brand: null,
+    price: 24500,
+    rating: 4.9,
+    packMN: "25кг шуудай",
+    packEN: "25kg bag",
     isWeightGuaranteed: true,
     isFreeDelivery: true,
     isStandardFormula: true,
+    featured: true,
     image: "/images/tile-adhesive.jpg",
     inStock: true,
     unit: "уут",
-    unitEN: "bag"
+    unitEN: "bag",
+    specs: [
+      { labelMN: "Жин", labelEN: "Weight", valueMN: "25 кг", valueEN: "25 kg" },
+      { labelMN: "Хэрэглээ", labelEN: "Use", valueMN: "Хана, шалны плита", valueEN: "Wall & floor tiles" },
+      { labelMN: "Бат бэх", labelEN: "Strength", valueMN: "Өндөр", valueEN: "High" },
+      { labelMN: "Хадгалалтын хугацаа", labelEN: "Shelf life", valueMN: "12 сар", valueEN: "12 months" },
+    ],
   },
   {
     id: 4,
@@ -51,13 +87,25 @@ export const products = [
     descriptionMN: "Германы чанарын Кнауф шавардлага. Дотор засалд зориулагдсан.",
     descriptionEN: "German quality Knauf plaster. For interior finishing.",
     category: "knauf",
+    brand: "KNAUF",
+    price: 52000,
+    rating: 4.9,
+    packMN: "30кг шуудай",
+    packEN: "30kg bag",
     isWeightGuaranteed: true,
     isFreeDelivery: true,
     isStandardFormula: true,
+    featured: true,
     image: "/images/knauf-plaster.jpg",
     inStock: true,
     unit: "уут",
-    unitEN: "bag"
+    unitEN: "bag",
+    specs: [
+      { labelMN: "Жин", labelEN: "Weight", valueMN: "30 кг", valueEN: "30 kg" },
+      { labelMN: "Брэнд", labelEN: "Brand", valueMN: "Knauf (Герман)", valueEN: "Knauf (Germany)" },
+      { labelMN: "Хэрэглээ", labelEN: "Use", valueMN: "Дотор хана, тааз", valueEN: "Interior walls, ceiling" },
+      { labelMN: "Хадгалалтын хугацаа", labelEN: "Shelf life", valueMN: "12 сар", valueEN: "12 months" },
+    ],
   },
   {
     id: 5,
@@ -66,13 +114,25 @@ export const products = [
     descriptionMN: "Барилгын гадна талыг өнгөлөхөд зориулагдсан чанартай фасадны шавардлага.",
     descriptionEN: "Quality facade plaster for building exterior finishing.",
     category: "facade",
+    brand: null,
+    price: 36000,
+    rating: 4.6,
+    packMN: "25кг шуудай",
+    packEN: "25kg bag",
     isWeightGuaranteed: true,
     isFreeDelivery: true,
     isStandardFormula: true,
+    featured: false,
     image: "/images/facade-plaster.jpg",
     inStock: true,
     unit: "уут",
-    unitEN: "bag"
+    unitEN: "bag",
+    specs: [
+      { labelMN: "Жин", labelEN: "Weight", valueMN: "25 кг", valueEN: "25 kg" },
+      { labelMN: "Хэрэглээ", labelEN: "Use", valueMN: "Барилгын гадна тал", valueEN: "Building exterior" },
+      { labelMN: "Стандарт", labelEN: "Standard", valueMN: "MNS", valueEN: "MNS" },
+      { labelMN: "Хадгалалтын хугацаа", labelEN: "Shelf life", valueMN: "12 сар", valueEN: "12 months" },
+    ],
   },
   {
     id: 6,
@@ -81,13 +141,25 @@ export const products = [
     descriptionMN: "Гадаргууг бэлтгэхэд зориулагдсан праймер. Будгийн наалдамхай чанарыг сайжруулна.",
     descriptionEN: "Primer for surface preparation. Improves paint adhesion.",
     category: "primer",
+    brand: null,
+    price: 45000,
+    rating: 4.7,
+    packMN: "10л сав",
+    packEN: "10L bottle",
     isWeightGuaranteed: false,
     isFreeDelivery: true,
     isStandardFormula: true,
+    featured: false,
     image: "/images/primer.jpg",
     inStock: true,
     unit: "лонх",
-    unitEN: "bottle"
+    unitEN: "bottle",
+    specs: [
+      { labelMN: "Эзлэхүүн", labelEN: "Volume", valueMN: "10 л", valueEN: "10 L" },
+      { labelMN: "Хэрэглээ", labelEN: "Use", valueMN: "Гадаргуу бэлтгэх", valueEN: "Surface priming" },
+      { labelMN: "Суурь", labelEN: "Base", valueMN: "Акрил", valueEN: "Acrylic" },
+      { labelMN: "Хадгалалтын хугацаа", labelEN: "Shelf life", valueMN: "18 сар", valueEN: "18 months" },
+    ],
   },
   {
     id: 7,
@@ -96,13 +168,25 @@ export const products = [
     descriptionMN: "Гипсэн шавардлага. Дотор хана, тааз засварлахад тохиромжтой.",
     descriptionEN: "Gypsum plaster. Suitable for interior wall and ceiling repairs.",
     category: "knauf",
+    brand: "KNAUF",
+    price: 48000,
+    rating: 4.8,
+    packMN: "30кг шуудай",
+    packEN: "30kg bag",
     isWeightGuaranteed: true,
     isFreeDelivery: true,
     isStandardFormula: true,
+    featured: true,
     image: "/images/knauf-rotband.jpg",
     inStock: true,
     unit: "уут",
-    unitEN: "bag"
+    unitEN: "bag",
+    specs: [
+      { labelMN: "Жин", labelEN: "Weight", valueMN: "30 кг", valueEN: "30 kg" },
+      { labelMN: "Брэнд", labelEN: "Brand", valueMN: "Knauf (Герман)", valueEN: "Knauf (Germany)" },
+      { labelMN: "Төрөл", labelEN: "Type", valueMN: "Гипсэн шавардлага", valueEN: "Gypsum plaster" },
+      { labelMN: "Хадгалалтын хугацаа", labelEN: "Shelf life", valueMN: "12 сар", valueEN: "12 months" },
+    ],
   },
   {
     id: 8,
@@ -111,14 +195,26 @@ export const products = [
     descriptionMN: "Том хэмжээтэй шалны хавтан наахад зориулагдсан.",
     descriptionEN: "Designed for large format floor tiles.",
     category: "adhesive",
+    brand: null,
+    price: 29000,
+    rating: 4.7,
+    packMN: "25кг шуудай",
+    packEN: "25kg bag",
     isWeightGuaranteed: true,
     isFreeDelivery: true,
     isStandardFormula: true,
+    featured: false,
     image: "/images/floor-adhesive.jpg",
     inStock: true,
     unit: "уут",
-    unitEN: "bag"
-  }
+    unitEN: "bag",
+    specs: [
+      { labelMN: "Жин", labelEN: "Weight", valueMN: "25 кг", valueEN: "25 kg" },
+      { labelMN: "Хэрэглээ", labelEN: "Use", valueMN: "Том хэмжээт шалны плита", valueEN: "Large format floor tiles" },
+      { labelMN: "Бат бэх", labelEN: "Strength", valueMN: "Өндөр", valueEN: "High" },
+      { labelMN: "Хадгалалтын хугацаа", labelEN: "Shelf life", valueMN: "12 сар", valueEN: "12 months" },
+    ],
+  },
 ];
 
 export const categories = [
@@ -128,7 +224,7 @@ export const categories = [
     nameEN: "Putty",
     icon: "Layers",
     descriptionMN: "Цагаан, хар замаск",
-    descriptionEN: "White and black putty"
+    descriptionEN: "White and black putty",
   },
   {
     id: "adhesive",
@@ -136,7 +232,7 @@ export const categories = [
     nameEN: "Adhesive",
     icon: "Grip",
     descriptionMN: "Плята, шалны цавуу",
-    descriptionEN: "Tile and floor adhesive"
+    descriptionEN: "Tile and floor adhesive",
   },
   {
     id: "knauf",
@@ -144,7 +240,7 @@ export const categories = [
     nameEN: "Knauf",
     icon: "Building2",
     descriptionMN: "Германы чанартай бүтээгдэхүүн",
-    descriptionEN: "German quality products"
+    descriptionEN: "German quality products",
   },
   {
     id: "facade",
@@ -152,7 +248,7 @@ export const categories = [
     nameEN: "Facade",
     icon: "Home",
     descriptionMN: "Гадна засалын материал",
-    descriptionEN: "Exterior finishing materials"
+    descriptionEN: "Exterior finishing materials",
   },
   {
     id: "primer",
@@ -160,7 +256,77 @@ export const categories = [
     nameEN: "Primer",
     icon: "Paintbrush",
     descriptionMN: "Гадаргуу бэлтгэх материал",
-    descriptionEN: "Surface preparation materials"
-  }
+    descriptionEN: "Surface preparation materials",
+  },
 ];
 
+/** Live count of products per category (used by category cards + sidebar). */
+export function getCategoryCount(categoryId) {
+  return products.filter((p) => p.category === categoryId).length;
+}
+
+export const reviews = [
+  {
+    id: 1,
+    stars: 5,
+    textMN: "Захиалга өгснөөс хойш маргааш нь хүргэж өгсөн. Замаскны чанар маш сайн, жин нь бүрэн таарч байсан.",
+    textEN: "Delivered the very next day after ordering. The putty quality is excellent and the weight was spot on.",
+    nameMN: "Б. Энхбат",
+    nameEN: "B. Enkhbat",
+    roleMN: "Барилгын засварчин",
+    roleEN: "Renovation contractor",
+    ini: "ЭБ",
+  },
+  {
+    id: 2,
+    stars: 5,
+    textMN: "Кнауф материалыг албан ёсны үнээр авдаг болсон. Мэргэжлийн зөвлөгөө өгдөг нь үнэхээр тус болдог.",
+    textEN: "We now get Knauf materials at official prices. The professional advice they give is genuinely helpful.",
+    nameMN: "Г. Сараа",
+    nameEN: "G. Saraa",
+    roleMN: "Дизайнер",
+    roleEN: "Interior designer",
+    ini: "СГ",
+  },
+  {
+    id: 3,
+    stars: 5,
+    textMN: "Бөөний үнэ хямд, нөөц нь тогтмол байдаг. Томоохон төслүүддээ байнга захиалдаг.",
+    textEN: "Wholesale prices are low and stock is always available. We order regularly for our big projects.",
+    nameMN: "Д. Болд",
+    nameEN: "D. Bold",
+    roleMN: "Төслийн менежер",
+    roleEN: "Project manager",
+    ini: "БД",
+  },
+];
+
+export const deliveryZones = [
+  {
+    id: "ub-central",
+    nameMN: "Улаанбаатар — төв",
+    nameEN: "Ulaanbaatar — central",
+    priceMN: "Үнэгүй (100,000₮+)",
+    priceEN: "Free (100,000₮+)",
+    etaMN: "24 цагийн дотор",
+    etaEN: "Within 24 hours",
+  },
+  {
+    id: "ub-suburb",
+    nameMN: "Улаанбаатар — захын дүүрэг",
+    nameEN: "Ulaanbaatar — suburbs",
+    priceMN: "10,000₮-аас",
+    priceEN: "From 10,000₮",
+    etaMN: "1-2 хоног",
+    etaEN: "1-2 days",
+  },
+  {
+    id: "countryside",
+    nameMN: "Орон нутаг",
+    nameEN: "Countryside",
+    priceMN: "Тээврийн компаниар",
+    priceEN: "Via cargo carrier",
+    etaMN: "2-5 хоног",
+    etaEN: "2-5 days",
+  },
+];
