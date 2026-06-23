@@ -3,7 +3,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://<YOUR-RENDER-URL>/api/:path*"
+      "destination": "https://kk-admin-api.onrender.com/api/:path*"
     },
     {
       "source": "/:path*",
