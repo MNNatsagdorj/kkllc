@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kkllc.admin.domain.category.CategoryMapper">
+
+  <select id="findAll" resultType="Category">
+    SELECT c.id, c.name, c.icon_key, c.sort_order, c.active,
+           c.created_at, c.updated_at,
+           (SELECT COUNT(*) FROM product p WHERE p.category_id = c.id) AS product_count
+    FROM category c
+    ORDER BY c.sort_order, c.id
+  </select>
+
+  <select id="findById" resultType="Category">
+    SELECT id, name, icon_key, sort_order, active, created_at, updated_at
+    FROM category WHERE id = #{id}
+  </select>
+
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO category (name, icon_key, sort_order, active)
+    VALUES (#{name}, #{iconKey}, #{sortOrder}, #{active})
+  </insert>
+
+  <update id="update">
+    UPDATE category
+    SET name = #{name}, icon_key = #{iconKey}, sort_order = #{sortOrder},
+        active = #{active}, updated_at = now()
+    WHERE id = #{id}
+  </update>
+
+  <delete id="deleteById">DELETE FROM category WHERE id = #{id}</delete>
+
+  <select id="countProducts" resultType="long">
+    SELECT COUNT(*) FROM product WHERE category_id = #{id}
+  </select>
+</mapper>

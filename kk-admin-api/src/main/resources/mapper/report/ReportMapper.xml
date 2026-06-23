@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kkllc.admin.domain.report.ReportMapper">
+
+  <select id="salesMonthly" resultType="com.kkllc.admin.domain.report.ReportDto$MonthAmount">
+    SELECT to_char(month,'YYYY-MM') AS month, revenue::bigint AS amount
+    FROM v_revenue_monthly
+    WHERE month >= date_trunc('month', now()) - make_interval(months => (#{months} - 1))
+    ORDER BY month
+  </select>
+
+  <select id="topProducts" resultType="com.kkllc.admin.domain.report.ReportDto$TopProduct">
+    SELECT i.product_id, i.product_name, SUM(i.qty)::bigint AS sold
+    FROM sales_order_item i
+    JOIN sales_order o ON o.id = i.order_id AND o.status = 'delivered'
+    WHERE o.delivered_at >= date_trunc('month', now())
+    GROUP BY i.product_id, i.product_name
+    ORDER BY sold DESC
+    LIMIT #{limit}
+  </select>
+
+  <select id="categoryShare" resultType="com.kkllc.admin.domain.report.ReportDto$NameAmount">
+    SELECT c.name AS name, COALESCE(SUM(i.line_total),0)::bigint AS amount
+    FROM category c
+    LEFT JOIN product p ON p.category_id = c.id
+    LEFT JOIN sales_order_item i ON i.product_id = p.id
+    LEFT JOIN sales_order o ON o.id = i.order_id AND o.status = 'delivered'
+    GROUP BY c.name
+    ORDER BY amount DESC
+  </select>
+
+  <select id="profit" resultType="com.kkllc.admin.domain.report.ReportDto$ProfitRow">
+    SELECT COALESCE(p.revenue,0)::bigint       AS revenue,
+           COALESCE(p.cost,0)::bigint          AS cost,
+           COALESCE(p.gross_profit,0)::bigint  AS gross_profit,
+           COALESCE(p.margin_pct,0)::int       AS margin,
+           CASE WHEN COALESCE(p.revenue,0) > 0
+                THEN ROUND(COALESCE(p.cost,0)::numeric / p.revenue * 100)::int
+                ELSE 0 END                     AS cost_ratio
+    FROM (SELECT to_date(#{month},'YYYY-MM') AS m) base
+    LEFT JOIN v_profit_monthly p ON p.month = base.m
+  </select>
+
+  <select id="revenueVsCost" resultType="com.kkllc.admin.domain.report.ReportDto$RevCost">
+    SELECT to_char(month,'YYYY-MM') AS month,
+           COALESCE(revenue,0)::bigint AS revenue,
+           COALESCE(cost,0)::bigint    AS cost
+    FROM v_profit_monthly
+    WHERE month >= date_trunc('month', now()) - make_interval(months => (#{months} - 1))
+    ORDER BY month
+  </select>
+
+  <select id="spendBySupplier" resultType="com.kkllc.admin.domain.report.ReportDto$NameAmount">
+    SELECT COALESCE(supplier_name,'(тодорхойгүй)') AS name, SUM(total)::bigint AS amount
+    FROM purchase
+    WHERE to_char(purchase_date,'YYYY-MM') = #{month}
+    GROUP BY supplier_name
+    ORDER BY amount DESC
+  </select>
+
+  <select id="spendByMaterial" resultType="com.kkllc.admin.domain.report.ReportDto$NameAmount">
+    SELECT material_name AS name, SUM(total)::bigint AS amount
+    FROM purchase
+    WHERE to_char(purchase_date,'YYYY-MM') = #{month}
+    GROUP BY material_name
+    ORDER BY amount DESC
+  </select>
+</mapper>

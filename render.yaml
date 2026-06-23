@@ -1,0 +1,43 @@
+# Render Blueprint — kk-admin-api (Spring Boot) + PostgreSQL
+# 사용법: Render 대시보드 → New → Blueprint → 이 레포 선택 → Apply.
+# 시크릿(APP_JWT_SECRET)은 sync:false 라 Apply 후 대시보드에서 직접 입력해야 함(public 레포라 커밋 금지).
+databases:
+  - name: kkllc-db
+    plan: free
+    region: singapore        # 몽골에서 가장 가까운 Render 리전
+    databaseName: kkllc
+    user: kkllc
+
+services:
+  - type: web
+    name: kk-admin-api
+    runtime: docker
+    plan: free
+    region: singapore
+    rootDir: kk-admin-api
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /actuator/health
+    autoDeploy: true
+    envVars:
+      # --- DB (kkllc-db 에서 자동 주입) ---
+      - key: DB_HOST
+        fromDatabase: { name: kkllc-db, property: host }
+      - key: DB_PORT
+        fromDatabase: { name: kkllc-db, property: port }
+      - key: DB_NAME
+        fromDatabase: { name: kkllc-db, property: database }
+      - key: DB_USERNAME
+        fromDatabase: { name: kkllc-db, property: user }
+      - key: DB_PASSWORD
+        fromDatabase: { name: kkllc-db, property: password }
+      # --- 앱 설정 ---
+      - key: APP_JWT_SECRET
+        sync: false          # Apply 후 대시보드에서 Base64 256-bit 값 입력
+      - key: TELEGRAM_ENABLED
+        value: "false"
+      # CORS: Vercel rewrites 방식이면 불필요. baseURL 직접 호출 방식이면 Vercel 도메인 입력.
+      - key: CORS_ORIGINS
+        sync: false
+      - key: JAVA_TOOL_OPTIONS
+        value: "-XX:MaxRAMPercentage=70 -XX:+UseSerialGC -Xss512k"

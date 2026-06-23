@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kkllc.admin.domain.purchase.PurchaseMapper">
+
+  <sql id="baseCols">
+    id, purchase_date, material_id, material_name, supplier_id, supplier_name,
+    qty, unit, unit_price, total, pay_status, created_at
+  </sql>
+
+  <sql id="filter">
+    <where>
+      <if test="month != null and month != ''">
+        AND to_char(purchase_date,'YYYY-MM') = #{month}
+      </if>
+      <if test="payStatus != null and payStatus != ''">
+        AND pay_status = #{payStatus}
+      </if>
+    </where>
+  </sql>
+
+  <select id="findPage" resultType="Purchase">
+    SELECT <include refid="baseCols"/>
+    FROM purchase
+    <include refid="filter"/>
+    ORDER BY purchase_date DESC, id DESC
+    LIMIT #{size} OFFSET #{offset}
+  </select>
+
+  <select id="countPage" resultType="long">
+    SELECT COUNT(*) FROM purchase
+    <include refid="filter"/>
+  </select>
+
+  <select id="findById" resultType="Purchase">
+    SELECT <include refid="baseCols"/> FROM purchase WHERE id = #{id}
+  </select>
+
+  <select id="summary" resultType="com.kkllc.admin.domain.purchase.PurchaseDto$Summary">
+    SELECT
+      COALESCE(SUM(total),0)                                       AS month_total,
+      COUNT(*)                                                     AS cnt,
+      COALESCE(SUM(total) FILTER (WHERE pay_status='pending'),0)   AS unpaid,
+      COALESCE(ROUND(AVG(total)),0)                                AS avg
+    FROM purchase
+    WHERE to_char(purchase_date,'YYYY-MM') = #{month}
+  </select>
+
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO purchase
+      (purchase_date, material_id, material_name, supplier_id, supplier_name,
+       qty, unit, unit_price, total, pay_status)
+    VALUES
+      (#{purchaseDate}, #{materialId}, #{materialName}, #{supplierId}, #{supplierName},
+       #{qty}, #{unit}, #{unitPrice}, #{total}, #{payStatus})
+  </insert>
+
+  <update id="updatePayStatus">
+    UPDATE purchase SET pay_status = #{payStatus}, updated_at = now() WHERE id = #{id}
+  </update>
+
+  <delete id="deleteById">DELETE FROM purchase WHERE id = #{id}</delete>
+</mapper>

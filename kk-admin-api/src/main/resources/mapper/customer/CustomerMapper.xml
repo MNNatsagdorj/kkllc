@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kkllc.admin.domain.customer.CustomerMapper">
+
+  <sql id="filter">
+    <where>
+      <if test="q != null and q != ''">
+        AND (s.name ILIKE '%' || #{q} || '%' OR s.phone ILIKE '%' || #{q} || '%')
+      </if>
+      <if test="tier != null and tier != ''">AND s.tier = #{tier}</if>
+    </where>
+  </sql>
+
+  <select id="findPage" resultType="Customer">
+    SELECT s.id, s.name, s.phone, s.tier, s.orders_count, s.total_spent,
+           c.created_at
+    FROM v_customer_stats s
+    JOIN customer c ON c.id = s.id
+    <include refid="filter"/>
+    ORDER BY s.total_spent DESC, s.id DESC
+    LIMIT #{size} OFFSET #{offset}
+  </select>
+
+  <select id="countPage" resultType="long">
+    SELECT COUNT(*)
+    FROM v_customer_stats s
+    <include refid="filter"/>
+  </select>
+
+  <select id="findById" resultType="Customer">
+    SELECT s.id, s.name, s.phone, s.tier, s.orders_count, s.total_spent, c.created_at
+    FROM v_customer_stats s
+    JOIN customer c ON c.id = s.id
+    WHERE s.id = #{id}
+  </select>
+
+  <select id="recentOrders" resultType="com.kkllc.admin.domain.order.SalesOrder">
+    SELECT id, code, customer_id, customer_name, phone, total, status,
+           ordered_at, delivered_at, source
+    FROM sales_order
+    WHERE customer_id = #{customerId}
+    ORDER BY ordered_at DESC, id DESC
+    LIMIT #{limit}
+  </select>
+
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO customer (name, phone, tier) VALUES (#{name}, #{phone}, #{tier})
+  </insert>
+
+  <update id="update">
+    UPDATE customer SET name=#{name}, phone=#{phone}, tier=#{tier}, updated_at=now()
+    WHERE id=#{id}
+  </update>
+
+  <delete id="deleteById">DELETE FROM customer WHERE id=#{id}</delete>
+</mapper>

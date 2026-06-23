@@ -1,0 +1,50 @@
+spring:
+  application:
+    name: kk-admin-api
+  datasource:
+    # DB_URL 직접 지정 가능. 미지정 시 DB_HOST/DB_PORT/DB_NAME 조합(Render fromDatabase 매핑용).
+    url: ${DB_URL:jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5440}/${DB_NAME:kkllc}}
+    username: ${DB_USERNAME:kkllc}
+    password: ${DB_PASSWORD:kkllc}
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+  jackson:
+    default-property-inclusion: non_null
+
+server:
+  # Render 등 PaaS 는 $PORT 를 주입. 로컬은 SERVER_PORT, 둘 다 없으면 8085.
+  port: ${PORT:${SERVER_PORT:8085}}
+
+mybatis:
+  mapper-locations: classpath:mapper/**/*.xml
+  type-aliases-package: com.kkllc.admin
+  configuration:
+    map-underscore-to-camel-case: true
+    default-fetch-size: 100
+    jdbc-type-for-null: 'NULL'
+
+# Application-specific config
+app:
+  cors:
+    # 개발: 로컬호스트 모든 포트 허용(Vite 포트 유동 대응). 운영은 정확한 오리진으로 CORS_ORIGINS 지정.
+    allowed-origins: ${CORS_ORIGINS:http://localhost:*}
+  jwt:
+    # Base64 256-bit secret. Override in production via APP_JWT_SECRET.
+    secret: ${APP_JWT_SECRET:Y2hhbmdlLW1lLXRoaXMtaXMtYS1kZXYtb25seS1zZWNyZXQtMzIrYnl0ZXM=}
+    access-ttl-minutes: 15
+    refresh-ttl-days: 14
+  timezone: Asia/Ulaanbaatar
+
+# Telegram (long polling). Token may also be stored in app_setting table.
+telegram:
+  enabled: ${TELEGRAM_ENABLED:false}
+  bot-token: ${TELEGRAM_BOT_TOKEN:}
+  bot-username: ${TELEGRAM_BOT_USERNAME:}
+  admin-chat-id: ${TELEGRAM_ADMIN_CHAT_ID:}
+
+logging:
+  level:
+    com.kkllc.admin: INFO
+    org.mybatis: WARN

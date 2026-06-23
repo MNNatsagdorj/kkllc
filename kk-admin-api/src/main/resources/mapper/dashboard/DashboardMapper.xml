@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kkllc.admin.domain.dashboard.DashboardMapper">
+
+  <select id="summary" resultType="com.kkllc.admin.domain.dashboard.DashboardDto$Summary">
+    WITH bounds AS (
+      SELECT date_trunc('month', now())::date AS cm,
+             (date_trunc('month', now()) - interval '1 month')::date AS pm
+    ),
+    rev AS (
+      SELECT
+        (SELECT COALESCE(r.revenue,0) FROM v_revenue_monthly r, bounds b WHERE r.month = b.cm) AS cur,
+        (SELECT COALESCE(r.revenue,0) FROM v_revenue_monthly r, bounds b WHERE r.month = b.pm) AS prev
+    ),
+    ord AS (
+      SELECT
+        (SELECT COUNT(*) FROM sales_order o, bounds b
+            WHERE o.status != 'canceled' AND date_trunc('month', o.ordered_at)::date = b.cm) AS cur,
+        (SELECT COUNT(*) FROM sales_order o, bounds b
+            WHERE o.status != 'canceled' AND date_trunc('month', o.ordered_at)::date = b.pm) AS prev
+    )
+    SELECT
+      rev.cur::bigint AS month_revenue,
+      ROUND((rev.cur - rev.prev)::numeric / NULLIF(rev.prev,0) * 100, 1) AS revenue_delta_pct,
+      ord.cur::bigint AS orders_count,
+      ROUND((ord.cur - ord.prev)::numeric / NULLIF(ord.prev,0) * 100, 1) AS orders_delta_pct,
+      (SELECT COUNT(*) FROM customer c, bounds b
+          WHERE date_trunc('month', c.created_at)::date = b.cm)::bigint AS new_customers,
+      COALESCE((SELECT ROUND(AVG(o.total)) FROM sales_order o, bounds b
+          WHERE o.status = 'delivered' AND date_trunc('month', o.delivered_at)::date = b.cm),0)::bigint AS avg_order
+    FROM rev, ord
+  </select>
+
+  <select id="salesChart" resultType="com.kkllc.admin.domain.dashboard.DashboardDto$ChartPoint">
+    SELECT to_char(delivered_at,'MM-DD') AS label, SUM(total)::bigint AS amount
+    FROM sales_order
+    WHERE status = 'delivered'
+      AND delivered_at >= current_date - make_interval(days => (#{days} - 1))
+    GROUP BY delivered_at
+    ORDER BY delivered_at
+  </select>
+
+  <select id="recentOrders" resultType="com.kkllc.admin.domain.order.SalesOrder">
+    SELECT o.id, o.code, o.customer_name, o.phone, o.total, o.status,
+           o.ordered_at, o.delivered_at, o.source,
+           (SELECT string_agg(i.product_name || ' ×' || i.qty, ', ')
+              FROM sales_order_item i WHERE i.order_id = o.id) AS items_summary
+    FROM sales_order o
+    ORDER BY o.created_at DESC, o.id DESC
+    LIMIT #{limit}
+  </select>
+
+  <select id="lowStock" resultType="com.kkllc.admin.domain.product.Product">
+    SELECT id, sku, name, brand, category_id, price, pack, stock, status
+    FROM product
+    WHERE status IN ('low','out')
+    ORDER BY stock ASC, id
+    LIMIT #{limit}
+  </select>
+</mapper>

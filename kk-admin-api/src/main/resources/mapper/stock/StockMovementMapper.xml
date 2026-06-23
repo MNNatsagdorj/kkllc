@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kkllc.admin.domain.stock.StockMovementMapper">
+
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO stock_movement
+      (product_id, qty, reason, ref_type, ref_id, reversal_of, balance_after, note, created_by)
+    VALUES
+      (#{productId}, #{qty}, #{reason}, #{refType}, #{refId}, #{reversalOf},
+       #{balanceAfter}, #{note}, #{createdBy})
+  </insert>
+
+  <select id="findByRef" resultType="StockMovement">
+    SELECT id, product_id, qty, reason, ref_type, ref_id, reversal_of,
+           balance_after, note, created_by, created_at
+    FROM stock_movement
+    WHERE ref_type = #{refType} AND ref_id = #{refId}
+    <if test="reason != null and reason != ''">AND reason = #{reason}</if>
+    ORDER BY id
+  </select>
+
+  <select id="existsReversal" resultType="boolean">
+    SELECT EXISTS(SELECT 1 FROM stock_movement WHERE reversal_of = #{movementId})
+  </select>
+
+  <select id="findByProduct" resultType="StockMovement">
+    SELECT id, product_id, qty, reason, ref_type, ref_id, reversal_of,
+           balance_after, note, created_by, created_at
+    FROM stock_movement
+    WHERE product_id = #{productId}
+    ORDER BY id DESC
+    LIMIT #{limit}
+  </select>
+</mapper>

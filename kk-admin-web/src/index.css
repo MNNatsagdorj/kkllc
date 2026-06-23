@@ -1,0 +1,120 @@
+@import "tailwindcss";
+
+/* 디자인 토큰 (KK Admin standalone 디자인 기준) */
+@theme {
+  --color-bg: #f8f9fb;
+  --color-card: #ffffff;
+  --color-border: #ececef;
+  --color-border-soft: #f1f1f3;
+  --color-row: #f6f6f7;
+  --color-thead: #fcfcfd;
+  --color-chip: #f4f4f5;
+  --color-ink: #18181b;
+  --color-ink2: #09090b;
+  --color-body: #3f3f46;
+  --color-body2: #52525b;
+  --color-muted: #71717a;
+  --color-faint: #a1a1aa;
+  --color-faint2: #c4c4cc;
+  --color-navy: #15396b;
+  --color-navy-soft: #eef3fa;
+  --color-accent: #f26c1b;
+
+  --color-success: #15803d;
+  --color-success-bg: #dcfce7;
+  --color-warn: #b45309;
+  --color-warn-bg: #fef3c7;
+  --color-danger: #b91c1c;
+  --color-danger-bg: #fee2e2;
+  --color-info: #1d4ed8;
+  --color-info-bg: #dbeafe;
+
+  --font-sans: "Inter", "Noto Sans", system-ui, sans-serif;
+  --radius-card: 13px;
+}
+
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; }
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-ink2);
+  font-family: var(--font-sans);
+  letter-spacing: -0.006em;
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: #18181b; color: #fff; }
+
+/* scrollbar */
+.kk-scroll::-webkit-scrollbar { width: 10px; height: 10px; }
+.kk-scroll::-webkit-scrollbar-thumb { background: #e4e4e7; border-radius: 8px; border: 3px solid #f8f9fb; }
+
+/* row + nav hovers */
+.kk-row:hover { background: #fafafa; }
+.kk-navbtn:hover { background: #f4f4f5; }
+
+/* card shorthand */
+.card { background: var(--color-card); border: 1px solid var(--color-border); border-radius: var(--radius-card); box-shadow: 0 1px 2px rgba(16,24,40,.04); }
+
+input, select, textarea, button { font-family: inherit; }
+input::placeholder, textarea::placeholder { color: #a1a1aa; }
+
+@keyframes kkpop { from { opacity:0; transform:translateY(8px) scale(.98); } to { opacity:1; transform:none; } }
+@keyframes kkfade { from { opacity:0; } to { opacity:1; } }
+.kk-pop { animation: kkpop .2s cubic-bezier(.2,.7,.3,1); }
+.kk-fade { animation: kkfade .15s ease; }
+.tnum { font-variant-numeric: tabular-nums; }
+
+/* ===== 반응형 그리드 ===== */
+.r-kpi4 { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+.r-kpi3 { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+.r-main2 { display:grid; grid-template-columns:1.7fr 1fr; gap:16px; }
+.r-rep2 { display:grid; grid-template-columns:1.5fr 1fr; gap:16px; }
+.r-eq2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.r-cats { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+.r-split-quotes { display:grid; grid-template-columns:360px 1fr; gap:16px; align-items:start; }
+.r-split-prod { display:grid; grid-template-columns:1fr 320px; gap:16px; align-items:start; }
+
+/* 가로 스크롤 테이블 (좁은 화면에서 컬럼 뭉개짐 방지) */
+.table-wrap { overflow-x:auto; }
+.table-min { min-width:720px; }
+
+@media (max-width: 1024px) {
+  .r-main2, .r-rep2, .r-eq2, .r-split-quotes, .r-split-prod { grid-template-columns:1fr; }
+  .r-split-prod-panel { position:static !important; }
+}
+@media (max-width: 900px) {
+  .r-kpi4 { grid-template-columns:repeat(2,1fr); }
+  .r-kpi3 { grid-template-columns:repeat(3,1fr); }
+}
+@media (max-width: 640px) {
+  .r-kpi4, .r-kpi3, .r-cats { grid-template-columns:1fr; }
+}
+
+/* ===== 모바일 사이드바 드로어 ===== */
+.app-grid { display:grid; grid-template-columns:248px 1fr; min-height:100vh; }
+.app-sidebar { background:#fff; border-right:1px solid #ececef; display:flex; flex-direction:column; height:100vh; position:sticky; top:0; z-index:40; }
+.app-burger { display:none; }
+.app-scrim { display:none; }
+
+@media (max-width: 1024px) {
+  .app-grid { grid-template-columns:1fr; }
+  .app-sidebar {
+    position:fixed; top:0; left:0; width:248px; height:100vh;
+    transform:translateX(-100%); transition:transform .22s ease; box-shadow:0 12px 40px rgba(0,0,0,.12);
+  }
+  .app-sidebar.open { transform:none; }
+  .app-burger { display:flex !important; }
+  .app-scrim.open { display:block !important; position:fixed; inset:0; background:rgba(9,9,11,.4); z-index:39; }
+}
+
+/* 탑바: 좁은 화면에서 검색/버튼 라벨 축소 */
+@media (max-width: 720px) {
+  .topbar-search { width:140px !important; }
+  .topbar-subtitle { display:none; }
+  .btn-neworder-label { display:none; }
+  .topbar-new { padding:0 10px !important; }
+}
+@media (max-width: 520px) {
+  .topbar-search { display:none !important; }
+}

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kkllc.admin.telegram.TelegramMapper">
+
+  <select id="findByChatId" resultType="com.kkllc.admin.telegram.TelegramUser">
+    SELECT id, chat_id, username, first_name, phone, customer_id, lang,
+           state, state_data::text AS state_data, created_at, updated_at
+    FROM telegram_user WHERE chat_id = #{chatId}
+  </select>
+
+  <insert id="upsertUser">
+    INSERT INTO telegram_user (chat_id, username, first_name, lang)
+    VALUES (#{chatId}, #{username}, #{firstName}, COALESCE(#{lang},'mn'))
+    ON CONFLICT (chat_id) DO UPDATE
+      SET username = EXCLUDED.username,
+          first_name = EXCLUDED.first_name,
+          updated_at = now()
+  </insert>
+
+  <update id="updateState">
+    UPDATE telegram_user
+    SET state = #{state},
+        state_data = <choose><when test="stateData != null">#{stateData}::jsonb</when><otherwise>NULL</otherwise></choose>,
+        updated_at = now()
+    WHERE chat_id = #{chatId}
+  </update>
+
+  <update id="updatePhone">
+    UPDATE telegram_user SET phone = #{phone}, updated_at = now() WHERE chat_id = #{chatId}
+  </update>
+
+  <insert id="insertOutbox">
+    INSERT INTO telegram_outbox (chat_id, kind, payload, sent_ok)
+    VALUES (#{chatId}, #{kind}, #{payload}, #{sentOk})
+  </insert>
+</mapper>
