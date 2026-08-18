@@ -37,6 +37,13 @@ export const SOURCE_LABEL: Record<string, string> = {
   admin: 'Админ', web: 'Вэб', telegram: 'Telegram',
 }
 
+// 고객 유형 (회사 / 개인사업자 / 개인)
+export const TYPE_TAG: Record<string, Tag> = {
+  company: { label: 'Компани', c: '#1d4ed8', bg: '#dbeafe' },
+  business: { label: 'Бизнес эрхлэгч', c: '#a21caf', bg: '#fae8ff' },
+  individual: { label: 'Хувь хүн', c: '#3f3f46', bg: '#f4f4f5' },
+}
+
 // 아바타 팔레트 (배경/글자색)
 const AV: [string, string][] = [
   ['#eef3fa', '#15396B'],

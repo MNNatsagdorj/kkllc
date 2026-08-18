@@ -21,9 +21,15 @@ public class OrderController {
     @GetMapping
     public ApiResponse<PageResult<SalesOrder>> list(
             @RequestParam(required = false) String status,
+            @RequestParam(required = false) String q,
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer size) {
-        return ApiResponse.ok(service.page(status, page, size));
+        return ApiResponse.ok(service.page(status, q, page, size));
+    }
+
+    @GetMapping("/status-counts")
+    public ApiResponse<Map<String, Long>> statusCounts() {
+        return ApiResponse.ok(service.statusCounts());
     }
 
     @GetMapping("/{id}")

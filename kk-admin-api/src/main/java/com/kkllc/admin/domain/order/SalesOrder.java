@@ -18,6 +18,9 @@ public class SalesOrder {
     private LocalDate orderedAt;
     private LocalDate deliveredAt;
     private String note;
+    private String deliveryAddress; // 배달 장소 설명
+    private Double deliveryLat;     // 배달 핀 좌표
+    private Double deliveryLng;
     private String source;          // admin|web|telegram
     private Long tgChatId;
     private OffsetDateTime createdAt;

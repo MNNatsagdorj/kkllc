@@ -43,9 +43,9 @@ public class CustomerController {
     @PostMapping
     public ApiResponse<Map<String, Long>> create(@Valid @RequestBody CustomerDto.SaveReq req) {
         Customer c = new Customer();
-        c.setName(req.name());
-        c.setPhone(req.phone());
-        c.setTier(req.tier() == null ? "new" : req.tier());
+        applyReq(c, req);
+        if (c.getTier() == null) c.setTier("new");
+        if (c.getType() == null) c.setType("individual");
         mapper.insert(c);
         return ApiResponse.ok(Map.of("id", c.getId()));
     }
@@ -54,12 +54,26 @@ public class CustomerController {
     public ApiResponse<Void> update(@PathVariable Long id, @Valid @RequestBody CustomerDto.SaveReq req) {
         Customer c = mapper.findById(id);
         if (c == null) throw new BizException(ErrorCode.NOT_FOUND);
+        String tier = c.getTier();
+        String type = c.getType();
+        applyReq(c, req);
         c.setId(id);
-        c.setName(req.name());
-        c.setPhone(req.phone());
-        if (req.tier() != null) c.setTier(req.tier());
+        if (c.getTier() == null) c.setTier(tier);
+        if (c.getType() == null) c.setType(type);
         mapper.update(c);
         return ApiResponse.ok();
+    }
+
+    private static void applyReq(Customer c, CustomerDto.SaveReq req) {
+        c.setName(req.name());
+        c.setPhone(req.phone());
+        c.setTier(req.tier());
+        c.setType(req.type());
+        c.setAddress(req.address());
+        c.setLat(req.lat());
+        c.setLng(req.lng());
+        c.setEmail(req.email());
+        c.setNote(req.note());
     }
 
     @DeleteMapping("/{id}")

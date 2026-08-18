@@ -4,13 +4,16 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface OrderMapper {
     List<SalesOrder> findPage(@Param("status") String status,
+                              @Param("q") String q,
                               @Param("offset") int offset,
                               @Param("size") int size);
-    long countPage(@Param("status") String status);
+    long countPage(@Param("status") String status, @Param("q") String q);
+    List<Map<String, Object>> statusCounts();
     SalesOrder findById(@Param("id") Long id);
     List<SalesOrderItem> findItems(@Param("orderId") Long orderId);
 

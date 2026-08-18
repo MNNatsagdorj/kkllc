@@ -125,7 +125,8 @@ public class TelegramConversationService {
             Long orderId = orderService.create(new OrderDto.CreateReq(
                     displayName(u), u.getPhone(), null,
                     List.of(new OrderDto.ItemReq(pid, qty)),
-                    null, "Telegram-ээс ирсэн захиалга"), "telegram", chatId);
+                    null, "Telegram-ээс ирсэн захиалга",
+                    null, null, null), "telegram", chatId);
             tgMapper.updateState(chatId, null, null);
             m.send(chatId, "✅ Захиалга хүлээн авлаа (#" + orderId + ").\n"
                     + safe((String) d.get("productName")) + " × " + qty

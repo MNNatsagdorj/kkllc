@@ -5,6 +5,8 @@ import com.kkllc.admin.common.ErrorCode;
 import com.kkllc.admin.common.PageResult;
 import com.kkllc.admin.common.Pageable;
 import com.kkllc.admin.common.event.DomainEvents;
+import com.kkllc.admin.domain.customer.Customer;
+import com.kkllc.admin.domain.customer.CustomerMapper;
 import com.kkllc.admin.domain.product.Product;
 import com.kkllc.admin.domain.product.ProductMapper;
 import com.kkllc.admin.domain.stock.StockService;
@@ -14,31 +16,50 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class OrderService {
 
     private final OrderMapper mapper;
     private final ProductMapper productMapper;
+    private final CustomerMapper customerMapper;
     private final StockService stockService;
     private final ApplicationEventPublisher events;
 
     public OrderService(OrderMapper mapper, ProductMapper productMapper,
+                        CustomerMapper customerMapper,
                         StockService stockService, ApplicationEventPublisher events) {
         this.mapper = mapper;
         this.productMapper = productMapper;
+        this.customerMapper = customerMapper;
         this.stockService = stockService;
         this.events = events;
     }
 
     @Transactional(readOnly = true)
-    public PageResult<SalesOrder> page(String status, Integer page, Integer size) {
+    public PageResult<SalesOrder> page(String status, String q, Integer page, Integer size) {
         int p = Pageable.page(page);
         int s = Pageable.size(size);
-        var items = mapper.findPage(status, Pageable.offset(p, s), s);
-        long total = mapper.countPage(status);
+        var items = mapper.findPage(status, q, Pageable.offset(p, s), s);
+        long total = mapper.countPage(status, q);
         return new PageResult<>(items, total, p, s);
+    }
+
+    /** 상태별 건수 — 목록 탭 뱃지용. 키: 각 status + "all"(전체). */
+    @Transactional(readOnly = true)
+    public Map<String, Long> statusCounts() {
+        Map<String, Long> counts = new LinkedHashMap<>();
+        long all = 0;
+        for (Map<String, Object> row : mapper.statusCounts()) {
+            long cnt = ((Number) row.get("cnt")).longValue();
+            counts.put((String) row.get("status"), cnt);
+            all += cnt;
+        }
+        counts.put("all", all);
+        return counts;
     }
 
     @Transactional(readOnly = true)
@@ -54,12 +75,24 @@ public class OrderService {
     public Long create(OrderDto.CreateReq req, String source, Long tgChatId) {
         SalesOrder o = new SalesOrder();
         o.setCode(mapper.nextCode());
-        o.setCustomerId(req.customerId());
+        o.setCustomerId(resolveCustomer(req));
         o.setCustomerName(req.customerName());
         o.setPhone(req.phone());
         o.setStatus("pending");
         o.setOrderedAt(req.orderedAt() == null ? LocalDate.now() : req.orderedAt());
         o.setNote(req.note());
+        o.setDeliveryAddress(req.deliveryAddress());
+        o.setDeliveryLat(req.deliveryLat());
+        o.setDeliveryLng(req.deliveryLng());
+        // 배달 위치 미지정 시 고객 기본 위치로 보완
+        if (o.getDeliveryLat() == null && o.getCustomerId() != null) {
+            Customer c = customerMapper.findById(o.getCustomerId());
+            if (c != null) {
+                if (o.getDeliveryAddress() == null) o.setDeliveryAddress(c.getAddress());
+                o.setDeliveryLat(c.getLat());
+                o.setDeliveryLng(c.getLng());
+            }
+        }
         o.setSource(source == null ? "admin" : source);
         o.setTgChatId(tgChatId);
 
@@ -84,6 +117,28 @@ public class OrderService {
 
         events.publishEvent(new DomainEvents.OrderCreated(o.getId(), o.getSource()));
         return o.getId();
+    }
+
+    /**
+     * 고객 연결 — 지정된 customerId 우선, 없으면 전화번호로 기존 고객 매칭,
+     * 그래도 없으면 신규 고객 자동 등록(주문 배달 위치를 기본 위치로 저장).
+     */
+    private Long resolveCustomer(OrderDto.CreateReq req) {
+        if (req.customerId() != null) return req.customerId();
+        if (req.phone() != null && !req.phone().isBlank()) {
+            Customer existing = customerMapper.findByPhone(req.phone());
+            if (existing != null) return existing.getId();
+        }
+        Customer c = new Customer();
+        c.setName(req.customerName());
+        c.setPhone(req.phone());
+        c.setTier("new");
+        c.setType("individual");
+        c.setAddress(req.deliveryAddress());
+        c.setLat(req.deliveryLat());
+        c.setLng(req.deliveryLng());
+        customerMapper.insert(c);
+        return c.getId();
     }
 
     /**

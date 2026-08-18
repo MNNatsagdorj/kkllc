@@ -40,6 +40,9 @@ export interface SalesOrder {
   orderedAt: string
   deliveredAt?: string | null
   note?: string | null
+  deliveryAddress?: string | null
+  deliveryLat?: number | null
+  deliveryLng?: number | null
   source: 'admin' | 'web' | 'telegram'
   itemsSummary?: string
   items?: OrderItem[]
@@ -112,8 +115,19 @@ export interface Customer {
   name: string
   phone?: string | null
   tier: 'new' | 'reg' | 'vip'
+  type: 'company' | 'business' | 'individual'
+  address?: string | null
+  lat?: number | null
+  lng?: number | null
+  email?: string | null
+  note?: string | null
   ordersCount?: number
   totalSpent?: number
+}
+
+export interface CustomerDetail {
+  customer: Customer
+  recentOrders: SalesOrder[]
 }
 
 export interface DashboardSummary {

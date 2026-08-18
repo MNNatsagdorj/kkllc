@@ -12,6 +12,7 @@ public interface CustomerMapper {
                             @Param("offset") int offset, @Param("size") int size);
     long countPage(@Param("q") String q, @Param("tier") String tier);
     Customer findById(@Param("id") Long id);
+    Customer findByPhone(@Param("phone") String phone);
     List<SalesOrder> recentOrders(@Param("customerId") Long customerId, @Param("limit") int limit);
     int insert(Customer c);
     int update(Customer c);

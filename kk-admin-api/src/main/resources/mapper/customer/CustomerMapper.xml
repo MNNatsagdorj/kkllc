@@ -14,7 +14,7 @@
 
   <select id="findPage" resultType="Customer">
     SELECT s.id, s.name, s.phone, s.tier, s.orders_count, s.total_spent,
-           c.created_at
+           c.type, c.address, c.lat, c.lng, c.email, c.note, c.created_at
     FROM v_customer_stats s
     JOIN customer c ON c.id = s.id
     <include refid="filter"/>
@@ -29,10 +29,17 @@
   </select>
 
   <select id="findById" resultType="Customer">
-    SELECT s.id, s.name, s.phone, s.tier, s.orders_count, s.total_spent, c.created_at
+    SELECT s.id, s.name, s.phone, s.tier, s.orders_count, s.total_spent,
+           c.type, c.address, c.lat, c.lng, c.email, c.note, c.created_at
     FROM v_customer_stats s
     JOIN customer c ON c.id = s.id
     WHERE s.id = #{id}
+  </select>
+
+  <select id="findByPhone" resultType="Customer">
+    SELECT id, name, phone, tier, type, address, lat, lng, email, note, created_at
+    FROM customer WHERE phone = #{phone}
+    ORDER BY id LIMIT 1
   </select>
 
   <select id="recentOrders" resultType="com.kkllc.admin.domain.order.SalesOrder">
@@ -45,11 +52,15 @@
   </select>
 
   <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-    INSERT INTO customer (name, phone, tier) VALUES (#{name}, #{phone}, #{tier})
+    INSERT INTO customer (name, phone, tier, type, address, lat, lng, email, note)
+    VALUES (#{name}, #{phone}, #{tier}, #{type}, #{address}, #{lat}, #{lng}, #{email}, #{note})
   </insert>
 
   <update id="update">
-    UPDATE customer SET name=#{name}, phone=#{phone}, tier=#{tier}, updated_at=now()
+    UPDATE customer
+    SET name=#{name}, phone=#{phone}, tier=#{tier}, type=#{type},
+        address=#{address}, lat=#{lat}, lng=#{lng}, email=#{email}, note=#{note},
+        updated_at=now()
     WHERE id=#{id}
   </update>
 

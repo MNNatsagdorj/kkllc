@@ -19,7 +19,10 @@ public class OrderDto {
             Long customerId,
             @NotEmpty @Valid List<ItemReq> items,
             LocalDate orderedAt,
-            String note) {}
+            String note,
+            String deliveryAddress,
+            Double deliveryLat,
+            Double deliveryLng) {}
 
     public record StatusReq(@NotBlank String status) {}
 }
