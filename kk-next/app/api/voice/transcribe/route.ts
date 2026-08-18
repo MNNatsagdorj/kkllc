@@ -43,8 +43,8 @@ export async function POST(request: Request) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           config: {
-            encoding: mime.includes('webm') ? 'WEBM_OPUS' : 'ENCODING_UNSPECIFIED',
-            sampleRateHertz: 48000,
+            encoding: mime.includes('wav') ? 'LINEAR16' : mime.includes('webm') ? 'WEBM_OPUS' : 'ENCODING_UNSPECIFIED',
+            sampleRateHertz: mime.includes('wav') ? 16000 : 48000,
             languageCode: 'mn-MN',
           },
           audio: { content: audio.toString('base64') },

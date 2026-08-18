@@ -3,6 +3,7 @@
 // 🎙 음성 주문 입력 (BR-8) — 녹음 → STT → 파싱 → 폼 채움. 절대 자동 저장하지 않음.
 import { useRef, useState } from 'react';
 import { parseVoiceOrder, type ParsedVoice } from '@/lib/voice-parse';
+import { blobToWav16k } from '@/lib/audio-wav';
 import type { Product } from '@/lib/types';
 
 export function VoiceInput({ products, onParsed }: {
@@ -25,9 +26,11 @@ export function VoiceInput({ products, onParsed }: {
       rec.onstop = async () => {
         stream.getTracks().forEach((t) => t.stop());
         setState('busy');
-        const blob = new Blob(chunksRef.current, { type: 'audio/webm' });
+        let blob: Blob = new Blob(chunksRef.current, { type: 'audio/webm' });
+        // Chimege는 16kHz WAV 기대 — 변환 실패 시 원본 그대로 전송(Google 폴백용)
+        try { blob = await blobToWav16k(blob); } catch {}
         const res = await fetch('/api/voice/transcribe', {
-          method: 'POST', headers: { 'Content-Type': 'audio/webm' }, body: blob,
+          method: 'POST', headers: { 'Content-Type': blob.type || 'audio/webm' }, body: blob,
         });
         const json = await res.json();
         setState('idle');
