@@ -50,8 +50,9 @@ export async function PATCH(
   if (uErr) return badRequest(uErr.message);
 
   if (body.status === 'delivered') {
-    const { error: sErr } = await db.rpc('decrement_stock_for_order', { p_order_id: orderId });
-    if (sErr) console.error('stock decrement failed', sErr);
+    // 재고 차감 + 수불 기록 + Зээл(외상) 누적을 한 번에 (0004)
+    const { error: sErr } = await db.rpc('apply_delivered_effects', { p_order_id: orderId });
+    if (sErr) console.error('delivered effects failed', sErr);
   }
 
   await db.from('order_status_history').insert({

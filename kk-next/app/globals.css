@@ -73,6 +73,13 @@ body {
 /* 칸반 가로 스크롤 (태블릿) */
 .kanban-scroll { overflow-x: auto; scrollbar-width: thin; }
 
+/* падаан(영수증) 인쇄: 사이드바 등 숨기고 흰 배경으로 */
+@media print {
+  .no-print { display: none !important; }
+  .blueprint { background: #fff !important; background-image: none !important; }
+  main { padding: 0 !important; }
+}
+
 /* 컨베이어 현재 스텝 펄스 */
 @keyframes pulse-step {
   0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--st-way) 45%, transparent); }

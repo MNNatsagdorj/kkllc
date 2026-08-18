@@ -1,8 +1,10 @@
-// POST /api/orders — 주문 생성 (관리자 드로어 · Phase 2 웹사이트)
+// POST /api/orders — 주문 생성 (관리자 드로어 + 공개 웹사이트)
 // 단가·합계·중량·배송비는 전부 서버에서 계산한다 (03 문서 원칙).
+// 관리자 세션 → source 'manager', 비로그인 → source 'website' (칸반 Шинэ로 직행).
 import { NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase/admin';
-import { requireRole, badRequest } from '@/lib/api-guard';
+import { badRequest } from '@/lib/api-guard';
+import { getProfile } from '@/lib/auth';
 import { calcDelivery, calcTotalWeight } from '@/lib/delivery';
 
 interface ItemReq { product_id: string; qty: number }
@@ -22,8 +24,8 @@ interface CreateReq {
 }
 
 export async function POST(request: Request) {
-  const auth = await requireRole('manager');
-  if ('error' in auth) return auth.error;
+  const profile = await getProfile();
+  const isManager = profile?.role === 'manager';
 
   const body = (await request.json()) as CreateReq;
   if (!body?.customer?.name || !body.customer.phone) return badRequest('Харилцагчийн нэр/утас дутуу');
@@ -85,9 +87,9 @@ export async function POST(request: Request) {
     payment_method: body.payment_method ?? null,
     cash_amount_mnt: body.payment_method === 'cash' ? subtotal + delivery.fee : null,
     scheduled_date: body.scheduled_date ?? null,
-    source: 'manager',
+    source: isManager ? 'manager' : 'website',
     note: body.note ?? null,
-    created_by: auth.profile.userId,
+    created_by: profile?.userId ?? null,
   }).select('id').single();
   if (oErr) return badRequest(oErr.message);
 
@@ -100,7 +102,7 @@ export async function POST(request: Request) {
   if (iErr) return badRequest(iErr.message);
 
   await db.from('order_status_history').insert({
-    order_id: order.id, status: 'new', changed_by: auth.profile.userId,
+    order_id: order.id, status: 'new', changed_by: profile?.userId ?? null,
   });
 
   return NextResponse.json({ id: order.id, delivery }, { status: 201 });
