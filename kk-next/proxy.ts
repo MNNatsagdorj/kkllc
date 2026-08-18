@@ -1,8 +1,17 @@
 // /admin·/driver 접근 가드 + Supabase 세션 쿠키 갱신 (Next 16: middleware → proxy)
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
+import { isSupabaseConfigured } from './lib/env';
 
 export async function proxy(request: NextRequest) {
+  // 환경변수 미설정(.env.local 없음) → 크래시 대신 /setup 안내 페이지로
+  if (!isSupabaseConfigured()) {
+    const url = request.nextUrl.clone();
+    url.pathname = '/setup';
+    url.search = '';
+    return NextResponse.redirect(url);
+  }
+
   let response = NextResponse.next({ request });
 
   const supabase = createServerClient(
