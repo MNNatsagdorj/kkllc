@@ -1,0 +1,13 @@
+{
+  "name": "KK Хүргэлт",
+  "short_name": "KK Хүргэлт",
+  "description": "KK LLC жолоочийн хүргэлтийн апп",
+  "start_url": "/driver",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#F4F2EB",
+  "theme_color": "#0E1B2E",
+  "icons": [
+    { "src": "/icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

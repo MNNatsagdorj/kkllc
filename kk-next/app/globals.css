@@ -1,26 +1,81 @@
 @import "tailwindcss";
 
+/* 07-design-system.md 색상 토큰 */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  /* 브랜드 */
+  --ink:  #0E1B2E;   /* 네이비 베이스 */
+  --ink2: #13253F;   /* 네이비 표면 */
+  --ink3: #1B3355;   /* 네이비 hover/상단바 */
+  --paper:#EFECE3;   /* 석고/플라스터 화이트 */
+  --kraft:#C89B5E;   /* 크라프트 포대 (주 액센트) */
+  --kraft-deep:#A57938;
+  --line: rgba(230,226,214,.14);
+  --mut:  #8FA0B5;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* 상태 색 (semantic — 세 화면 공통) */
+  --st-new:   #5CA8FF;
+  --st-asg:   #E3A63B;
+  --st-load:  #C89B5E;
+  --st-way:   #F07135;
+  --st-done:  #4CAF7D;
+  --st-cancel:#E05252;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* 사이트/기사 라이트 팔레트 */
+  --site-bg:   #F2EFE7;
+  --site-card: #FBFAF5;
+  --site-line: #E3DECF;
+  --site-text: #14263E;
+  --driver-bg: #F4F2EB;
+
+  --font-disp-stack: var(--font-disp), 'Arial Black', sans-serif;
+  --font-body-stack: var(--font-body), 'Inter', 'Segoe UI', sans-serif;
+  --font-mono-stack: var(--font-mono), ui-monospace, monospace;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body-stack);
+  background: var(--site-bg);
+  color: var(--site-text);
 }
+
+/* 숫자 데이터(₮·кг·ш·#번호·전화)는 반드시 mono (07 문서) */
+.mono { font-family: var(--font-mono-stack); }
+.disp { font-family: var(--font-disp-stack); }
+
+/* 블루프린트 그리드 (관리자 다크 배경 장식) */
+.blueprint {
+  background-color: var(--ink);
+  background-image:
+    linear-gradient(rgba(239,236,227,.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(239,236,227,.045) 1px, transparent 1px);
+  background-size: 26px 26px;
+}
+
+/* 상태 태그: pill, 대문자, 상태색 15% 배경 + 45% 보더 */
+.st-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 2px 8px; border-radius: 999px;
+  font-size: 10px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+  background: color-mix(in srgb, var(--st) 15%, transparent);
+  border: 1px solid color-mix(in srgb, var(--st) 45%, transparent);
+  color: var(--st);
+}
+.st-chip::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--st);
+}
+
+:focus-visible { outline: 2px solid var(--kraft); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* 칸반 가로 스크롤 (태블릿) */
+.kanban-scroll { overflow-x: auto; scrollbar-width: thin; }
+
+/* 컨베이어 현재 스텝 펄스 */
+@keyframes pulse-step {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--st-way) 45%, transparent); }
+  50%      { box-shadow: 0 0 0 7px transparent; }
+}
+.step-now { animation: pulse-step 1.6s ease-out infinite; }
