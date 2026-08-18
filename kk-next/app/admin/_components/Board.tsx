@@ -133,6 +133,9 @@ export function Board() {
         <AssignModal
           order={assignFor}
           drivers={drivers}
+          candidates={orders.filter((o) =>
+            o.id !== assignFor.id && o.status === 'new' &&
+            !!o.district && o.district === assignFor.district)}
           onClose={() => setAssignFor(null)}
           onDone={(msg) => { setAssignFor(null); notify(msg); refetch(); }}
         />

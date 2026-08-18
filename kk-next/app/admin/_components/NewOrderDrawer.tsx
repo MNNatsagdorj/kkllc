@@ -7,6 +7,8 @@ import { calcDelivery, calcTotalWeight } from '@/lib/delivery';
 import { Meter } from '@/components/Meter';
 import { fmtWeight, type DriverRow } from '@/lib/queries';
 import { UB_DISTRICTS, fmtMNT, type Product } from '@/lib/types';
+import { VoiceInput } from './VoiceInput';
+import type { ParsedVoice } from '@/lib/voice-parse';
 
 interface Line { product_id: string; qty: number }
 const PAY_OPTS = [
@@ -39,6 +41,26 @@ export function NewOrderDrawer({ products, drivers, onClose, onCreated }: {
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const [matched, setMatched] = useState(false);
+  const [voiced, setVoiced] = useState<Set<string>>(new Set());
+
+  // BR-8: 음성 파싱 결과로 폼 채움(파란 하이라이트) — 저장은 관리자 버튼으로만
+  const applyVoice = (p: ParsedVoice) => {
+    const marks = new Set<string>();
+    if (p.name) { setName(p.name); marks.add('name'); }
+    if (p.phone) { setPhone(p.phone); marks.add('phone'); }
+    if (p.district) { setDistrict(p.district); marks.add('district'); }
+    if (p.items.length) {
+      setLines(p.items.map((i) => ({ product_id: i.product_id, qty: i.qty })));
+      marks.add('items');
+    }
+    setVoiced(marks);
+  };
+  const unmark = (k: string) =>
+    setVoiced((v) => { const n = new Set(v); n.delete(k); return n; });
+  const voiceStyle = (k: string): React.CSSProperties =>
+    voiced.has(k) ? { borderColor: '#5CA8FF', boxShadow: '0 0 0 1px rgba(92,168,255,.45)' } : {};
+  const voiceTag = (k: string) =>
+    voiced.has(k) ? <em style={{ fontStyle: 'normal', color: '#5CA8FF' }}> · дуунаас</em> : null;
 
   // 전화 입력 후 기존 고객 자동 채움 (05 문서)
   const lookupCustomer = async () => {
@@ -112,27 +134,27 @@ export function NewOrderDrawer({ products, drivers, onClose, onCreated }: {
           <button onClick={onClose} style={{ background: 'none', border: 0, color: 'var(--mut)', fontSize: 18, cursor: 'pointer' }}>✕</button>
         </div>
 
-        {/* 음성 입력 자리 (Phase 3, BR-8) */}
-        <button disabled title="Phase 3"
-          style={{ width: '100%', padding: '10px 0', borderRadius: 9, border: '1px dashed color-mix(in srgb, var(--st-way) 45%, transparent)', background: 'transparent', color: 'color-mix(in srgb, var(--st-way) 55%, transparent)', fontSize: 12.5, fontWeight: 700, marginBottom: 16, cursor: 'default' }}>
-          🎙 Дуугаар бүртгэх — удахгүй (P3)
-        </button>
+        {/* 음성 입력 (BR-8) */}
+        <VoiceInput products={products} onParsed={applyVoice} />
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
             <div>
-              <span style={label}>Утас {matched && <em style={{ color: 'var(--st-done)', fontStyle: 'normal' }}>· бүртгэлтэй ✓</em>}</span>
-              <input className="mono" style={input} value={phone} onChange={(e) => setPhone(e.target.value)} onBlur={lookupCustomer} placeholder="9911-2233" />
+              <span style={label}>Утас {matched && <em style={{ color: 'var(--st-done)', fontStyle: 'normal' }}>· бүртгэлтэй ✓</em>}{voiceTag('phone')}</span>
+              <input className="mono" style={{ ...input, ...voiceStyle('phone') }} value={phone}
+                onChange={(e) => { setPhone(e.target.value); unmark('phone'); }} onBlur={lookupCustomer} placeholder="9911-2233" />
             </div>
             <div>
-              <span style={label}>Нэр</span>
-              <input style={input} value={name} onChange={(e) => setName(e.target.value)} placeholder="Мөнх трейд ХХК" />
+              <span style={label}>Нэр{voiceTag('name')}</span>
+              <input style={{ ...input, ...voiceStyle('name') }} value={name}
+                onChange={(e) => { setName(e.target.value); unmark('name'); }} placeholder="Мөнх трейд ХХК" />
             </div>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '110px 1fr', gap: 10 }}>
             <div>
-              <span style={label}>Дүүрэг</span>
-              <select style={input} value={district} onChange={(e) => setDistrict(e.target.value)}>
+              <span style={label}>Дүүрэг{voiceTag('district')}</span>
+              <select style={{ ...input, ...voiceStyle('district') }} value={district}
+                onChange={(e) => { setDistrict(e.target.value); unmark('district'); }}>
                 <option value="">—</option>
                 {UB_DISTRICTS.map((d) => <option key={d} value={d}>{d}</option>)}
               </select>
@@ -145,7 +167,7 @@ export function NewOrderDrawer({ products, drivers, onClose, onCreated }: {
 
           {/* 품목 */}
           <div>
-            <span style={label}>Бараа</span>
+            <span style={label}>Бараа{voiceTag('items')}</span>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
               {lines.map((l, i) => {
                 const p = products.find((x) => x.id === l.product_id);

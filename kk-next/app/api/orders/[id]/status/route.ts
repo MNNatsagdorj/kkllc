@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { requireRole, badRequest } from '@/lib/api-guard';
 import { canTransition } from '@/lib/status';
+import { sendSMS } from '@/lib/sms';
 import type { Order, OrderStatus } from '@/lib/types';
 
 interface StatusReq {
@@ -53,6 +54,13 @@ export async function PATCH(
     // 재고 차감 + 수불 기록 + Зээл(외상) 누적을 한 번에 (0004)
     const { error: sErr } = await db.rpc('apply_delivered_effects', { p_order_id: orderId });
     if (sErr) console.error('delivered effects failed', sErr);
+  }
+
+  // P3: 출발 시 고객 SMS "Ачаа тань замд гарлаа" (SMS_API_URL 미설정 시 skip)
+  if (body.status === 'en_route' && order.customer_id) {
+    const { data: cust } = await db.from('customers')
+      .select('phone').eq('id', order.customer_id).single();
+    await sendSMS(cust?.phone, `Ачаа тань замд гарлаа. Захиалга #${orderId} — KK LLC ☎ 7011-2233`);
   }
 
   await db.from('order_status_history').insert({

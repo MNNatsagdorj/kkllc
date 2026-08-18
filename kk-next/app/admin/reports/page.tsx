@@ -7,6 +7,8 @@ import { fmtMNT } from '@/lib/types';
 
 interface DeliveredOrder {
   id: number; delivered_at: string; subtotal_mnt: number; delivery_fee_mnt: number;
+  total_weight_kg: number;
+  driver: { name: string } | null;
   items: { qty: number; unit_price_mnt: number; product: { name_mn: string; band_color: string | null } | null }[];
 }
 
@@ -21,12 +23,12 @@ export default function ReportsPage() {
   useEffect(() => {
     const since = new Date(Date.now() - 30 * 86400_000).toISOString().slice(0, 10);
     supabase.from('orders')
-      .select('id, delivered_at, subtotal_mnt, delivery_fee_mnt, items:order_items(qty, unit_price_mnt, product:products(name_mn, band_color))')
+      .select('id, delivered_at, subtotal_mnt, delivery_fee_mnt, total_weight_kg, driver:drivers(name), items:order_items(qty, unit_price_mnt, product:products(name_mn, band_color))')
       .eq('status', 'delivered').gte('delivered_at', since)
       .then(({ data }) => setOrders((data ?? []) as unknown as DeliveredOrder[]));
   }, [supabase]);
 
-  const { days, monthTotal, monthCount, products } = useMemo(() => {
+  const { days, monthTotal, monthCount, products, driverKpi } = useMemo(() => {
     const today = new Date();
     const days: { date: string; total: number }[] = [];
     for (let i = 13; i >= 0; i--) {
@@ -49,7 +51,17 @@ export default function ReportsPage() {
       }
     }
     const products = [...prod.entries()].sort((a, b) => b[1].qty - a[1].qty);
-    return { days, monthTotal, monthCount, products };
+
+    // P3: 기사 KPI (최근 30일 배송완료 기준)
+    const kpi = new Map<string, { count: number; revenue: number; weight: number }>();
+    for (const o of orders) {
+      const name = o.driver?.name ?? '—';
+      const k = kpi.get(name) ?? { count: 0, revenue: 0, weight: 0 };
+      k.count++; k.revenue += o.subtotal_mnt + o.delivery_fee_mnt; k.weight += Number(o.total_weight_kg);
+      kpi.set(name, k);
+    }
+    const driverKpi = [...kpi.entries()].sort((a, b) => b[1].count - a[1].count);
+    return { days, monthTotal, monthCount, products, driverKpi };
   }, [orders]);
 
   const maxDay = Math.max(1, ...days.map((d) => d.total));
@@ -105,6 +117,27 @@ export default function ReportsPage() {
             </div>
           ))}
           {products.length === 0 && <div style={{ fontSize: 13, color: 'var(--mut)' }}>Сүүлийн 30 өдөрт хүргэгдсэн захиалга алга.</div>}
+        </div>
+      </div>
+
+      {/* 기사 KPI (P3) */}
+      <div style={card}>
+        <div style={{ fontSize: 12.5, fontWeight: 800, color: '#EFECE3', marginBottom: 14 }}>Жолоочийн KPI (сүүлийн 30 өдөр)</div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
+          {driverKpi.map(([name, k]) => (
+            <div key={name} style={{ display: 'grid', gridTemplateColumns: '34px 1fr 90px 90px 130px', gap: 12, alignItems: 'center', fontSize: 12.5 }}>
+              <span style={{ width: 28, height: 28, borderRadius: '50%', background: 'var(--ink3)', color: 'var(--kraft)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: 12 }}>
+                {name.charAt(0)}
+              </span>
+              <span style={{ color: '#EFECE3', fontWeight: 700 }}>{name}</span>
+              <span className="mono" style={{ textAlign: 'right', color: '#EFECE3', fontWeight: 700 }}>{k.count} хүргэлт</span>
+              <span className="mono" style={{ textAlign: 'right', color: 'var(--mut)' }}>
+                {k.weight >= 1000 ? `${(k.weight / 1000).toFixed(1)}т` : `${Math.round(k.weight)}кг`}
+              </span>
+              <span className="mono" style={{ textAlign: 'right', color: 'var(--mut)' }}>{fmtMNT(k.revenue)}</span>
+            </div>
+          ))}
+          {driverKpi.length === 0 && <div style={{ fontSize: 13, color: 'var(--mut)' }}>Мэдээлэл алга.</div>}
         </div>
       </div>
     </div>
