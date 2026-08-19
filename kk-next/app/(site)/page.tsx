@@ -43,7 +43,7 @@ export default async function Home() {
                 </a>
               </div>
               <div style={{ display: 'flex', gap: 30, flexWrap: 'wrap' }}>
-                {[['10+ жил', 'туршлага'], [`${products.length} нэр төрөл`, 'бүтээгдэхүүн'], ['24 цаг', 'дотор хүргэлт']].map(([v, l]) => (
+                {[['10+ жил', 'туршлага'], [`${products.length} нэр төрөл`, 'бүтээгдэхүүн']].map(([v, l]) => (
                   <div key={l}>
                     <div className="disp" style={{ fontSize: 22, color: 'var(--site-text)' }}>{v}</div>
                     <div style={{ fontSize: 12, color: '#626B76' }}>{l}</div>
