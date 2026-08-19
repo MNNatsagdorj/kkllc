@@ -64,9 +64,11 @@ body {
   letter-spacing: .01em;
 }
 
-/* 사이트 모바일 (≤640px) — 인라인 스타일을 덮어야 해서 !important 사용 */
+/* 사이트 내비 — 데스크톱 링크는 960px 아래에서 실제로 줄바꿈되므로
+   그 아래는 전부 모바일 스트립으로 전환 (인라인 스타일을 덮어야 해서 !important) */
 .site-nav-mobile { display: none; }
-@media (max-width: 640px) {
+@media (max-width: 960px) {
+  .site-nav-desktop { display: none !important; }
   .site-nav-mobile {
     display: flex; gap: 22px; overflow-x: auto; scrollbar-width: none;
     padding: 0 16px; background: #0F1216;
@@ -75,11 +77,20 @@ body {
     color: rgba(255, 255, 255, .7); font-size: 12.5px; font-weight: 600;
     padding: 10px 0; white-space: nowrap; flex: none;
   }
+}
+
+/* 사이트 모바일 (≤640px) */
+@media (max-width: 640px) {
+  .site-phone-top { display: none !important; } /* 전화는 모바일 스트립에 있음 */
   .site-brand-sub { display: none !important; }
+  .site-hide-m { display: none !important; }
   .site-cta-quote { padding: 9px 12px !important; font-size: 12px !important; }
   .site-c .hero-pad { padding: 34px 16px !important; }
-  .site-c .hero-visual { min-height: 210px !important; gap: 2px !important; }
-  .site-c .hero-visual .sack-wrap { transform: scale(1) !important; }
+  .site-c .hero-visual {
+    min-height: 170px !important; gap: 2px !important; padding-top: 52px !important;
+  }
+  .site-c .hero-visual .sack-wrap { transform: scale(1.05) !important; }
+  .site-c .hero-visual .hero-badge { top: 12px !important; font-size: 12px !important; padding: 7px 13px !important; }
   .site-c .chat-float { right: 12px !important; bottom: 84px !important; }
   .site-c .chat-float a { width: 44px !important; height: 44px !important; }
 }

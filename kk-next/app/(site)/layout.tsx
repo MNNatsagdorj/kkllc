@@ -15,13 +15,13 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
               <span className="site-brand-sub" style={{ fontSize: 8, letterSpacing: '.2em', color: 'rgba(255,255,255,.5)', fontWeight: 600 }}>ХУУРАЙ ЗУУРМАГИЙН ҮЙЛДВЭР</span>
             </span>
           </Link>
-          <div style={{ display: 'flex', gap: 18, marginLeft: 10 }} className="max-sm:hidden">
+          <div style={{ display: 'flex', gap: 18, marginLeft: 10 }} className="site-nav-desktop">
             <Link href="/#products" style={navLink}>Бүтээгдэхүүн</Link>
             <Link href="/track" style={navLink}>Захиалга шалгах</Link>
             <Link href="/#about" style={navLink}>Бидний тухай</Link>
           </div>
           <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 12 }}>
-            <a href="tel:88204057" className="mono max-sm:hidden"
+            <a href="tel:88204057" className="mono site-phone-top"
               style={{ color: 'rgba(255,255,255,.75)', fontSize: 12.5, fontWeight: 700, whiteSpace: 'nowrap' }}>
               ☎ 8820-4057
             </a>

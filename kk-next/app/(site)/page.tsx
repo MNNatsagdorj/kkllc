@@ -59,7 +59,7 @@ export default async function Home() {
                 <Sack band={p.band_color} />
               </div>
             ))}
-            <div className="disp" style={{ position: 'absolute', top: 20, left: 0, background: 'var(--accent)', color: 'var(--accent-ink)', padding: '9px 17px', fontSize: 14 }}>
+            <div className="disp hero-badge" style={{ position: 'absolute', top: 20, left: 0, background: 'var(--accent)', color: 'var(--accent-ink)', padding: '9px 17px', fontSize: 14 }}>
               2026 КАТАЛОГ
             </div>
           </div>
@@ -72,7 +72,7 @@ export default async function Home() {
           <h2 className="disp" style={{ fontSize: 'clamp(21px, 4vw, 28px)', textTransform: 'uppercase', color: 'var(--site-text)', margin: 0 }}>
             Эрэлттэй бүтээгдэхүүн
           </h2>
-          <a href="tel:88204057" style={{ fontSize: 13.5, fontWeight: 700, borderBottom: '2px solid var(--accent)', paddingBottom: 2, color: 'var(--site-text)' }} className="max-sm:hidden">
+          <a href="tel:88204057" style={{ fontSize: 13.5, fontWeight: 700, borderBottom: '2px solid var(--accent)', paddingBottom: 2, color: 'var(--site-text)' }} className="site-hide-m">
             Бөөний үнэ асуух →
           </a>
         </div>
