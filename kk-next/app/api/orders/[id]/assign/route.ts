@@ -40,6 +40,7 @@ export async function POST(
       { warning: cap.message, trips: cap.trips }, { status: 409 });
   }
 
+  const prevDriverId: string | null = order.driver_id ?? null;
   const patch: Record<string, unknown> = { driver_id: body.driver_id };
   const becameAssigned = order.status === 'new';
   if (becameAssigned) patch.status = 'assigned';
@@ -63,6 +64,15 @@ export async function POST(
     `Шинэ хүргэлт #${orderId} хуваарилагдлаа`,
     `${order.district ?? ''} · ${summary} · ${tons}${cap.trips > 1 ? ` — ${cap.trips} рейс` : ''}`,
   );
+
+  // 기사 교체 시 이전 기사에게 취소 알림
+  if (prevDriverId && prevDriverId !== body.driver_id) {
+    const { data: prev } = await db.from('drivers')
+      .select('fcm_token').eq('id', prevDriverId).single();
+    await sendPush(prev?.fcm_token,
+      `Хүргэлт #${orderId} өөр жолоочид шилжлээ`,
+      'Таны жагсаалтаас хасагдлаа.');
+  }
 
   return NextResponse.json({ ok: true, pushed, trips: cap.trips });
 }

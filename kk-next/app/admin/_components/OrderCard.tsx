@@ -53,15 +53,32 @@ export function OrderCard({ order, onAssign }: { order: OrderRow; onAssign: () =
 
       <div style={{ borderTop: '1px solid var(--line)', marginTop: 9, paddingTop: 8 }}>
         {order.driver ? (
-          <div style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: 11.5, color: 'var(--mut)' }}>
-            <span style={{ width: 20, height: 20, borderRadius: '50%', background: 'var(--ink3)', color: 'var(--kraft)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, fontWeight: 800 }}>
-              {order.driver.name.charAt(0)}
-            </span>
-            {order.driver.name}
-            {order.driver.vehicle && (
-              <span className="mono">· {order.driver.vehicle.model} {order.driver.vehicle.plate}</span>
-            )}
-          </div>
+          // 적재 시작 전(new/assigned)까지는 눌러서 기사 교체 가능
+          (order.status === 'new' || order.status === 'assigned') ? (
+            <button onClick={onAssign} title="Жолооч солих"
+              style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: 11.5, color: 'var(--mut)', width: '100%', background: 'none', border: 0, padding: 0, cursor: 'pointer', textAlign: 'left' }}>
+              <span style={{ width: 20, height: 20, borderRadius: '50%', background: 'var(--ink3)', color: 'var(--kraft)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, fontWeight: 800 }}>
+                {order.driver.name.charAt(0)}
+              </span>
+              {order.driver.name}
+              {order.driver.vehicle && (
+                <span className="mono">· {order.driver.vehicle.model} {order.driver.vehicle.plate}</span>
+              )}
+              <span style={{ marginLeft: 'auto', fontSize: 10.5, fontWeight: 700, color: 'var(--kraft)', border: '1px dashed color-mix(in srgb, var(--kraft) 45%, transparent)', borderRadius: 6, padding: '2px 7px' }}>
+                солих
+              </span>
+            </button>
+          ) : (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: 11.5, color: 'var(--mut)' }}>
+              <span style={{ width: 20, height: 20, borderRadius: '50%', background: 'var(--ink3)', color: 'var(--kraft)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, fontWeight: 800 }}>
+                {order.driver.name.charAt(0)}
+              </span>
+              {order.driver.name}
+              {order.driver.vehicle && (
+                <span className="mono">· {order.driver.vehicle.model} {order.driver.vehicle.plate}</span>
+              )}
+            </div>
+          )
         ) : (
           <button onClick={onAssign}
             style={{ width: '100%', padding: '7px 0', borderRadius: 8, fontSize: 12, fontWeight: 700, background: 'transparent', color: 'var(--kraft)', border: '1px dashed color-mix(in srgb, var(--kraft) 55%, transparent)', cursor: 'pointer' }}>
