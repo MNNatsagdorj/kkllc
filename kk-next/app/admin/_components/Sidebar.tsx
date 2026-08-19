@@ -11,6 +11,7 @@ const MENU: { label: string; href: string }[] = [
   { label: 'Жолооч', href: '/admin/drivers' },
   { label: 'Нөөц', href: '/admin/inventory' },
   { label: 'Харилцагч', href: '/admin/customers' },
+  { label: 'Гэрчилгээ', href: '/admin/certificates' },
   { label: 'Тайлан', href: '/admin/reports' },
 ];
 

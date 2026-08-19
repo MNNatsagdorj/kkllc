@@ -17,6 +17,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
           </Link>
           <div style={{ display: 'flex', gap: 18, marginLeft: 10 }} className="site-nav-desktop">
             <Link href="/#products" style={navLink}>Бүтээгдэхүүн</Link>
+            <Link href="/#certificates" style={navLink}>Гэрчилгээ</Link>
             <Link href="/track" style={navLink}>Захиалга шалгах</Link>
             <Link href="/#about" style={navLink}>Бидний тухай</Link>
           </div>
@@ -34,6 +35,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
         {/* 모바일 전용 내비 (데스크톱 링크가 숨는 ≤640px에서만 표시) */}
         <nav className="site-nav-mobile">
           <Link href="/#products">Бүтээгдэхүүн</Link>
+          <Link href="/#certificates">Гэрчилгээ</Link>
           <Link href="/track">Захиалга шалгах</Link>
           <Link href="/#about">Бидний тухай</Link>
           <a href="tel:88204057" className="mono">☎ 8820-4057</a>
@@ -50,6 +52,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
           </div>
           <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
             <Link href="/#products" style={{ color: 'rgba(255,255,255,.6)' }}>Бүтээгдэхүүн</Link>
+            <Link href="/#certificates" style={{ color: 'rgba(255,255,255,.6)' }}>Гэрчилгээ</Link>
             <Link href="/track" style={{ color: 'rgba(255,255,255,.6)' }}>Захиалга шалгах</Link>
           </div>
           <div style={{ color: 'rgba(255,255,255,.4)', fontSize: 12 }} className="mono">

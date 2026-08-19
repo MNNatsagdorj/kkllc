@@ -7,15 +7,15 @@ import { addToCart } from '@/lib/cart';
 import { PRODUCT_PHOTOS } from '@/lib/product-photos';
 import { fmtMNT, type Product } from '@/lib/types';
 
-export function Catalog({ products }: { products: Product[] }) {
+export function Catalog({ products, certifiedIds = [] }: { products: Product[]; certifiedIds?: string[] }) {
   return (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 18 }}>
-      {products.map((p) => <Card key={p.id} p={p} />)}
+      {products.map((p) => <Card key={p.id} p={p} certified={certifiedIds.includes(p.id)} />)}
     </div>
   );
 }
 
-function Card({ p }: { p: Product }) {
+function Card({ p, certified = false }: { p: Product; certified?: boolean }) {
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
 
@@ -49,6 +49,12 @@ function Card({ p }: { p: Product }) {
         <span className="mono" style={{ position: 'absolute', top: 10, right: 10, border: '1px solid rgba(20,24,29,.2)', color: '#626B76', fontSize: 10, fontWeight: 700, letterSpacing: '.06em', padding: '3px 7px' }}>
           {p.weight_kg} КГ
         </span>
+        {certified && (
+          <a href="#certificates"
+            style={{ position: 'absolute', top: 10, left: 10, fontSize: 9.5, fontWeight: 800, letterSpacing: '.05em', color: '#2E7D4F', background: '#fff', border: '1px solid rgba(46,125,79,.45)', padding: '3px 7px' }}>
+            ✓ ГЭРЧИЛГЭЭТЭЙ
+          </a>
+        )}
       </div>
       <div style={{ padding: '15px 15px 16px', display: 'flex', flexDirection: 'column', gap: 4, flex: 1 }}>
         <div className="disp" style={{ fontSize: 18, color: 'var(--site-text)' }}>{p.name_mn}</div>

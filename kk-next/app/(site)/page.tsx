@@ -6,16 +6,39 @@ import { Sack } from '@/components/Sack';
 import { Catalog } from './_components/Catalog';
 import { CartBar } from './_components/CartBar';
 import { BagCalculator } from './_components/BagCalculator';
+import { Certificates, type CertItem } from './_components/Certificates';
 
 export const dynamic = 'force-dynamic';
 
 const wrap: React.CSSProperties = { maxWidth: 1240, margin: '0 auto', padding: '0 20px' };
 
+interface CertRow {
+  id: string; title_mn: string; type: 'certificate' | 'test_report';
+  issued_by: string | null; issued_at: string | null; product_id: string | null;
+  file_path: string; product: { name_mn: string } | null;
+}
+
 export default async function Home() {
   const supabase = await createClient();
-  const { data } = await supabase.from('products')
-    .select('*').eq('is_active', true).order('price_mnt', { ascending: false });
+  const [{ data }, certRes] = await Promise.all([
+    supabase.from('products').select('*').eq('is_active', true).order('price_mnt', { ascending: false }),
+    supabase.from('certificates')
+      .select('id, title_mn, type, issued_by, issued_at, product_id, file_path, product:products(name_mn)')
+      .eq('is_active', true).order('sort').order('created_at', { ascending: false }),
+  ]);
   const products = (data ?? []) as Product[];
+
+  // 0008 미적용 시 certRes.error — 섹션만 숨기고 홈은 정상 동작
+  const certRows = (certRes.data ?? []) as unknown as CertRow[];
+  const certBase = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/certificates/`;
+  const certs: CertItem[] = certRows.map((c) => ({
+    id: c.id, title_mn: c.title_mn, type: c.type,
+    issued_by: c.issued_by, issued_at: c.issued_at,
+    product_name: c.product?.name_mn ?? null,
+    url: certBase + c.file_path,
+    isImage: /\.(jpe?g|png|webp|gif)$/i.test(c.file_path),
+  }));
+  const certifiedIds = [...new Set(certRows.map((c) => c.product_id).filter(Boolean))] as string[];
 
   return (
     <div style={{ paddingBottom: 90 }}>
@@ -76,8 +99,11 @@ export default async function Home() {
             Бөөний үнэ асуух →
           </a>
         </div>
-        <Catalog products={products} />
+        <Catalog products={products} certifiedIds={certifiedIds} />
       </section>
+
+      {/* 인증서·시험성적서 */}
+      <Certificates certs={certs} />
 
       {/* 우트 계산기 */}
       <BagCalculator />
