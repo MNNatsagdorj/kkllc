@@ -2,6 +2,7 @@
 
 // 신규 주문 드로어 (05 문서) — 입력 즉시 합계·중량·100ш 미터 자동 계산
 import { useMemo, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { createClient } from '@/lib/supabase/client';
 import { calcDelivery, calcTotalWeight } from '@/lib/delivery';
 import { Meter } from '@/components/Meter';
@@ -9,6 +10,16 @@ import { fmtWeight, type DriverRow } from '@/lib/queries';
 import { UB_DISTRICTS, fmtMNT, type Product } from '@/lib/types';
 import { VoiceInput } from './VoiceInput';
 import type { ParsedVoice } from '@/lib/voice-parse';
+
+// Leaflet은 SSR 불가 — 클라이언트 전용 로딩
+const PinMap = dynamic(() => import('@/components/PinMap').then((m) => m.PinMap), {
+  ssr: false,
+  loading: () => (
+    <div style={{ height: 190, borderRadius: 10, border: '1px solid var(--line)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--mut)', fontSize: 12.5 }}>
+      Газрын зураг ачаалж байна…
+    </div>
+  ),
+});
 
 interface Line { product_id: string; qty: number }
 const PAY_OPTS = [
@@ -42,6 +53,8 @@ export function NewOrderDrawer({ products, drivers, onClose, onCreated }: {
   const [err, setErr] = useState<string | null>(null);
   const [matched, setMatched] = useState(false);
   const [voiced, setVoiced] = useState<Set<string>>(new Set());
+  // 배달 위치 핀 (OSM) — 저장되면 기사 앱에서 구글맵 라우팅 딥링크로 사용됨
+  const [pin, setPin] = useState<{ lat: number | null; lng: number | null }>({ lat: null, lng: null });
 
   // BR-8: 음성 파싱 결과로 폼 채움(파란 하이라이트) — 저장은 관리자 버튼으로만
   const applyVoice = (p: ParsedVoice) => {
@@ -62,16 +75,17 @@ export function NewOrderDrawer({ products, drivers, onClose, onCreated }: {
   const voiceTag = (k: string) =>
     voiced.has(k) ? <em style={{ fontStyle: 'normal', color: '#5CA8FF' }}> · дуунаас</em> : null;
 
-  // 전화 입력 후 기존 고객 자동 채움 (05 문서)
+  // 전화 입력 후 기존 고객 자동 채움 (05 문서) — 저장된 위치가 있으면 핀도 프리필
   const lookupCustomer = async () => {
     if (!phone.trim()) return;
     const { data } = await supabase.from('customers')
-      .select('name, district, address').eq('phone', phone.trim()).limit(1).maybeSingle();
+      .select('name, district, address, lat, lng').eq('phone', phone.trim()).limit(1).maybeSingle();
     if (data) {
       setMatched(true);
       if (!name) setName(data.name);
       if (!district && data.district) setDistrict(data.district);
       if (!address && data.address) setAddress(data.address);
+      if (pin.lat == null && data.lat != null && data.lng != null) setPin({ lat: data.lat, lng: data.lng });
     } else setMatched(false);
   };
 
@@ -97,6 +111,8 @@ export function NewOrderDrawer({ products, drivers, onClose, onCreated }: {
         customer: { name: name.trim(), phone: phone.trim() },
         district: district || undefined,
         address: address.trim(),
+        lat: pin.lat ?? undefined,
+        lng: pin.lng ?? undefined,
         items: rows.map((r) => ({ product_id: r.product_id, qty: r.qty })),
         payment_method: payment,
         note: note.trim() || undefined,
@@ -163,6 +179,18 @@ export function NewOrderDrawer({ products, drivers, onClose, onCreated }: {
               <span style={label}>Хаяг</span>
               <input style={input} value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Да хүрээ зах, 21-р гудамж…" />
             </div>
+          </div>
+
+          {/* 배달 위치 핀 — 저장 시 기사 앱의 구글맵 라우팅에 사용 */}
+          <div>
+            <span style={label}>
+              Хүргэх байршил
+              {pin.lat != null
+                ? <em style={{ fontStyle: 'normal', color: 'var(--st-done)' }}> · pin тавигдсан ✓</em>
+                : <em style={{ fontStyle: 'normal' }}> — газрын зураг дээр дарж тэмдэглэнэ (жолоочид маршрут болно)</em>}
+            </span>
+            <PinMap lat={pin.lat} lng={pin.lng} height={190} expandable
+              onChange={(lat, lng) => setPin({ lat, lng })} />
           </div>
 
           {/* 품목 */}

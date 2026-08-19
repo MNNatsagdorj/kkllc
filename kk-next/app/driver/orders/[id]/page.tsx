@@ -3,12 +3,15 @@
 // 주문 상세 — 적재 체크리스트 → 출발 → 사진 증빙 → 완료 (06 문서 화면 2·3, BR-3/4/6)
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { useParams, useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { Conveyor } from '@/components/Conveyor';
 import { StatusChip } from '@/components/StatusChip';
 import { ORDER_SELECT, fmtWeight, type OrderRow } from '@/lib/queries';
 import { fmtMNT, fmtOrderNo } from '@/lib/types';
+
+const PinMap = dynamic(() => import('@/components/PinMap').then((m) => m.PinMap), { ssr: false });
 
 const bigBtn = (bg: string, enabled: boolean): React.CSSProperties => ({
   width: '100%', padding: '16px 0', borderRadius: 14, border: 0,
@@ -104,13 +107,20 @@ export default function DriverOrderPage() {
         </a>
       )}
 
-      {/* 지도 */}
+      {/* 지도 — 핀 미리보기(OSM) + 탭하면 구글맵 내비 딥링크 */}
       <a href={mapUrl} target="_blank" rel="noopener noreferrer"
         style={{ display: 'block', background: '#FBFAF5', border: '1px solid var(--site-line)', borderRadius: 13, padding: '14px 16px' }}>
         <div style={{ fontSize: 13.5, fontWeight: 700, color: 'var(--site-text)' }}>
           📍 {[order.district, order.address].filter(Boolean).join(' · ')}
         </div>
-        <div style={{ fontSize: 13, color: '#3D7DD8', fontWeight: 700, marginTop: 5 }}>Газрын зураг нээх ↗</div>
+        {order.lat != null && order.lng != null && (
+          <div style={{ margin: '10px 0 2px', pointerEvents: 'none' }}>
+            <PinMap lat={order.lat} lng={order.lng} height={150} />
+          </div>
+        )}
+        <div style={{ fontSize: 13, color: '#3D7DD8', fontWeight: 700, marginTop: 5 }}>
+          Газрын зураг нээх — маршрут ↗
+        </div>
       </a>
 
       {/* 적재 체크리스트 (BR-4) */}
