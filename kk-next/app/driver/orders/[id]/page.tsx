@@ -27,6 +27,7 @@ export default function DriverOrderPage() {
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const [proofPath, setProofPath] = useState<string | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -96,7 +97,9 @@ export default function DriverOrderPage() {
   };
 
   const uploadProof = async (file: File) => {
-    setUploading(true); setErr(null);
+    // 찍은 사진 즉시 미리보기 (업로드 완료 전에도 보임)
+    setPreview((old) => { if (old) URL.revokeObjectURL(old); return URL.createObjectURL(file); });
+    setUploading(true); setErr(null); setProofPath(null);
     const path = `${order.id}/${Date.now()}.jpg`;
     const { error } = await supabase.storage.from('delivery-proofs').upload(path, file, { upsert: true });
     setUploading(false);
@@ -196,10 +199,25 @@ export default function DriverOrderPage() {
 
           <input ref={fileRef} type="file" accept="image/*" capture="environment" hidden
             onChange={(e) => { const f = e.target.files?.[0]; if (f) uploadProof(f); }} />
-          <button onClick={() => fileRef.current?.click()} disabled={uploading}
-            style={{ width: '100%', padding: '22px 0', borderRadius: 14, cursor: 'pointer', border: `2px dashed ${proofPath ? 'var(--st-done)' : '#B9AF93'}`, background: proofPath ? 'color-mix(in srgb, var(--st-done) 10%, transparent)' : '#FBFAF5', color: proofPath ? 'var(--st-done)' : '#8A8062', fontSize: 14, fontWeight: 700 }}>
-            {uploading ? 'Илгээж байна…' : proofPath ? '✓ Зураг хадгалагдлаа — дахин авах' : '📷 Зураг авах — Буулгасан ачааны баталгаа · заавал 1 зураг'}
-          </button>
+          {preview ? (
+            // 찍은 사진 미리보기 + 상태 배지 + 다시 찍기
+            <div style={{ position: 'relative', borderRadius: 14, overflow: 'hidden', border: `2px solid ${proofPath ? 'var(--st-done)' : '#B9AF93'}` }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={preview} alt="Хүргэлтийн баталгаа" style={{ display: 'block', width: '100%', maxHeight: 300, objectFit: 'cover', filter: uploading ? 'brightness(.75)' : 'none' }} />
+              <span style={{ position: 'absolute', top: 10, left: 10, borderRadius: 999, padding: '5px 12px', fontSize: 12, fontWeight: 800, background: uploading ? 'rgba(14,27,46,.85)' : 'var(--st-done)', color: '#fff' }}>
+                {uploading ? '⏳ Илгээж байна…' : '✓ Хадгалагдлаа'}
+              </span>
+              <button onClick={() => fileRef.current?.click()} disabled={uploading}
+                style={{ position: 'absolute', bottom: 10, right: 10, borderRadius: 9, border: 0, padding: '9px 14px', fontSize: 12.5, fontWeight: 800, background: 'rgba(14,27,46,.85)', color: '#fff', cursor: 'pointer' }}>
+                📷 Дахин авах
+              </button>
+            </div>
+          ) : (
+            <button onClick={() => fileRef.current?.click()} disabled={uploading}
+              style={{ width: '100%', padding: '22px 0', borderRadius: 14, cursor: 'pointer', border: '2px dashed #B9AF93', background: '#FBFAF5', color: '#8A8062', fontSize: 14, fontWeight: 700 }}>
+              📷 Зураг авах — Буулгасан ачааны баталгаа · заавал 1 зураг
+            </button>
+          )}
 
           <button onClick={() => proofPath && changeStatus('delivered', { proof_photo_url: proofPath })}
             disabled={busy || !proofPath}
