@@ -53,8 +53,8 @@ export default async function Home() {
                 Үйлдвэрээс шууд, бөөний үнээр
               </h1>
               <p style={{ fontSize: 15, lineHeight: 1.6, color: '#4A525C', margin: '0 0 24px' }}>
-                Замаск·цавууг өөрсдөө үйлдвэрлэнэ. Дэлгүүр, хувь хүнд аль алинд нь нийлүүлнэ.
-                <b style={{ color: 'var(--site-text)' }}> 100+ш захиалгад УБ хот дотор хүргэлт үнэгүй.</b>
+                Замаскны үйлдвэр — дэлгүүр, хувь хүнд аль алинд нь шууд нийлүүлнэ.
+                Хөдөө орон нутгийн захиалгыг замын унаанд тавьж өгч явуулна.
               </p>
               <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 32, flexWrap: 'wrap' }}>
                 <a href="#products" style={{ background: '#14181D', color: '#fff', fontWeight: 700, fontSize: 14.5, padding: '14px 25px' }}>
