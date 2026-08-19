@@ -123,7 +123,8 @@ export default function ReportsPage() {
       {/* 기사 KPI (P3) */}
       <div style={card}>
         <div style={{ fontSize: 12.5, fontWeight: 800, color: '#EFECE3', marginBottom: 14 }}>Жолоочийн KPI (сүүлийн 30 өдөр)</div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
+        <div className="table-scroll">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 9, minWidth: 520 }}>
           {driverKpi.map(([name, k]) => (
             <div key={name} style={{ display: 'grid', gridTemplateColumns: '34px 1fr 90px 90px 130px', gap: 12, alignItems: 'center', fontSize: 12.5 }}>
               <span style={{ width: 28, height: 28, borderRadius: '50%', background: 'var(--ink3)', color: 'var(--kraft)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: 12 }}>
@@ -138,6 +139,7 @@ export default function ReportsPage() {
             </div>
           ))}
           {driverKpi.length === 0 && <div style={{ fontSize: 13, color: 'var(--mut)' }}>Мэдээлэл алга.</div>}
+        </div>
         </div>
       </div>
     </div>

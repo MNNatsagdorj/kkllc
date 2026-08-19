@@ -88,7 +88,8 @@ export default function OrdersPage() {
         </div>
       </div>
 
-      <div style={{ background: 'rgba(19,37,63,.55)', border: '1px solid var(--line)', borderRadius: 13, overflow: 'hidden' }}>
+      <div className="table-scroll" style={{ background: 'rgba(19,37,63,.55)', border: '1px solid var(--line)', borderRadius: 13 }}>
+        <div style={{ minWidth: 980 }}>
         <div style={{ display: 'grid', gridTemplateColumns: '64px 76px 1.3fr 1.5fr 56px 110px 120px 110px 120px', gap: 10, padding: '11px 16px', fontSize: 10.5, fontWeight: 800, letterSpacing: '.05em', textTransform: 'uppercase', color: 'var(--mut)', borderBottom: '1px solid var(--line)' }}>
           <span>№</span><span>Огноо</span><span>Харилцагч</span><span>Бараа</span><span>Дүүрэг</span>
           <span style={{ textAlign: 'right' }}>Дүн</span><span>Жолооч</span><span>Төлөв</span><span></span>
@@ -125,6 +126,7 @@ export default function OrdersPage() {
           </div>
         ))}
         {rows.length === 0 && <div style={{ padding: '38px 0', textAlign: 'center', color: 'var(--mut)', fontSize: 13 }}>Үр дүн олдсонгүй.</div>}
+        </div>
       </div>
     </div>
   );

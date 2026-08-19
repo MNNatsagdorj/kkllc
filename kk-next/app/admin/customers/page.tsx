@@ -58,14 +58,15 @@ export default function CustomersPage() {
 
   return (
     <div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16, flexWrap: 'wrap' }}>
         <h1 className="disp" style={{ fontSize: 21 }}>Харилцагч</h1>
         <span className="mono" style={{ fontSize: 12, color: 'var(--mut)' }}>{rows.length}</span>
         <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Хайх: нэр · утас"
           style={{ marginLeft: 'auto', width: 220, padding: '8px 11px', borderRadius: 8, fontSize: 12.5, background: 'var(--ink2)', border: '1px solid var(--line)', color: '#EFECE3' }} />
       </div>
 
-      <div style={{ background: 'rgba(19,37,63,.55)', border: '1px solid var(--line)', borderRadius: 13, overflow: 'hidden' }}>
+      <div className="table-scroll" style={{ background: 'rgba(19,37,63,.55)', border: '1px solid var(--line)', borderRadius: 13 }}>
+        <div style={{ minWidth: 880 }}>
         <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 110px 70px 90px 120px 130px 110px', gap: 10, padding: '11px 16px', fontSize: 10.5, fontWeight: 800, letterSpacing: '.05em', textTransform: 'uppercase', color: 'var(--mut)', borderBottom: '1px solid var(--line)' }}>
           <span>Нэр</span><span>Утас</span><span>Төрөл</span><span style={{ textAlign: 'center' }}>Захиалга</span>
           <span style={{ textAlign: 'right' }}>Нийт дүн</span><span style={{ textAlign: 'right' }}>Зээл үлдэгдэл</span><span></span>
@@ -116,6 +117,7 @@ export default function CustomersPage() {
           );
         })}
         {rows.length === 0 && <div style={{ padding: '38px 0', textAlign: 'center', color: 'var(--mut)', fontSize: 13 }}>Үр дүн олдсонгүй.</div>}
+        </div>
       </div>
     </div>
   );

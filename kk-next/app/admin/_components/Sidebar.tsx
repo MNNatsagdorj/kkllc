@@ -14,7 +14,7 @@ const MENU: { label: string; href: string }[] = [
   { label: 'Тайлан', href: '/admin/reports' },
 ];
 
-export function Sidebar({ managerName }: { managerName: string }) {
+export function Sidebar({ managerName, onNavigate }: { managerName: string; onNavigate?: () => void }) {
   const router = useRouter();
   const pathname = usePathname();
   const logout = async () => {
@@ -30,7 +30,7 @@ export function Sidebar({ managerName }: { managerName: string }) {
       {MENU.map((m) => {
         const active = pathname === m.href;
         return (
-          <Link key={m.href} href={m.href}
+          <Link key={m.href} href={m.href} onClick={onNavigate}
             style={{ padding: '9px 10px', borderRadius: 8, fontSize: 13.5, fontWeight: active ? 700 : 500, background: active ? 'var(--ink3)' : 'transparent', color: active ? '#EFECE3' : 'var(--mut)' }}>
             {m.label}
           </Link>

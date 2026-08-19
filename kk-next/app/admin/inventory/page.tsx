@@ -88,7 +88,8 @@ export default function InventoryPage() {
       <h2 style={{ fontSize: 12.5, fontWeight: 800, letterSpacing: '.05em', textTransform: 'uppercase', color: 'var(--mut)', marginBottom: 10 }}>
         Сүүлийн хөдөлгөөн
       </h2>
-      <div style={{ background: 'rgba(19,37,63,.55)', border: '1px solid var(--line)', borderRadius: 13, overflow: 'hidden' }}>
+      <div className="table-scroll" style={{ background: 'rgba(19,37,63,.55)', border: '1px solid var(--line)', borderRadius: 13 }}>
+        <div style={{ minWidth: 620 }}>
         {moves.map((m) => {
           const r = REASON_MN[m.reason];
           return (
@@ -107,6 +108,7 @@ export default function InventoryPage() {
           );
         })}
         {moves.length === 0 && <div style={{ padding: '30px 0', textAlign: 'center', color: 'var(--mut)', fontSize: 13 }}>Хөдөлгөөн алга.</div>}
+        </div>
       </div>
 
       {stockIn && (
