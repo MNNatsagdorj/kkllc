@@ -8,10 +8,14 @@ import { StatusChip } from '@/components/StatusChip';
 import { ORDER_SELECT, itemsSummary, fmtWeight, type OrderRow } from '@/lib/queries';
 import { fmtMNT, fmtOrderNo } from '@/lib/types';
 
-const SECTIONS: { key: string; label: string; match: (o: OrderRow) => boolean; accent?: boolean }[] = [
-  { key: 'now', label: 'Одоо явж байгаа', match: (o) => o.status === 'en_route' || o.status === 'loading', accent: true },
-  { key: 'next', label: 'Дараагийн', match: (o) => o.status === 'assigned' },
-  { key: 'done', label: 'Дууссан', match: (o) => o.status === 'delivered' },
+// 섹션별 컬러 아이덴티티 — 진행(주황)·다음(호박)·완료(초록)를 한눈에 구분
+const SECTIONS: {
+  key: 'now' | 'next' | 'done'; label: string; icon: string; color: string;
+  match: (o: OrderRow) => boolean;
+}[] = [
+  { key: 'now', label: 'Одоо явж байгаа', icon: '🚚', color: 'var(--st-way)', match: (o) => o.status === 'en_route' || o.status === 'loading' },
+  { key: 'next', label: 'Дараагийн', icon: '📦', color: 'var(--st-asg)', match: (o) => o.status === 'assigned' },
+  { key: 'done', label: 'Дууссан', icon: '✓', color: 'var(--st-done)', match: (o) => o.status === 'delivered' },
 ];
 
 export default function DriverHome() {
@@ -57,34 +61,72 @@ export default function DriverHome() {
         const list = orders.filter(sec.match);
         if (!list.length) return null;
         return (
-          <section key={sec.key} style={{ marginBottom: 20 }}>
-            <h2 style={{ fontSize: 12, fontWeight: 800, letterSpacing: '.06em', textTransform: 'uppercase', color: '#8A8062', margin: '0 2px 9px' }}>
-              {sec.label}
-            </h2>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {list.map((o) => (
-                <Link key={o.id} href={`/driver/orders/${o.id}`}
-                  style={{ display: 'block', background: '#FBFAF5', borderRadius: 13, padding: '13px 15px', border: sec.accent ? '2px solid var(--st-way)' : '1px solid var(--site-line)' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
-                    <span className="mono" style={{ fontSize: 14, fontWeight: 700, color: 'var(--site-text)' }}>{fmtOrderNo(o.id)}</span>
-                    <StatusChip status={o.status} />
-                  </div>
-                  <div style={{ fontSize: 14.5, fontWeight: 700, color: 'var(--site-text)' }}>{o.customer?.name ?? '—'}</div>
-                  <div style={{ fontSize: 12.5, color: '#6B6350', margin: '3px 0 6px' }}>
-                    {[o.district, o.address].filter(Boolean).join(' · ')}
-                  </div>
-                  <div style={{ fontSize: 12.5, color: '#6B6350' }}>{itemsSummary(o)}</div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 8, flexWrap: 'wrap' }}>
-                    <span className="mono" style={{ fontSize: 12, color: '#8A8062' }}>{fmtWeight(Number(o.total_weight_kg))}</span>
-                    {o.is_free_delivery && <span className="st-chip" style={{ '--st': 'var(--st-done)' } as React.CSSProperties}>ҮНЭГҮЙ</span>}
-                    {o.payment_method === 'cash' && (
-                      <span className="mono" style={{ fontSize: 12.5, fontWeight: 700, color: 'var(--st-way)', marginLeft: 'auto' }}>
-                        Бэлэн {fmtMNT(o.cash_amount_mnt ?? o.subtotal_mnt + o.delivery_fee_mnt)}
-                      </span>
+          <section key={sec.key} style={{ marginBottom: 24 }}>
+            {/* 섹션 헤더: 컬러 아이콘 + 라벨 + 건수 + 컬러 라인 */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 9, margin: '0 2px 10px' }}>
+              <span style={{ width: 24, height: 24, borderRadius: '50%', background: sec.color, color: '#fff', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, flexShrink: 0 }}>
+                {sec.icon}
+              </span>
+              <h2 style={{ fontSize: 12.5, fontWeight: 800, letterSpacing: '.06em', textTransform: 'uppercase', color: sec.color, margin: 0 }}>
+                {sec.label}
+              </h2>
+              <span className="mono" style={{ fontSize: 11.5, fontWeight: 700, color: sec.color, background: `color-mix(in srgb, ${sec.color} 14%, transparent)`, border: `1px solid color-mix(in srgb, ${sec.color} 40%, transparent)`, borderRadius: 999, padding: '1px 9px' }}>
+                {list.length}
+              </span>
+              <span style={{ flex: 1, height: 2, background: `color-mix(in srgb, ${sec.color} 25%, transparent)`, borderRadius: 2 }} />
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: sec.key === 'done' ? 7 : 10 }}>
+              {sec.key === 'done'
+                ? list.map((o) => (
+                  // 완료: 컴팩트 한 줄 — 공간 최소화, 흐리게
+                  <Link key={o.id} href={`/driver/orders/${o.id}`}
+                    style={{ display: 'flex', alignItems: 'center', gap: 11, background: '#FBFAF5', borderRadius: 11, padding: '10px 13px', border: '1px solid var(--site-line)', borderLeft: `4px solid ${sec.color}`, opacity: .78 }}>
+                    <span style={{ color: sec.color, fontWeight: 800, fontSize: 14 }}>✓</span>
+                    <span className="mono" style={{ fontSize: 13, fontWeight: 700, color: 'var(--site-text)' }}>{fmtOrderNo(o.id)}</span>
+                    <span style={{ flex: 1, minWidth: 0, fontSize: 13, fontWeight: 700, color: 'var(--site-text)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      {o.customer?.name ?? '—'}
+                      <span style={{ fontWeight: 400, color: '#8A8062', marginLeft: 7, fontSize: 12 }}>{o.district}</span>
+                    </span>
+                    <span className="mono" style={{ fontSize: 11.5, color: '#8A8062', flexShrink: 0 }}>
+                      {o.delivered_at ? o.delivered_at.slice(11, 16) : fmtWeight(Number(o.total_weight_kg))}
+                    </span>
+                  </Link>
+                ))
+                : list.map((o) => (
+                  // 진행/다음: 컬러 레일 카드 — 진행 중은 배경 틴트 + 진행 버튼으로 강조
+                  <Link key={o.id} href={`/driver/orders/${o.id}`}
+                    style={{
+                      display: 'block', borderRadius: 13, padding: sec.key === 'now' ? '15px 16px' : '13px 15px',
+                      background: sec.key === 'now' ? `color-mix(in srgb, ${sec.color} 7%, #FBFAF5)` : '#FBFAF5',
+                      border: `1px solid ${sec.key === 'now' ? `color-mix(in srgb, ${sec.color} 45%, transparent)` : 'var(--site-line)'}`,
+                      borderLeft: `5px solid ${sec.color}`,
+                    }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
+                      <span className="mono" style={{ fontSize: 14, fontWeight: 700, color: 'var(--site-text)' }}>{fmtOrderNo(o.id)}</span>
+                      <StatusChip status={o.status} />
+                    </div>
+                    <div style={{ fontSize: sec.key === 'now' ? 16 : 14.5, fontWeight: 800, color: 'var(--site-text)' }}>{o.customer?.name ?? '—'}</div>
+                    <div style={{ fontSize: 12.5, color: '#6B6350', margin: '3px 0 6px' }}>
+                      📍 {[o.district, o.address].filter(Boolean).join(' · ')}
+                    </div>
+                    <div style={{ fontSize: 12.5, color: '#6B6350' }}>{itemsSummary(o)}</div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 8, flexWrap: 'wrap' }}>
+                      <span className="mono" style={{ fontSize: 12, color: '#8A8062' }}>{fmtWeight(Number(o.total_weight_kg))}</span>
+                      {o.is_free_delivery && <span className="st-chip" style={{ '--st': 'var(--st-done)' } as React.CSSProperties}>ҮНЭГҮЙ</span>}
+                      {o.payment_method === 'cash' && (
+                        <span className="mono" style={{ fontSize: 12.5, fontWeight: 700, color: 'var(--st-way)', marginLeft: 'auto' }}>
+                          Бэлэн {fmtMNT(o.cash_amount_mnt ?? o.subtotal_mnt + o.delivery_fee_mnt)}
+                        </span>
+                      )}
+                    </div>
+                    {sec.key === 'now' && (
+                      <div style={{ marginTop: 11, borderRadius: 10, background: sec.color, color: '#fff', textAlign: 'center', fontWeight: 800, fontSize: 13.5, padding: '11px 0' }}>
+                        Үргэлжлүүлэх →
+                      </div>
                     )}
-                  </div>
-                </Link>
-              ))}
+                  </Link>
+                ))}
             </div>
           </section>
         );
