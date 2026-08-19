@@ -39,9 +39,9 @@ function TrackInner() {
     if (p) check(p);
   }, [search, check]);
 
-  // 배송 중 주문이 있으면 20초마다 조용히 갱신 — 기사 위치가 지도에서 따라 움직임
+  // 배송 중(기사 위치)·승인 대기(승인 반영) 주문이 있으면 20초마다 조용히 갱신
   useEffect(() => {
-    if (!orders?.some((o) => o.status === 'en_route')) return;
+    if (!orders?.some((o) => o.status === 'en_route' || o.status === 'pending')) return;
     const t = setInterval(() => check(phone, true), 20_000);
     return () => clearInterval(t);
   }, [orders, phone, check]);
@@ -83,6 +83,11 @@ function TrackInner() {
             </div>
             {o.status === 'cancelled' ? (
               <div style={{ fontSize: 13, color: 'var(--st-cancel)', fontWeight: 700 }}>Захиалга цуцлагдсан.</div>
+            ) : o.status === 'pending' ? (
+              <div style={{ background: 'color-mix(in srgb, #E3A63B 12%, transparent)', border: '1px solid color-mix(in srgb, #E3A63B 40%, transparent)', borderRadius: 10, padding: '11px 14px', fontSize: 13, color: '#8A6D1F', fontWeight: 700, lineHeight: 1.55 }}>
+                ⏳ Захиалгыг хүлээн авлаа — менежер баталгаажуулахыг хүлээж байна.
+                Баталгаажмагц хүргэлтийн явц энд харагдана.
+              </div>
             ) : (
               <Conveyor status={o.status} />
             )}

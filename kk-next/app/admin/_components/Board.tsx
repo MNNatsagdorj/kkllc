@@ -12,7 +12,7 @@ import { NewOrderDrawer } from './NewOrderDrawer';
 import { AssignModal } from './AssignModal';
 
 const COLUMNS: { key: string; label: string; match: (o: OrderRow) => boolean }[] = [
-  { key: 'new', label: 'Шинэ', match: (o) => o.status === 'new' },
+  { key: 'new', label: 'Шинэ', match: (o) => o.status === 'pending' || o.status === 'new' },
   { key: 'assigned', label: 'Хуваарилсан', match: (o) => o.status === 'assigned' },
   { key: 'way', label: 'Замд', match: (o) => o.status === 'loading' || o.status === 'en_route' },
   { key: 'done', label: 'Хүргэгдсэн', match: (o) => o.status === 'delivered' },
@@ -38,7 +38,7 @@ export function Board() {
     // 진행 중 전체 + 오늘 완료/취소분
     const { data } = await supabase.from('orders')
       .select(ORDER_SELECT)
-      .or(`status.in.(new,assigned,loading,en_route),and(status.in.(delivered,cancelled),created_at.gte.${today})`)
+      .or(`status.in.(pending,new,assigned,loading,en_route),and(status.in.(delivered,cancelled),created_at.gte.${today})`)
       .order('created_at', { ascending: false });
     if (data) setOrders(data as unknown as OrderRow[]);
   }, [supabase, today]);

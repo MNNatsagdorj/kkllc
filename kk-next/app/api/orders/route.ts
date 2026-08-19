@@ -72,9 +72,11 @@ export async function POST(request: Request) {
   const totalWeight = calcTotalWeight(rows.map((r) => ({ qty: r.qty, weight_kg: r.weight })));
   const delivery = calcDelivery(rows);
 
+  // 웹 주문은 승인 대기(pending)로 들어와 관리자 승인 후 파이프라인 진입
+  const initialStatus = isManager ? 'new' : 'pending';
   const { data: order, error: oErr } = await db.from('orders').insert({
     customer_id: customerId,
-    status: 'new',
+    status: initialStatus,
     district: body.district ?? null,
     address: body.address,
     lat: body.lat ?? null,
@@ -102,8 +104,8 @@ export async function POST(request: Request) {
   if (iErr) return badRequest(iErr.message);
 
   await db.from('order_status_history').insert({
-    order_id: order.id, status: 'new', changed_by: profile?.userId ?? null,
+    order_id: order.id, status: initialStatus, changed_by: profile?.userId ?? null,
   });
 
-  return NextResponse.json({ id: order.id, delivery }, { status: 201 });
+  return NextResponse.json({ id: order.id, status: initialStatus, delivery }, { status: 201 });
 }

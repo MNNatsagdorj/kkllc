@@ -1,7 +1,7 @@
 // 02-data-model.md — 공용 타입 (세 화면 공통)
 
 export type OrderStatus =
-  | 'new' | 'assigned' | 'loading' | 'en_route' | 'delivered' | 'cancelled';
+  | 'pending' | 'new' | 'assigned' | 'loading' | 'en_route' | 'delivered' | 'cancelled';
 
 export type PaymentMethod = 'cash' | 'transfer' | 'credit'; // Бэлэн·Данс·Зээл
 export type CustomerType = 'individual' | 'shop';

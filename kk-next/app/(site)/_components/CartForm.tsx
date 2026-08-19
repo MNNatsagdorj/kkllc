@@ -1,12 +1,15 @@
 'use client';
 
-// 장바구니 상세 + 100ш 미터 + 주문 폼 → 성공 시 주문번호 + track 링크 (04 문서)
+// 장바구니 상세 + 100ш 미터 + 주문 폼(위치 핀 포함) → 성공 시 주문번호 + track 링크 (04 문서)
 import { useState } from 'react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { useCart, setCartQty, clearCart } from '@/lib/cart';
 import { calcDelivery } from '@/lib/delivery';
 import { Meter } from '@/components/Meter';
 import { UB_DISTRICTS, fmtMNT, type Product } from '@/lib/types';
+
+const PinMap = dynamic(() => import('@/components/PinMap').then((m) => m.PinMap), { ssr: false });
 
 const input: React.CSSProperties = {
   width: '100%', padding: '11px 13px', borderRadius: 9, fontSize: 14,
@@ -19,6 +22,19 @@ export function CartForm({ products }: { products: Product[] }) {
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const [done, setDone] = useState<{ id: number; phone: string } | null>(null);
+  const [pin, setPin] = useState<{ lat: number; lng: number } | null>(null);
+  const [locBusy, setLocBusy] = useState(false);
+
+  // 📍 브라우저 위치 → 핀 자동 지정 (거부/실패 시 지도를 탭해서 수동 지정)
+  const useMyLocation = () => {
+    if (!('geolocation' in navigator)) { setErr('Байршил тогтоох боломжгүй — газрын зураг дээр дарж тэмдэглэнэ үү'); return; }
+    setLocBusy(true); setErr(null);
+    navigator.geolocation.getCurrentPosition(
+      (pos) => { setLocBusy(false); setPin({ lat: pos.coords.latitude, lng: pos.coords.longitude }); },
+      () => { setLocBusy(false); setErr('Байршил авч чадсангүй — газрын зураг дээр дарж тэмдэглэнэ үү'); },
+      { enableHighAccuracy: true, timeout: 10_000 },
+    );
+  };
 
   const rows = cart
     .map((c) => ({ ...c, product: products.find((p) => p.id === c.product_id) }))
@@ -34,7 +50,8 @@ export function CartForm({ products }: { products: Product[] }) {
           Захиалга <span className="mono" style={{ color: 'var(--kraft-deep)' }}>#{done.id}</span> хүлээн авлаа
         </h2>
         <p style={{ fontSize: 13.5, color: '#5E6C80', lineHeight: 1.6 }}>
-          Манай менежер удахгүй холбогдоно. Явцыг утасны дугаараар шалгаж болно.
+          Менежер захиалгыг баталгаажуулсны дараа хүргэлт эхэлнэ.<br />
+          Явцыг утасны дугаараар хэзээ ч шалгаж болно.
         </p>
         <Link href={`/track?phone=${encodeURIComponent(done.phone)}`}
           style={{ display: 'inline-block', marginTop: 16, padding: '11px 22px', borderRadius: 9, background: 'var(--ink)', color: '#EFECE3', fontWeight: 800, fontSize: 13.5 }}>
@@ -65,6 +82,8 @@ export function CartForm({ products }: { products: Product[] }) {
         district: String(f.get('district') || '') || undefined,
         address: String(f.get('address')).trim(),
         items: rows.map((r) => ({ product_id: r.product_id, qty: r.qty })),
+        lat: pin?.lat,
+        lng: pin?.lng,
         note: String(f.get('note') || '').trim() || undefined,
       }),
     });
@@ -127,6 +146,21 @@ export function CartForm({ products }: { products: Product[] }) {
             </select>
           </div>
           <div><span style={label}>Хаяг</span><input name="address" required style={input} placeholder="Хороо, гудамж, байр…" /></div>
+        </div>
+        {/* 배달 위치 핀 — 탭해서 지정 / 내 위치 버튼 / 드래그 조정 */}
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 5 }}>
+            <span style={{ ...label, marginBottom: 0 }}>
+              Хүргэх байршил {pin
+                ? <span style={{ color: 'var(--st-done)' }}>— pin тавигдсан ✓</span>
+                : <span style={{ fontWeight: 400 }}>— газрын зураг дээр дарна уу</span>}
+            </span>
+            <button type="button" onClick={useMyLocation} disabled={locBusy}
+              style={{ border: '1px solid var(--site-line)', background: '#fff', color: 'var(--site-text)', borderRadius: 8, padding: '5px 11px', fontSize: 12, fontWeight: 700, cursor: 'pointer', opacity: locBusy ? 0.6 : 1 }}>
+              {locBusy ? '…' : '📍 Миний байршил'}
+            </button>
+          </div>
+          <PinMap lat={pin?.lat} lng={pin?.lng} onChange={(lat, lng) => setPin({ lat, lng })} height={200} expandable />
         </div>
         <div><span style={label}>Нэмэлт тэмдэглэл</span><input name="note" style={input} /></div>
         {err && <div style={{ color: 'var(--st-cancel)', fontSize: 13, fontWeight: 700 }}>{err}</div>}

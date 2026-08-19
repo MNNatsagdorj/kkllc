@@ -4,6 +4,7 @@
 import type { Order, OrderStatus } from './types';
 
 export const STATUS_LABEL_MN: Record<OrderStatus, string> = {
+  pending: 'Хүлээгдэж буй',
   new: 'Шинэ',
   assigned: 'Хуваарилсан',
   loading: 'Ачиж байна',
@@ -14,6 +15,7 @@ export const STATUS_LABEL_MN: Record<OrderStatus, string> = {
 
 // 07-design-system.md 상태 색 토큰
 export const STATUS_COLOR: Record<OrderStatus, string> = {
+  pending: '#8A94A6',
   new: '#5CA8FF',
   assigned: '#E3A63B',
   loading: '#C89B5E',
@@ -32,6 +34,11 @@ interface Transition {
 }
 
 export const TRANSITIONS: Record<OrderStatus, Transition[]> = {
+  // 웹 주문 승인 단계 — 관리자만 승인/거절
+  pending: [
+    { to: 'new', roles: ['manager'] },
+    { to: 'cancelled', roles: ['manager'] },
+  ],
   new: [
     {
       to: 'assigned', roles: ['manager'],
@@ -83,6 +90,7 @@ export const TRACK_STEPS_MN = [
 /** 주문 상태 → 컨베이어 현재 스텝 인덱스 (cancelled는 -1) */
 export function trackStep(status: OrderStatus): number {
   switch (status) {
+    case 'pending': return -1; // 승인 전 — 컨베이어 미시작
     case 'new': return 0;
     case 'assigned': return 1;
     case 'loading': return 2;

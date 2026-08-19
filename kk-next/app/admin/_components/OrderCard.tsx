@@ -1,6 +1,7 @@
 'use client';
 
-// 주문 카드 (05 문서 필드 그대로)
+// 주문 카드 (05 문서 필드 그대로) + 웹 주문 승인/거절 (pending)
+import { useState } from 'react';
 import { StatusChip } from '@/components/StatusChip';
 import { itemsSummary, fmtWeight, type OrderRow } from '@/lib/queries';
 import { fmtMNT, fmtOrderNo } from '@/lib/types';
@@ -17,6 +18,22 @@ function MiniChip({ children, color }: { children: React.ReactNode; color: strin
 
 export function OrderCard({ order, onAssign }: { order: OrderRow; onAssign: () => void }) {
   const time = order.created_at ? new Date(order.created_at).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) : '';
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+
+  // pending 승인/거절 — 성공 시 Realtime이 보드를 갱신
+  const decide = async (status: 'new' | 'cancelled') => {
+    if (status === 'cancelled' && !window.confirm('Энэ захиалгыг татгалзах уу?')) return;
+    setBusy(true); setErr(null);
+    const res = await fetch(`/api/orders/${order.id}/status`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status }),
+    });
+    setBusy(false);
+    if (!res.ok) setErr((await res.json()).error ?? 'Алдаа гарлаа');
+  };
+
   return (
     <div style={{ background: 'var(--ink2)', border: '1px solid var(--line)', borderRadius: 11, padding: '11px 13px' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 7 }}>
@@ -39,6 +56,7 @@ export function OrderCard({ order, onAssign }: { order: OrderRow; onAssign: () =
       </div>
 
       <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', marginBottom: 8 }}>
+        {order.source === 'website' && <MiniChip color="#9B8CFF">ВЭБ</MiniChip>}
         {order.district && <MiniChip color="#5CA8FF">{order.district}</MiniChip>}
         {order.is_free_delivery && <MiniChip color="var(--st-done)">ҮНЭГҮЙ</MiniChip>}
         {order.payment_method && <MiniChip color="var(--kraft)">{PAY_MN[order.payment_method]}</MiniChip>}
@@ -52,7 +70,21 @@ export function OrderCard({ order, onAssign }: { order: OrderRow; onAssign: () =
       </div>
 
       <div style={{ borderTop: '1px solid var(--line)', marginTop: 9, paddingTop: 8 }}>
-        {order.driver ? (
+        {order.status === 'pending' ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            <div style={{ display: 'flex', gap: 7 }}>
+              <button onClick={() => decide('new')} disabled={busy}
+                style={{ flex: 1, padding: '8px 0', borderRadius: 8, fontSize: 12.5, fontWeight: 800, border: 0, background: 'var(--st-done)', color: '#fff', cursor: 'pointer', opacity: busy ? 0.6 : 1 }}>
+                ✓ Зөвшөөрөх
+              </button>
+              <button onClick={() => decide('cancelled')} disabled={busy}
+                style={{ padding: '8px 13px', borderRadius: 8, fontSize: 12.5, fontWeight: 700, background: 'transparent', color: 'var(--st-cancel)', border: '1px solid color-mix(in srgb, var(--st-cancel) 50%, transparent)', cursor: 'pointer', opacity: busy ? 0.6 : 1 }}>
+                Татгалзах
+              </button>
+            </div>
+            {err && <span style={{ fontSize: 11.5, color: 'var(--st-cancel)', fontWeight: 700 }}>{err}</span>}
+          </div>
+        ) : order.driver ? (
           // 적재 시작 전(new/assigned)까지는 눌러서 기사 교체 가능
           (order.status === 'new' || order.status === 'assigned') ? (
             <button onClick={onAssign} title="Жолооч солих"
