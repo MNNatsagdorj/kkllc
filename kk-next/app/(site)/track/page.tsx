@@ -1,16 +1,23 @@
 'use client';
 
-// 주문조회 — 전화번호 → 상태 컨베이어 (04 문서 §6)
+// 주문조회 — 전화번호 → 상태 컨베이어 + 배송 중 지도 (04 문서 §6)
 import { Suspense, useCallback, useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { useSearchParams } from 'next/navigation';
 import { Conveyor } from '@/components/Conveyor';
 import { fmtMNT, fmtOrderNo, type OrderStatus } from '@/lib/types';
 import { STATUS_LABEL_MN, STATUS_COLOR } from '@/lib/status';
 
+const PinMap = dynamic(() => import('@/components/PinMap').then((m) => m.PinMap), { ssr: false });
+
 interface TrackOrder {
   id: number; status: OrderStatus; created_at: string; scheduled_date: string | null;
   total_mnt: number; is_free_delivery: boolean; items_summary: string;
+  dest: { lat: number; lng: number } | null;
+  driver_loc: { lat: number; lng: number; at: string } | null;
 }
+
+const minsAgo = (iso: string) => Math.max(0, Math.round((Date.now() - new Date(iso).getTime()) / 60000));
 
 function TrackInner() {
   const search = useSearchParams();
@@ -18,12 +25,12 @@ function TrackInner() {
   const [orders, setOrders] = useState<TrackOrder[] | null>(null);
   const [busy, setBusy] = useState(false);
 
-  const check = useCallback(async (p: string) => {
+  const check = useCallback(async (p: string, silent = false) => {
     if (!p.trim()) return;
-    setBusy(true);
+    if (!silent) setBusy(true);
     const res = await fetch(`/api/track?phone=${encodeURIComponent(p.trim())}`);
     const json = await res.json();
-    setBusy(false);
+    if (!silent) setBusy(false);
     setOrders(json.orders ?? []);
   }, []);
 
@@ -31,6 +38,13 @@ function TrackInner() {
     const p = search.get('phone');
     if (p) check(p);
   }, [search, check]);
+
+  // 배송 중 주문이 있으면 20초마다 조용히 갱신 — 기사 위치가 지도에서 따라 움직임
+  useEffect(() => {
+    if (!orders?.some((o) => o.status === 'en_route')) return;
+    const t = setInterval(() => check(phone, true), 20_000);
+    return () => clearInterval(t);
+  }, [orders, phone, check]);
 
   return (
     <div style={{ maxWidth: 600, margin: '0 auto', padding: '38px 20px 60px' }}>
@@ -71,6 +85,16 @@ function TrackInner() {
               <div style={{ fontSize: 13, color: 'var(--st-cancel)', fontWeight: 700 }}>Захиалга цуцлагдсан.</div>
             ) : (
               <Conveyor status={o.status} />
+            )}
+            {o.status === 'en_route' && (o.dest || o.driver_loc) && (
+              <div style={{ marginTop: 13 }}>
+                <PinMap lat={o.dest?.lat} lng={o.dest?.lng} driver={o.driver_loc} height={190} />
+                <div style={{ fontSize: 12.5, color: '#8A8062', marginTop: 7, fontWeight: 700 }}>
+                  {o.driver_loc
+                    ? `🚚 Жолооч замд явж байна · ${minsAgo(o.driver_loc.at) === 0 ? 'дөнгөж сая' : `${minsAgo(o.driver_loc.at)} мин өмнө`}`
+                    : '📍 Хүргэх байршил — жолоочийн байршил удахгүй харагдана'}
+                </div>
+              </div>
             )}
           </div>
         ))}

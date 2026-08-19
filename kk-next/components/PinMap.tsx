@@ -15,6 +15,14 @@ const markerIcon = L.divIcon({
   iconAnchor: [16, 38],
 });
 
+// 배송 중 기사 현재 위치 (트럭)
+const truckIcon = L.divIcon({
+  className: 'kk-pin',
+  html: '<div class="kk-truck">🚚</div>',
+  iconSize: [34, 34],
+  iconAnchor: [17, 17],
+});
+
 // 기본 중심: 울란바토르
 const UB: [number, number] = [47.9188, 106.9176];
 
@@ -23,16 +31,24 @@ function ClickPicker({ onPick }: { onPick: (lat: number, lng: number) => void })
   return null;
 }
 
-// 드로어/모달 안에서 타일이 회색으로 뜨는 것 방지 + 핀 위치로 이동
-function FitView({ lat, lng }: { lat: number | null; lng: number | null }) {
+// 드로어/모달 안에서 타일이 회색으로 뜨는 것 방지 + 핀(과 트럭)이 보이게 이동
+function FitView({ lat, lng, dLat, dLng }: {
+  lat: number | null; lng: number | null; dLat: number | null; dLng: number | null;
+}) {
   const map = useMap();
   useEffect(() => {
     const t = setTimeout(() => map.invalidateSize(), 80);
     return () => clearTimeout(t);
   }, [map]);
   useEffect(() => {
-    if (lat != null && lng != null) map.setView([lat, lng], Math.max(map.getZoom(), 14));
-  }, [map, lat, lng]);
+    if (lat != null && lng != null && dLat != null && dLng != null) {
+      map.fitBounds(L.latLngBounds([[lat, lng], [dLat, dLng]]), { padding: [40, 40], maxZoom: 15 });
+    } else if (lat != null && lng != null) {
+      map.setView([lat, lng], Math.max(map.getZoom(), 14));
+    } else if (dLat != null && dLng != null) {
+      map.setView([dLat, dLng], Math.max(map.getZoom(), 13));
+    }
+  }, [map, lat, lng, dLat, dLng]);
   return null;
 }
 
@@ -44,9 +60,11 @@ interface PinMapProps {
   height?: number;
   /** 전체화면 확대 버튼 표시 (모바일) */
   expandable?: boolean;
+  /** 배송 중 기사 현재 위치 — 트럭 마커로 표시 (읽기 전용) */
+  driver?: { lat: number; lng: number } | null;
 }
 
-export function PinMap({ lat, lng, onChange, height = 200, expandable = false }: PinMapProps) {
+export function PinMap({ lat, lng, onChange, height = 200, expandable = false, driver = null }: PinMapProps) {
   const [full, setFull] = useState(false);
   const pos: [number, number] | null = lat != null && lng != null ? [lat, lng] : null;
 
@@ -57,7 +75,7 @@ export function PinMap({ lat, lng, onChange, height = 200, expandable = false }:
         url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       />
-      <FitView lat={lat ?? null} lng={lng ?? null} />
+      <FitView lat={lat ?? null} lng={lng ?? null} dLat={driver?.lat ?? null} dLng={driver?.lng ?? null} />
       {onChange && <ClickPicker onPick={onChange} />}
       {pos && (
         <Marker position={pos} icon={markerIcon} draggable={!!onChange}
@@ -65,6 +83,7 @@ export function PinMap({ lat, lng, onChange, height = 200, expandable = false }:
             dragend: (e) => { const p = (e.target as L.Marker).getLatLng(); onChange(p.lat, p.lng); },
           } : undefined} />
       )}
+      {driver && <Marker position={[driver.lat, driver.lng]} icon={truckIcon} />}
     </MapContainer>
   );
 

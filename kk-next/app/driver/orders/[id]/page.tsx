@@ -44,6 +44,28 @@ export default function DriverOrderPage() {
     return () => { supabase.removeChannel(ch); };
   }, [supabase, id, refetch]);
 
+  // 배송 중(en_route) 위치 보고 — 15초 간격으로 현재 위치 전송 → 고객 /track 지도
+  const orderStatus = order?.status;
+  useEffect(() => {
+    if (orderStatus !== 'en_route' || !('geolocation' in navigator)) return;
+    let last = 0;
+    const watchId = navigator.geolocation.watchPosition(
+      (pos) => {
+        const now = Date.now();
+        if (now - last < 15_000) return;
+        last = now;
+        fetch('/api/driver/location', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
+        }).catch(() => {});
+      },
+      () => {}, // 위치 거부/실패 시 조용히 무시 — 배송 흐름은 막지 않음
+      { enableHighAccuracy: true, maximumAge: 10_000 },
+    );
+    return () => navigator.geolocation.clearWatch(watchId);
+  }, [orderStatus]);
+
   if (!order) return <div style={{ padding: 40, textAlign: 'center', color: '#8A8062' }}>Ачаалж байна…</div>;
 
   const allLoaded = order.items.length > 0 && order.items.every((i) => i.loaded);
