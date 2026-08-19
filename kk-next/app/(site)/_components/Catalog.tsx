@@ -34,14 +34,17 @@ function Card({ p }: { p: Product }) {
   // Нүүр C 시안 카드: 직각 화이트, 상단 포대 비주얼(#EDEBE6), Oswald 제목, 옐로 액션
   return (
     <div style={{ background: '#fff', border: '1px solid var(--site-line)', display: 'flex', flexDirection: 'column' }}>
-      <div style={{ position: 'relative', background: '#EDEBE6', display: 'flex', justifyContent: 'center', alignItems: 'flex-end', padding: '18px 0 12px', minHeight: 150 }}>
+      {/* 이미지 영역: 사진/SVG 관계없이 고정 높이 — 카드 크기 통일 */}
+      <div style={{ position: 'relative', background: '#EDEBE6', display: 'flex', justifyContent: 'center', alignItems: 'flex-end', padding: '18px 0 14px', height: 196, boxSizing: 'border-box' }}>
         {PRODUCT_PHOTOS[p.sku] ? (
           // 실제 제품 사진 (public/products/{sku}.jpg — lib/product-photos.ts에 등록)
           // eslint-disable-next-line @next/next/no-img-element
           <img src={PRODUCT_PHOTOS[p.sku]} alt={p.name_mn}
-            style={{ height: 165, maxWidth: '85%', objectFit: 'contain', mixBlendMode: 'multiply' }} />
+            style={{ height: 164, maxWidth: '85%', objectFit: 'contain', mixBlendMode: 'multiply' }} />
         ) : (
-          <Sack band={p.band_color} />
+          <div style={{ transform: 'scale(1.18)', transformOrigin: 'bottom' }}>
+            <Sack band={p.band_color} />
+          </div>
         )}
         <span className="mono" style={{ position: 'absolute', top: 10, right: 10, border: '1px solid rgba(20,24,29,.2)', color: '#626B76', fontSize: 10, fontWeight: 700, letterSpacing: '.06em', padding: '3px 7px' }}>
           {p.weight_kg} КГ
@@ -50,7 +53,7 @@ function Card({ p }: { p: Product }) {
       <div style={{ padding: '15px 15px 16px', display: 'flex', flexDirection: 'column', gap: 4, flex: 1 }}>
         <div className="disp" style={{ fontSize: 18, color: 'var(--site-text)' }}>{p.name_mn}</div>
         <div style={{ fontSize: 12, color: '#626B76', minHeight: 16 }}>{p.use_mn}</div>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, marginTop: 10, borderTop: '1px solid rgba(20,24,29,.08)', paddingTop: 12 }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, marginTop: 'auto', paddingTop: 12, borderTop: '1px solid rgba(20,24,29,.08)' }}>
           <div>
             <div style={{ fontSize: 11, color: '#9AA0A6' }}>Нэгж үнэ</div>
             <div className="mono" style={{ fontSize: 15.5, fontWeight: 700, color: 'var(--site-text)' }}>{fmtMNT(p.price_mnt)}</div>
