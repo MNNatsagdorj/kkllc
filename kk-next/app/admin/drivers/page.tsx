@@ -52,20 +52,23 @@ export default function DriversPage() {
 
   useEffect(() => { refetch(); }, [refetch]);
 
+  // 저장은 서버 경유 — PIN이 있으면 Auth 계정 생성/재설정 + user_id 자동 연결
   const saveDriver = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); setErr(null);
     const f = new FormData(e.currentTarget);
-    const body = {
-      name: String(f.get('name')).trim(),
-      phone: String(f.get('phone')).trim(),
-      vehicle_id: String(f.get('vehicle_id') || '') || null,
-      is_active: f.get('is_active') === 'on',
-    };
-    const q = editing?.id
-      ? supabase.from('drivers').update(body).eq('id', editing.id)
-      : supabase.from('drivers').insert(body);
-    const { error } = await q;
-    if (error) { setErr(error.message); return; }
+    const res = await fetch('/api/drivers', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id: editing?.id,
+        name: String(f.get('name')).trim(),
+        phone: String(f.get('phone')).trim(),
+        vehicle_id: String(f.get('vehicle_id') || '') || null,
+        is_active: f.get('is_active') === 'on',
+        pin: String(f.get('pin') || '').trim() || undefined,
+      }),
+    });
+    if (!res.ok) { setErr((await res.json()).error ?? 'Алдаа гарлаа'); return; }
     setEditing(null); refetch();
   };
 
@@ -125,9 +128,13 @@ export default function DriversPage() {
                 <span style={{ color: 'var(--mut)' }}>ачаа <b className="mono" style={{ color: 'var(--st-way)' }}>{fmtWeight(s?.weight ?? 0)}</b></span>
                 <span style={{ color: 'var(--mut)' }}>дууссан <b className="mono" style={{ color: 'var(--st-done)' }}>{s?.delivered ?? 0}</b></span>
               </div>
-              {!d.user_id && (
+              {d.user_id ? (
+                <div style={{ marginTop: 9, fontSize: 11, color: 'var(--st-done)' }}>
+                  🔑 Нэвтрэх эрхтэй — утас + PIN
+                </div>
+              ) : (
                 <div style={{ marginTop: 9, fontSize: 11, color: 'var(--st-asg)' }}>
-                  ⚠ Нэвтрэх эрх холбогдоогүй — Auth хэрэглэгч үүсгэж drivers.user_id-д холбоно
+                  ⚠ Нэвтрэх эрхгүй — «Засах» дээр дарж PIN өгөхөд автоматаар холбогдоно
                 </div>
               )}
             </div>
@@ -148,6 +155,16 @@ export default function DriversPage() {
             <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: 'var(--mut)' }}>
               <input type="checkbox" name="is_active" defaultChecked={editing.is_active ?? true} /> Идэвхтэй
             </label>
+            <div>
+              <input name="pin" inputMode="numeric" pattern="\d{4,8}" className="mono"
+                required={!editing.user_id}
+                placeholder={editing.user_id ? 'Шинэ PIN (солихгүй бол хоосон)' : 'PIN (4–8 тоо) — нэвтрэхэд ашиглана'}
+                style={input} />
+              <div style={{ fontSize: 11, color: 'var(--mut)', marginTop: 5, lineHeight: 1.5 }}>
+                Жолооч <b style={{ color: '#EFECE3' }}>/login → Жолооч</b> таб дээр утасны дугаар + энэ PIN-ээр нэвтэрнэ.
+                {editing.user_id ? ' PIN бичвэл шинэчлэгдэнэ.' : ' Хадгалахад нэвтрэх эрх автоматаар үүснэ.'}
+              </div>
+            </div>
             {err && <div style={{ color: 'var(--st-cancel)', fontSize: 12.5 }}>{err}</div>}
             <button type="submit" style={{ padding: '11px 0', borderRadius: 9, border: 0, background: 'var(--kraft)', color: 'var(--ink)', fontWeight: 800, cursor: 'pointer' }}>Хадгалах</button>
           </form>
