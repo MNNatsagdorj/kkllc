@@ -4,6 +4,7 @@
 import { useState } from 'react';
 import { Sack } from '@/components/Sack';
 import { addToCart } from '@/lib/cart';
+import { PRODUCT_PHOTOS } from '@/lib/product-photos';
 import { fmtMNT, type Product } from '@/lib/types';
 
 export function Catalog({ products }: { products: Product[] }) {
@@ -33,8 +34,15 @@ function Card({ p }: { p: Product }) {
   // Нүүр C 시안 카드: 직각 화이트, 상단 포대 비주얼(#EDEBE6), Oswald 제목, 옐로 액션
   return (
     <div style={{ background: '#fff', border: '1px solid var(--site-line)', display: 'flex', flexDirection: 'column' }}>
-      <div style={{ position: 'relative', background: '#EDEBE6', display: 'flex', justifyContent: 'center', padding: '18px 0 12px' }}>
-        <Sack band={p.band_color} />
+      <div style={{ position: 'relative', background: '#EDEBE6', display: 'flex', justifyContent: 'center', alignItems: 'flex-end', padding: '18px 0 12px', minHeight: 150 }}>
+        {PRODUCT_PHOTOS[p.sku] ? (
+          // 실제 제품 사진 (public/products/{sku}.jpg — lib/product-photos.ts에 등록)
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={PRODUCT_PHOTOS[p.sku]} alt={p.name_mn}
+            style={{ height: 165, maxWidth: '85%', objectFit: 'contain', mixBlendMode: 'multiply' }} />
+        ) : (
+          <Sack band={p.band_color} />
+        )}
         <span className="mono" style={{ position: 'absolute', top: 10, right: 10, border: '1px solid rgba(20,24,29,.2)', color: '#626B76', fontSize: 10, fontWeight: 700, letterSpacing: '.06em', padding: '3px 7px' }}>
           {p.weight_kg} КГ
         </span>
