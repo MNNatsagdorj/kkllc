@@ -4,7 +4,6 @@ import { createClient } from '@/lib/supabase/server';
 import type { Product } from '@/lib/types';
 import { Sack } from '@/components/Sack';
 import { Catalog } from './_components/Catalog';
-import { CartBar } from './_components/CartBar';
 import { BagCalculator } from './_components/BagCalculator';
 import { Certificates, type CertItem } from './_components/Certificates';
 
@@ -41,7 +40,7 @@ export default async function Home() {
   const certifiedIds = [...new Set(certRows.map((c) => c.product_id).filter(Boolean))] as string[];
 
   return (
-    <div style={{ paddingBottom: 90 }}>
+    <div style={{ paddingBottom: 64 }}>
       {/* 히어로 — 좌 텍스트 / 우 포대 비주얼 (시안 46/54 그리드) */}
       <section style={{ background: '#EDEBE6' }}>
         <div style={{ maxWidth: 1240, margin: '0 auto', display: 'grid', alignItems: 'stretch' }} className="md:grid-cols-[46%_54%]">
@@ -122,8 +121,6 @@ export default async function Home() {
           </Link>
         </div>
       </section>
-
-      <CartBar products={products} />
     </div>
   );
 }

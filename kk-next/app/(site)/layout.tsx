@@ -1,9 +1,17 @@
-// 공개 사이트 셸 — Нүүр C 시안: 잉크 블랙 헤더 + 옐로 액센트 + 다크 푸터 + 채팅 플로팅
+// 공개 사이트 셸 — Нүүр C 시안: 잉크 블랙 헤더(+장바구니 드로어) + 옐로 액센트 + 다크 푸터 + 채팅 플로팅
 import Link from 'next/link';
+import { createClient } from '@/lib/supabase/server';
+import type { Product } from '@/lib/types';
+import { CartWidget } from './_components/CartWidget';
 
 const navLink: React.CSSProperties = { color: 'rgba(255,255,255,.72)', fontSize: 13.5, fontWeight: 600 };
 
-export default function SiteLayout({ children }: { children: React.ReactNode }) {
+export default async function SiteLayout({ children }: { children: React.ReactNode }) {
+  // 장바구니 드로어용 제품 목록 (이름·가격) — 모든 사이트 페이지에서 접근 가능
+  const supabase = await createClient();
+  const { data } = await supabase.from('products').select('*').eq('is_active', true);
+  const products = (data ?? []) as Product[];
+
   return (
     <div className="site-c" style={{ minHeight: '100dvh', display: 'flex', flexDirection: 'column', background: 'var(--site-bg)' }}>
       <header style={{ background: '#14181D', position: 'sticky', top: 0, zIndex: 45 }}>
@@ -26,6 +34,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
               style={{ color: 'rgba(255,255,255,.75)', fontSize: 12.5, fontWeight: 700, whiteSpace: 'nowrap' }}>
               ☎ 8820-4057
             </a>
+            <CartWidget products={products} />
             <a href="tel:88204057" className="site-cta-quote"
               style={{ background: 'var(--accent)', color: 'var(--accent-ink)', fontWeight: 700, fontSize: 13, padding: '10px 17px', whiteSpace: 'nowrap' }}>
               Үнийн санал авах
@@ -61,8 +70,8 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
         </div>
       </footer>
 
-      {/* 채팅 플로팅 — WhatsApp / WeChat (CartBar와 겹치지 않게 위로) */}
-      <div className="chat-float" style={{ position: 'fixed', right: 20, bottom: 96, display: 'flex', flexDirection: 'column', gap: 10, zIndex: 44 }}>
+      {/* 채팅 플로팅 — WhatsApp / WeChat */}
+      <div className="chat-float" style={{ position: 'fixed', right: 20, bottom: 22, display: 'flex', flexDirection: 'column', gap: 10, zIndex: 44 }}>
         <a href="weixin://" title="WeChat"
           style={{ width: 50, height: 50, borderRadius: '50%', background: '#07C160', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 8px 22px rgba(0,0,0,.25)' }}>
           <svg width="25" height="25" viewBox="0 0 24 24" fill="#fff"><path d="M9.5 4C5.9 4 3 6.4 3 9.4c0 1.7 1 3.2 2.4 4.2l-.6 2 2.2-1.1c.5.1 1 .2 1.6.2.2 0 .4 0 .6-.1-.1-.4-.2-.9-.2-1.3 0-2.8 2.7-5 6-5h.5C14.9 5.9 12.4 4 9.5 4zm5.5 6c-2.9 0-5.2 1.9-5.2 4.2s2.3 4.2 5.2 4.2c.5 0 1-.1 1.4-.2l1.9 1-.5-1.7c1.2-.8 2.2-2 2.2-3.3 0-2.3-2.3-4.2-5-4.2z" /></svg>

@@ -91,7 +91,7 @@ body {
   }
   .site-c .hero-visual .sack-wrap { transform: scale(1.05) !important; }
   .site-c .hero-visual .hero-badge { top: 12px !important; font-size: 12px !important; padding: 7px 13px !important; }
-  .site-c .chat-float { right: 12px !important; bottom: 84px !important; }
+  .site-c .chat-float { right: 12px !important; bottom: 14px !important; }
   .site-c .chat-float a { width: 44px !important; height: 44px !important; }
 }
 
