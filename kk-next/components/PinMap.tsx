@@ -6,14 +6,13 @@ import { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, useMap, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import iconUrl from 'leaflet/dist/images/marker-icon.png';
-import iconRetinaUrl from 'leaflet/dist/images/marker-icon-2x.png';
-import shadowUrl from 'leaflet/dist/images/marker-shadow.png';
 
-// 번들러에서 기본 마커 경로가 깨지므로 명시 지정
-const markerIcon = L.icon({
-  iconUrl: iconUrl.src, iconRetinaUrl: iconRetinaUrl.src, shadowUrl: shadowUrl.src,
-  iconSize: [25, 41], iconAnchor: [12, 41], shadowSize: [41, 41],
+// 이미지 에셋 대신 CSS 핀(divIcon) — 번들러 이미지 처리와 무관하게 항상 동작
+const markerIcon = L.divIcon({
+  className: 'kk-pin',
+  html: '<div class="kk-pin-drop"><div class="kk-pin-core"></div></div>',
+  iconSize: [32, 40],
+  iconAnchor: [16, 38],
 });
 
 // 기본 중심: 울란바토르
