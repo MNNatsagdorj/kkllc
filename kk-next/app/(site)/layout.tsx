@@ -21,11 +21,11 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
             <Link href="/#about" style={navLink}>Бидний тухай</Link>
           </div>
           <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 12 }}>
-            <a href="tel:70112233" className="mono max-sm:hidden"
+            <a href="tel:88204057" className="mono max-sm:hidden"
               style={{ color: 'rgba(255,255,255,.75)', fontSize: 12.5, fontWeight: 700, whiteSpace: 'nowrap' }}>
-              ☎ 7011-2233
+              ☎ 8820-4057
             </a>
-            <a href="tel:70112233"
+            <a href="tel:88204057"
               style={{ background: 'var(--accent)', color: 'var(--accent-ink)', fontWeight: 700, fontSize: 13, padding: '10px 17px', whiteSpace: 'nowrap' }}>
               Үнийн санал авах
             </a>
@@ -46,7 +46,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
             <Link href="/track" style={{ color: 'rgba(255,255,255,.6)' }}>Захиалга шалгах</Link>
           </div>
           <div style={{ color: 'rgba(255,255,255,.4)', fontSize: 12 }} className="mono">
-            © 2026 Kokorozashi Kibou ХХК · ☎ 7011-2233 · Үйлдвэр: СХД, Улаанбаатар
+            © 2026 Kokorozashi Kibou ХХК · ☎ 8820-4057 · Үйлдвэр: СХД, Улаанбаатар
           </div>
         </div>
       </footer>
@@ -57,7 +57,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
           style={{ width: 50, height: 50, borderRadius: '50%', background: '#07C160', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 8px 22px rgba(0,0,0,.25)' }}>
           <svg width="25" height="25" viewBox="0 0 24 24" fill="#fff"><path d="M9.5 4C5.9 4 3 6.4 3 9.4c0 1.7 1 3.2 2.4 4.2l-.6 2 2.2-1.1c.5.1 1 .2 1.6.2.2 0 .4 0 .6-.1-.1-.4-.2-.9-.2-1.3 0-2.8 2.7-5 6-5h.5C14.9 5.9 12.4 4 9.5 4zm5.5 6c-2.9 0-5.2 1.9-5.2 4.2s2.3 4.2 5.2 4.2c.5 0 1-.1 1.4-.2l1.9 1-.5-1.7c1.2-.8 2.2-2 2.2-3.3 0-2.3-2.3-4.2-5-4.2z" /></svg>
         </a>
-        <a href="https://wa.me/97670112233" target="_blank" rel="noopener noreferrer" title="WhatsApp"
+        <a href="https://wa.me/97688204057" target="_blank" rel="noopener noreferrer" title="WhatsApp"
           style={{ width: 50, height: 50, borderRadius: '50%', background: '#25D366', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 8px 22px rgba(0,0,0,.25)' }}>
           <svg width="25" height="25" viewBox="0 0 24 24" fill="#fff"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3zm4.3 12.6c-.2.6-1.2 1.1-1.7 1.1-.4 0-1 .2-3.3-.8-2.8-1.2-4.5-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8 0-1.3.7-2 1-2.2.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5s.8 1.9.8 2c.1.1.1.3 0 .5l-.4.6c-.1.2-.3.3-.1.6.2.3.8 1.4 1.8 2.2 1.3 1.1 2.3 1.4 2.6 1.6.3.1.5.1.7-.1l.9-1c.2-.3.4-.2.7-.1l1.8.9c.3.1.5.2.5.3.1.1.1.7-.3 1.2z" /></svg>
         </a>

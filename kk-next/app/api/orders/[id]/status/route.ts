@@ -60,7 +60,7 @@ export async function PATCH(
   if (body.status === 'en_route' && order.customer_id) {
     const { data: cust } = await db.from('customers')
       .select('phone').eq('id', order.customer_id).single();
-    await sendSMS(cust?.phone, `Ачаа тань замд гарлаа. Захиалга #${orderId} — KK LLC ☎ 7011-2233`);
+    await sendSMS(cust?.phone, `Ачаа тань замд гарлаа. Захиалга #${orderId} — KK LLC ☎ 8820-4057`);
   }
 
   await db.from('order_status_history').insert({

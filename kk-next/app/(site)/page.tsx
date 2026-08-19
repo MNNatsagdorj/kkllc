@@ -38,7 +38,7 @@ export default async function Home() {
                 <a href="#products" style={{ background: '#14181D', color: '#fff', fontWeight: 700, fontSize: 14.5, padding: '14px 25px' }}>
                   Захиалга өгөх
                 </a>
-                <a href="tel:70112233" style={{ border: '1.5px solid #14181D', color: '#14181D', fontWeight: 700, fontSize: 14, padding: '13px 22px' }}>
+                <a href="tel:88204057" style={{ border: '1.5px solid #14181D', color: '#14181D', fontWeight: 700, fontSize: 14, padding: '13px 22px' }}>
                   Бөөний үнэ авах
                 </a>
               </div>
@@ -72,7 +72,7 @@ export default async function Home() {
           <h2 className="disp" style={{ fontSize: 28, textTransform: 'uppercase', color: 'var(--site-text)', margin: 0 }}>
             Эрэлттэй бүтээгдэхүүн
           </h2>
-          <a href="tel:70112233" style={{ fontSize: 13.5, fontWeight: 700, borderBottom: '2px solid var(--accent)', paddingBottom: 2, color: 'var(--site-text)' }} className="max-sm:hidden">
+          <a href="tel:88204057" style={{ fontSize: 13.5, fontWeight: 700, borderBottom: '2px solid var(--accent)', paddingBottom: 2, color: 'var(--site-text)' }} className="max-sm:hidden">
             Бөөний үнэ асуух →
           </a>
         </div>
