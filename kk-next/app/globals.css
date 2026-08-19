@@ -42,6 +42,28 @@ body {
 .mono { font-family: var(--font-mono-stack); }
 .disp { font-family: var(--font-disp-stack); }
 
+/* ===== 공개 사이트 리스킨 (Home-C.dc.html 시안) =====
+   .site-c 스코프에서만 토큰을 덮어써 관리자·기사 앱은 기존 네이비+크라프트 유지 */
+.site-c {
+  --site-bg:   #F6F5F2;
+  --site-card: #FFFFFF;
+  --site-line: rgba(20, 24, 29, .12);
+  --site-text: #14181D;
+  --ink:  #14181D;   /* 다크 서피스/버튼 */
+  --ink3: #232A33;
+  --kraft: #FFC400;  /* 액센트 → 옐로 */
+  --kraft-deep: #8A6D00; /* 라이트 배경 위 텍스트용 다크 옐로 */
+  --accent: #FFC400;
+  --accent-ink: #14181D;
+  background: var(--site-bg);
+  color: var(--site-text);
+}
+.site-c .disp {
+  font-family: var(--font-oswald), 'Arial Narrow', sans-serif;
+  font-weight: 600;
+  letter-spacing: .01em;
+}
+
 /* 블루프린트 그리드 (관리자 다크 배경 장식) */
 .blueprint {
   background-color: var(--ink);

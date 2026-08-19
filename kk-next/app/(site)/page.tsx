@@ -1,13 +1,15 @@
-// 홈 — 히어로 + 무료배송 배너 + 카탈로그(DB) + 장바구니 바 + 주문조회 티저 (04 문서)
+// 홈 — Нүүр C 시안: 히어로(포대 비주얼) + 옐로 무료배송 밴드 + 카탈로그(DB) + 계산기 + 조회 티저
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import type { Product } from '@/lib/types';
+import { Sack } from '@/components/Sack';
 import { Catalog } from './_components/Catalog';
 import { CartBar } from './_components/CartBar';
+import { BagCalculator } from './_components/BagCalculator';
 
 export const dynamic = 'force-dynamic';
 
-const wrap: React.CSSProperties = { maxWidth: 1060, margin: '0 auto', padding: '0 20px' };
+const wrap: React.CSSProperties = { maxWidth: 1240, margin: '0 auto', padding: '0 20px' };
 
 export default async function Home() {
   const supabase = await createClient();
@@ -17,62 +19,94 @@ export default async function Home() {
 
   return (
     <div style={{ paddingBottom: 90 }}>
-      {/* 히어로 */}
-      <section style={{ background: 'linear-gradient(180deg, #FBFAF5, var(--site-bg))', padding: '54px 0 40px' }}>
-        <div style={wrap}>
-          <h1 className="disp" style={{ fontSize: 'clamp(26px, 4.5vw, 42px)', lineHeight: 1.2, color: 'var(--site-text)', maxWidth: 640 }}>
-            Үйлдвэрээс шууд.<br />Таны барилгад — <span style={{ color: 'var(--kraft-deep)' }}>өдөртөө.</span>
-          </h1>
-          <p style={{ fontSize: 15, color: '#5E6C80', maxWidth: 560, margin: '14px 0 20px', lineHeight: 1.65 }}>
-            Замаск·цавууг өөрсдөө үйлдвэрлэнэ. Дэлгүүр, хувь хүнд аль алинд нь нийлүүлнэ.
-            <b style={{ color: 'var(--site-text)' }}> 100+ш захиалгад УБ хот дотор хүргэлт үнэгүй.</b>
-          </p>
-          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 26 }}>
-            <a href="#products" style={{ padding: '12px 22px', borderRadius: 9, background: 'var(--ink)', color: '#EFECE3', fontWeight: 800, fontSize: 14 }}>Захиалга өгөх</a>
-            <a href="tel:70112233" style={{ padding: '12px 22px', borderRadius: 9, border: '1.5px solid var(--ink)', color: 'var(--ink)', fontWeight: 800, fontSize: 14 }}>Дэлгүүрт бөөний үнэ авах</a>
-          </div>
-          <div style={{ display: 'flex', gap: 26, flexWrap: 'wrap' }}>
-            {[['10+ жил', 'туршлага'], ['5 нэр төрөл', 'бүтээгдэхүүн'], ['24 цаг', 'дотор хүргэлт']].map(([v, l]) => (
-              <div key={l}>
-                <div className="disp" style={{ fontSize: 19, color: 'var(--site-text)' }}>{v}</div>
-                <div style={{ fontSize: 12, color: '#8A8062' }}>{l}</div>
+      {/* 히어로 — 좌 텍스트 / 우 포대 비주얼 (시안 46/54 그리드) */}
+      <section style={{ background: '#EDEBE6' }}>
+        <div style={{ maxWidth: 1240, margin: '0 auto', display: 'grid', alignItems: 'stretch' }} className="md:grid-cols-[46%_54%]">
+          <div style={{ padding: '54px 20px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            <div style={{ maxWidth: 470 }}>
+              <div style={{ fontSize: 11.5, fontWeight: 700, letterSpacing: '.16em', color: '#626B76', marginBottom: 15 }}>
+                ҮЙЛДВЭРЛЭГЧ · БӨӨНИЙ БОЛОН ЖИЖИГЛЭН
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 무료배송 배너 */}
-      <section id="delivery" style={wrap}>
-        <div style={{ background: 'var(--ink)', borderRadius: 16, padding: '20px 24px', display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap', justifyContent: 'space-between' }}>
-          <div>
-            <div className="disp" style={{ color: 'var(--kraft)', fontSize: 19 }}>100+ ширхэгт хүргэлт үнэгүй</div>
-            <div style={{ color: 'var(--mut)', fontSize: 12.5, marginTop: 5 }}>
-              УБ хотын бүх дүүрэгт · Өөрийн ачааны машинаар · Ажлын өдөр 09:00–19:00
+              <h1 className="disp" style={{ fontSize: 'clamp(30px, 4.5vw, 46px)', lineHeight: 1.1, margin: '0 0 15px', textTransform: 'uppercase', color: 'var(--site-text)' }}>
+                Үйлдвэрээс шууд, бөөний үнээр
+              </h1>
+              <p style={{ fontSize: 15, lineHeight: 1.6, color: '#4A525C', margin: '0 0 24px' }}>
+                Замаск·цавууг өөрсдөө үйлдвэрлэнэ. Дэлгүүр, хувь хүнд аль алинд нь нийлүүлнэ.
+                <b style={{ color: 'var(--site-text)' }}> 100+ш захиалгад УБ хот дотор хүргэлт үнэгүй.</b>
+              </p>
+              <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 32, flexWrap: 'wrap' }}>
+                <a href="#products" style={{ background: '#14181D', color: '#fff', fontWeight: 700, fontSize: 14.5, padding: '14px 25px' }}>
+                  Захиалга өгөх
+                </a>
+                <a href="tel:70112233" style={{ border: '1.5px solid #14181D', color: '#14181D', fontWeight: 700, fontSize: 14, padding: '13px 22px' }}>
+                  Бөөний үнэ авах
+                </a>
+              </div>
+              <div style={{ display: 'flex', gap: 30, flexWrap: 'wrap' }}>
+                {[['10+ жил', 'туршлага'], [`${products.length} нэр төрөл`, 'бүтээгдэхүүн'], ['24 цаг', 'дотор хүргэлт']].map(([v, l]) => (
+                  <div key={l}>
+                    <div className="disp" style={{ fontSize: 22, color: 'var(--site-text)' }}>{v}</div>
+                    <div style={{ fontSize: 12, color: '#626B76' }}>{l}</div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-          <span className="mono" style={{ background: 'var(--ink3)', border: '1px solid var(--line)', color: '#EFECE3', borderRadius: 999, padding: '8px 16px', fontSize: 12.5, fontWeight: 700 }}>
-            100ш-ээс доош → хүргэлт 30,000₮
-          </span>
+          {/* 비주얼: 잉크 배경 + 실제 제품 포대 라인업 (시안의 hero image slot 대체) */}
+          <div style={{ position: 'relative', minHeight: 320, background: '#14181D', overflow: 'hidden', display: 'flex', alignItems: 'flex-end', justifyContent: 'center', gap: 6, padding: '30px 16px 0' }}>
+            {products.slice(0, 5).map((p) => (
+              <div key={p.id} style={{ transform: 'scale(1.25)', transformOrigin: 'bottom' }}>
+                <Sack band={p.band_color} />
+              </div>
+            ))}
+            <div className="disp" style={{ position: 'absolute', top: 20, left: 0, background: 'var(--accent)', color: 'var(--accent-ink)', padding: '9px 17px', fontSize: 14 }}>
+              2026 КАТАЛОГ
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* 카탈로그 */}
-      <section id="products" style={{ ...wrap, marginTop: 38 }}>
-        <h2 className="disp" style={{ fontSize: 22, color: 'var(--site-text)', marginBottom: 16 }}>Бүтээгдэхүүн</h2>
+      {/* 무료배송 — 옐로 밴드 (시안 CTA 밴드) */}
+      <section id="delivery" style={{ background: 'var(--accent)', color: 'var(--accent-ink)' }}>
+        <div style={{ maxWidth: 1240, margin: '0 auto', padding: '26px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px 28px', flexWrap: 'wrap' }}>
+          <div>
+            <div className="disp" style={{ fontSize: 21, textTransform: 'uppercase' }}>100+ ширхэгт хүргэлт үнэгүй</div>
+            <div style={{ fontSize: 13, marginTop: 4, fontWeight: 600, opacity: .8 }}>
+              УБ хотын бүх дүүрэгт · Өөрийн ачааны машинаар · 09:00–19:00 · 100ш-ээс доош хүргэлт 30,000₮
+            </div>
+          </div>
+          <a href="tel:70112233" style={{ background: '#14181D', color: '#fff', fontWeight: 700, fontSize: 14, padding: '13px 22px', flex: 'none' }}>
+            Холбоо барих →
+          </a>
+        </div>
+      </section>
+
+      {/* 카탈로그 (DB 연동) */}
+      <section id="products" style={{ ...wrap, marginTop: 52 }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 20, marginBottom: 22 }}>
+          <h2 className="disp" style={{ fontSize: 28, textTransform: 'uppercase', color: 'var(--site-text)', margin: 0 }}>
+            Эрэлттэй бүтээгдэхүүн
+          </h2>
+          <a href="tel:70112233" style={{ fontSize: 13.5, fontWeight: 700, borderBottom: '2px solid var(--accent)', paddingBottom: 2, color: 'var(--site-text)' }} className="max-sm:hidden">
+            Бөөний үнэ асуух →
+          </a>
+        </div>
         <Catalog products={products} />
       </section>
 
+      {/* 우트 계산기 */}
+      <BagCalculator />
+
       {/* 주문조회 티저 */}
-      <section style={{ ...wrap, marginTop: 44 }}>
-        <div style={{ background: '#FBFAF5', border: '1px solid var(--site-line)', borderRadius: 16, padding: '22px 24px', display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap', justifyContent: 'space-between' }}>
+      <section style={{ ...wrap, marginTop: 52 }}>
+        <div style={{ background: '#fff', border: '1px solid var(--site-line)', padding: '22px 24px', display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap', justifyContent: 'space-between' }}>
           <div>
-            <div style={{ fontWeight: 800, fontSize: 15.5, color: 'var(--site-text)' }}>Захиалгаа шалгах</div>
+            <div className="disp" style={{ fontSize: 18, color: 'var(--site-text)', textTransform: 'uppercase' }}>Захиалгаа шалгах</div>
             <div style={{ fontSize: 13, color: '#5E6C80', marginTop: 4 }}>
               Бүртгүүлэх шаардлагагүй — захиалга өгсөн утасны дугаараа оруулаад явцаа хараарай.
             </div>
           </div>
-          <Link href="/track" style={{ padding: '11px 20px', borderRadius: 9, background: 'var(--kraft)', color: 'var(--ink)', fontWeight: 800, fontSize: 13.5 }}>
+          <Link href="/track" style={{ padding: '12px 22px', background: 'var(--accent)', color: 'var(--accent-ink)', fontWeight: 700, fontSize: 13.5 }}>
             Шалгах →
           </Link>
         </div>
