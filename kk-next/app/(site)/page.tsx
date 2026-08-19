@@ -22,7 +22,7 @@ export default async function Home() {
       {/* 히어로 — 좌 텍스트 / 우 포대 비주얼 (시안 46/54 그리드) */}
       <section style={{ background: '#EDEBE6' }}>
         <div style={{ maxWidth: 1240, margin: '0 auto', display: 'grid', alignItems: 'stretch' }} className="md:grid-cols-[46%_54%]">
-          <div style={{ padding: '54px 20px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          <div className="hero-pad" style={{ padding: '54px 20px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
             <div style={{ maxWidth: 470 }}>
               <div style={{ fontSize: 11.5, fontWeight: 700, letterSpacing: '.16em', color: '#626B76', marginBottom: 15 }}>
                 ҮЙЛДВЭРЛЭГЧ · БӨӨНИЙ БОЛОН ЖИЖИГЛЭН
@@ -53,9 +53,9 @@ export default async function Home() {
             </div>
           </div>
           {/* 비주얼: 잉크 배경 + 실제 제품 포대 라인업 (시안의 hero image slot 대체) */}
-          <div style={{ position: 'relative', minHeight: 320, background: '#14181D', overflow: 'hidden', display: 'flex', alignItems: 'flex-end', justifyContent: 'center', gap: 6, padding: '30px 16px 0' }}>
+          <div className="hero-visual" style={{ position: 'relative', minHeight: 320, background: '#14181D', overflow: 'hidden', display: 'flex', alignItems: 'flex-end', justifyContent: 'center', gap: 6, padding: '30px 16px 0' }}>
             {products.slice(0, 5).map((p) => (
-              <div key={p.id} style={{ transform: 'scale(1.25)', transformOrigin: 'bottom' }}>
+              <div key={p.id} className="sack-wrap" style={{ transform: 'scale(1.25)', transformOrigin: 'bottom', flex: 'none' }}>
                 <Sack band={p.band_color} />
               </div>
             ))}
@@ -69,7 +69,7 @@ export default async function Home() {
       {/* 카탈로그 (DB 연동) */}
       <section id="products" style={{ ...wrap, marginTop: 52 }}>
         <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 20, marginBottom: 22 }}>
-          <h2 className="disp" style={{ fontSize: 28, textTransform: 'uppercase', color: 'var(--site-text)', margin: 0 }}>
+          <h2 className="disp" style={{ fontSize: 'clamp(21px, 4vw, 28px)', textTransform: 'uppercase', color: 'var(--site-text)', margin: 0 }}>
             Эрэлттэй бүтээгдэхүүн
           </h2>
           <a href="tel:88204057" style={{ fontSize: 13.5, fontWeight: 700, borderBottom: '2px solid var(--accent)', paddingBottom: 2, color: 'var(--site-text)' }} className="max-sm:hidden">

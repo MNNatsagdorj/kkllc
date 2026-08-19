@@ -64,6 +64,26 @@ body {
   letter-spacing: .01em;
 }
 
+/* 사이트 모바일 (≤640px) — 인라인 스타일을 덮어야 해서 !important 사용 */
+.site-nav-mobile { display: none; }
+@media (max-width: 640px) {
+  .site-nav-mobile {
+    display: flex; gap: 22px; overflow-x: auto; scrollbar-width: none;
+    padding: 0 16px; background: #0F1216;
+  }
+  .site-nav-mobile a {
+    color: rgba(255, 255, 255, .7); font-size: 12.5px; font-weight: 600;
+    padding: 10px 0; white-space: nowrap; flex: none;
+  }
+  .site-brand-sub { display: none !important; }
+  .site-cta-quote { padding: 9px 12px !important; font-size: 12px !important; }
+  .site-c .hero-pad { padding: 34px 16px !important; }
+  .site-c .hero-visual { min-height: 210px !important; gap: 2px !important; }
+  .site-c .hero-visual .sack-wrap { transform: scale(1) !important; }
+  .site-c .chat-float { right: 12px !important; bottom: 84px !important; }
+  .site-c .chat-float a { width: 44px !important; height: 44px !important; }
+}
+
 /* 블루프린트 그리드 (관리자 다크 배경 장식) */
 .blueprint {
   background-color: var(--ink);

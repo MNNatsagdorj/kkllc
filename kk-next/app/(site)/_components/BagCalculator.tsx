@@ -21,7 +21,7 @@ export function BagCalculator() {
       <div style={{ maxWidth: 1240, margin: '0 auto', padding: '54px 20px', display: 'grid', gap: 40, alignItems: 'center' }}
         className="md:grid-cols-[.9fr_1.1fr]">
         <div>
-          <h2 className="disp" style={{ fontSize: 28, margin: '0 0 13px', textTransform: 'uppercase' }}>Хэдэн уут хэрэгтэй вэ?</h2>
+          <h2 className="disp" style={{ fontSize: 'clamp(21px, 4vw, 28px)', margin: '0 0 13px', textTransform: 'uppercase' }}>Хэдэн уут хэрэгтэй вэ?</h2>
           <p style={{ fontSize: 14.5, lineHeight: 1.6, color: 'rgba(255,255,255,.65)', margin: 0, maxWidth: 380 }}>
             Талбайгаа оруулахад хэдэн уут хэрэгтэйг шууд харуулна. Тооцоо дундаж норм дээр
             суурилах бөгөөд нарийвчилсан хэмжээг манай ажилтан баталгаажуулна.

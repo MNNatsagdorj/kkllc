@@ -12,7 +12,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
             <span style={{ width: 34, height: 34, background: 'var(--accent)', color: 'var(--accent-ink)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'serif', fontSize: 18, fontWeight: 700 }}>志</span>
             <span style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.05 }}>
               <span className="disp" style={{ fontSize: 15, letterSpacing: '.05em' }}>KOKOROZASHI KIBOU</span>
-              <span style={{ fontSize: 8, letterSpacing: '.2em', color: 'rgba(255,255,255,.5)', fontWeight: 600 }}>ХУУРАЙ ЗУУРМАГИЙН ҮЙЛДВЭР</span>
+              <span className="site-brand-sub" style={{ fontSize: 8, letterSpacing: '.2em', color: 'rgba(255,255,255,.5)', fontWeight: 600 }}>ХУУРАЙ ЗУУРМАГИЙН ҮЙЛДВЭР</span>
             </span>
           </Link>
           <div style={{ display: 'flex', gap: 18, marginLeft: 10 }} className="max-sm:hidden">
@@ -25,12 +25,19 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
               style={{ color: 'rgba(255,255,255,.75)', fontSize: 12.5, fontWeight: 700, whiteSpace: 'nowrap' }}>
               ☎ 8820-4057
             </a>
-            <a href="tel:88204057"
+            <a href="tel:88204057" className="site-cta-quote"
               style={{ background: 'var(--accent)', color: 'var(--accent-ink)', fontWeight: 700, fontSize: 13, padding: '10px 17px', whiteSpace: 'nowrap' }}>
               Үнийн санал авах
             </a>
           </div>
         </div>
+        {/* 모바일 전용 내비 (데스크톱 링크가 숨는 ≤640px에서만 표시) */}
+        <nav className="site-nav-mobile">
+          <Link href="/#products">Бүтээгдэхүүн</Link>
+          <Link href="/track">Захиалга шалгах</Link>
+          <Link href="/#about">Бидний тухай</Link>
+          <a href="tel:88204057" className="mono">☎ 8820-4057</a>
+        </nav>
       </header>
 
       <div style={{ flex: 1 }}>{children}</div>
@@ -52,7 +59,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
       </footer>
 
       {/* 채팅 플로팅 — WhatsApp / WeChat (CartBar와 겹치지 않게 위로) */}
-      <div style={{ position: 'fixed', right: 20, bottom: 96, display: 'flex', flexDirection: 'column', gap: 10, zIndex: 44 }}>
+      <div className="chat-float" style={{ position: 'fixed', right: 20, bottom: 96, display: 'flex', flexDirection: 'column', gap: 10, zIndex: 44 }}>
         <a href="weixin://" title="WeChat"
           style={{ width: 50, height: 50, borderRadius: '50%', background: '#07C160', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 8px 22px rgba(0,0,0,.25)' }}>
           <svg width="25" height="25" viewBox="0 0 24 24" fill="#fff"><path d="M9.5 4C5.9 4 3 6.4 3 9.4c0 1.7 1 3.2 2.4 4.2l-.6 2 2.2-1.1c.5.1 1 .2 1.6.2.2 0 .4 0 .6-.1-.1-.4-.2-.9-.2-1.3 0-2.8 2.7-5 6-5h.5C14.9 5.9 12.4 4 9.5 4zm5.5 6c-2.9 0-5.2 1.9-5.2 4.2s2.3 4.2 5.2 4.2c.5 0 1-.1 1.4-.2l1.9 1-.5-1.7c1.2-.8 2.2-2 2.2-3.3 0-2.3-2.3-4.2-5-4.2z" /></svg>
