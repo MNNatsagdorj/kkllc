@@ -16,7 +16,7 @@ function MiniChip({ children, color }: { children: React.ReactNode; color: strin
   );
 }
 
-export function OrderCard({ order, onAssign }: { order: OrderRow; onAssign: () => void }) {
+export function OrderCard({ order, onAssign, onOpen }: { order: OrderRow; onAssign: () => void; onOpen: () => void }) {
   const time = order.created_at ? new Date(order.created_at).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) : '';
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
@@ -35,7 +35,8 @@ export function OrderCard({ order, onAssign }: { order: OrderRow; onAssign: () =
   };
 
   return (
-    <div style={{ background: 'var(--ink2)', border: '1px solid var(--line)', borderRadius: 11, padding: '11px 13px' }}>
+    // 카드 아무 곳이나 클릭 → 상세 드로어 (버튼은 stopPropagation)
+    <div onClick={onOpen} style={{ background: 'var(--ink2)', border: '1px solid var(--line)', borderRadius: 11, padding: '11px 13px', cursor: 'pointer' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 7 }}>
         <span className="mono" style={{ fontSize: 13, fontWeight: 700, color: 'var(--kraft)' }}>
           {fmtOrderNo(order.id)}
@@ -73,11 +74,11 @@ export function OrderCard({ order, onAssign }: { order: OrderRow; onAssign: () =
         {order.status === 'pending' ? (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
             <div style={{ display: 'flex', gap: 7 }}>
-              <button onClick={() => decide('new')} disabled={busy}
+              <button onClick={(e) => { e.stopPropagation(); decide('new'); }} disabled={busy}
                 style={{ flex: 1, padding: '8px 0', borderRadius: 8, fontSize: 12.5, fontWeight: 800, border: 0, background: 'var(--st-done)', color: '#fff', cursor: 'pointer', opacity: busy ? 0.6 : 1 }}>
                 ✓ Зөвшөөрөх
               </button>
-              <button onClick={() => decide('cancelled')} disabled={busy}
+              <button onClick={(e) => { e.stopPropagation(); decide('cancelled'); }} disabled={busy}
                 style={{ padding: '8px 13px', borderRadius: 8, fontSize: 12.5, fontWeight: 700, background: 'transparent', color: 'var(--st-cancel)', border: '1px solid color-mix(in srgb, var(--st-cancel) 50%, transparent)', cursor: 'pointer', opacity: busy ? 0.6 : 1 }}>
                 Татгалзах
               </button>
@@ -87,7 +88,7 @@ export function OrderCard({ order, onAssign }: { order: OrderRow; onAssign: () =
         ) : order.driver ? (
           // 적재 시작 전(new/assigned)까지는 눌러서 기사 교체 가능
           (order.status === 'new' || order.status === 'assigned') ? (
-            <button onClick={onAssign} title="Жолооч солих"
+            <button onClick={(e) => { e.stopPropagation(); onAssign(); }} title="Жолооч солих"
               style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: 11.5, color: 'var(--mut)', width: '100%', background: 'none', border: 0, padding: 0, cursor: 'pointer', textAlign: 'left' }}>
               <span style={{ width: 20, height: 20, borderRadius: '50%', background: 'var(--ink3)', color: 'var(--kraft)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, fontWeight: 800 }}>
                 {order.driver.name.charAt(0)}
@@ -112,7 +113,7 @@ export function OrderCard({ order, onAssign }: { order: OrderRow; onAssign: () =
             </div>
           )
         ) : (
-          <button onClick={onAssign}
+          <button onClick={(e) => { e.stopPropagation(); onAssign(); }}
             style={{ width: '100%', padding: '7px 0', borderRadius: 8, fontSize: 12, fontWeight: 700, background: 'transparent', color: 'var(--kraft)', border: '1px dashed color-mix(in srgb, var(--kraft) 55%, transparent)', cursor: 'pointer' }}>
             + Жолооч хуваарилах
           </button>

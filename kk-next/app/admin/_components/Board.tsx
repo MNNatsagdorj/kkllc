@@ -10,6 +10,7 @@ import type { Product } from '@/lib/types';
 import { OrderCard } from './OrderCard';
 import { NewOrderDrawer } from './NewOrderDrawer';
 import { AssignModal } from './AssignModal';
+import { OrderDetailDrawer } from './OrderDetailDrawer';
 
 const COLUMNS: { key: string; label: string; match: (o: OrderRow) => boolean }[] = [
   { key: 'new', label: 'Шинэ', match: (o) => o.status === 'pending' || o.status === 'new' },
@@ -25,7 +26,10 @@ export function Board() {
   const [products, setProducts] = useState<Product[]>([]);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [assignFor, setAssignFor] = useState<OrderRow | null>(null);
+  const [detailId, setDetailId] = useState<number | null>(null);
   const [toast, setToast] = useState<string | null>(null);
+  // id로 참조 → Realtime refetch 시 드로어 내용도 최신 유지
+  const detail = detailId != null ? orders.find((o) => o.id === detailId) ?? null : null;
 
   const notify = useCallback((msg: string) => {
     setToast(msg);
@@ -109,7 +113,7 @@ export function Board() {
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
                   {cards.map((o) => (
-                    <OrderCard key={o.id} order={o} onAssign={() => setAssignFor(o)} />
+                    <OrderCard key={o.id} order={o} onAssign={() => setAssignFor(o)} onOpen={() => setDetailId(o.id)} />
                   ))}
                   {cards.length === 0 && (
                     <div style={{ padding: '26px 0', textAlign: 'center', fontSize: 12, color: 'var(--mut)' }}>Хоосон</div>
@@ -129,6 +133,7 @@ export function Board() {
           onCreated={(msg) => { setDrawerOpen(false); notify(msg); refetch(); }}
         />
       )}
+      {detail && <OrderDetailDrawer order={detail} onClose={() => setDetailId(null)} />}
       {assignFor && (
         <AssignModal
           order={assignFor}

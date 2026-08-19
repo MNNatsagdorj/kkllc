@@ -8,6 +8,7 @@ import { StatusChip } from '@/components/StatusChip';
 import { ORDER_SELECT, itemsSummary, fmtWeight, type OrderRow, type DriverRow } from '@/lib/queries';
 import { STATUS_LABEL_MN } from '@/lib/status';
 import { fmtMNT, fmtOrderNo } from '@/lib/types';
+import { OrderDetailDrawer } from '../_components/OrderDetailDrawer';
 
 const input: React.CSSProperties = {
   padding: '8px 11px', borderRadius: 8, fontSize: 12.5,
@@ -25,6 +26,9 @@ export default function OrdersPage() {
   const [source, setSource] = useState('');
   const [from, setFrom] = useState('');
   const [busy, setBusy] = useState<number | null>(null);
+  const [detailId, setDetailId] = useState<number | null>(null);
+  // id로 참조 → Realtime refetch 시 드로어 내용도 최신 유지
+  const detail = detailId != null ? orders.find((o) => o.id === detailId) ?? null : null;
 
   const refetch = useMemo(() => async () => {
     const { data } = await supabase.from('orders')
@@ -95,7 +99,8 @@ export default function OrdersPage() {
           <span style={{ textAlign: 'right' }}>Дүн</span><span>Жолооч</span><span>Төлөв</span><span></span>
         </div>
         {rows.map((o) => (
-          <div key={o.id} style={{ display: 'grid', gridTemplateColumns: '64px 76px 1.3fr 1.5fr 56px 110px 120px 110px 120px', gap: 10, alignItems: 'center', padding: '11px 16px', borderBottom: '1px solid var(--line)', fontSize: 12.5 }}>
+          <div key={o.id} onClick={() => setDetailId(o.id)}
+            style={{ display: 'grid', gridTemplateColumns: '64px 76px 1.3fr 1.5fr 56px 110px 120px 110px 120px', gap: 10, alignItems: 'center', padding: '11px 16px', borderBottom: '1px solid var(--line)', fontSize: 12.5, cursor: 'pointer' }}>
             <span className="mono" style={{ fontWeight: 700, color: 'var(--kraft)' }}>{fmtOrderNo(o.id)}</span>
             <span className="mono" style={{ color: 'var(--mut)', fontSize: 11.5 }}>{o.created_at.slice(5, 10)}</span>
             <span style={{ minWidth: 0 }}>
@@ -112,12 +117,13 @@ export default function OrdersPage() {
             <span><StatusChip status={o.status} /></span>
             <span style={{ display: 'flex', gap: 6, justifyContent: 'flex-end' }}>
               {o.status === 'delivered' && (
-                <Link href={`/admin/receipt/${o.id}`} style={{ fontSize: 11.5, fontWeight: 700, color: 'var(--kraft)', border: '1px solid var(--line)', borderRadius: 7, padding: '4px 9px' }}>
+                <Link href={`/admin/receipt/${o.id}`} onClick={(e) => e.stopPropagation()}
+                  style={{ fontSize: 11.5, fontWeight: 700, color: 'var(--kraft)', border: '1px solid var(--line)', borderRadius: 7, padding: '4px 9px' }}>
                   Падаан
                 </Link>
               )}
               {(o.status === 'new' || o.status === 'assigned') && (
-                <button onClick={() => cancel(o)} disabled={busy === o.id}
+                <button onClick={(e) => { e.stopPropagation(); cancel(o); }} disabled={busy === o.id}
                   style={{ fontSize: 11.5, fontWeight: 700, color: 'var(--st-cancel)', background: 'none', border: '1px solid var(--line)', borderRadius: 7, padding: '4px 9px', cursor: 'pointer' }}>
                   Цуцлах
                 </button>
@@ -128,6 +134,8 @@ export default function OrdersPage() {
         {rows.length === 0 && <div style={{ padding: '38px 0', textAlign: 'center', color: 'var(--mut)', fontSize: 13 }}>Үр дүн олдсонгүй.</div>}
         </div>
       </div>
+
+      {detail && <OrderDetailDrawer order={detail} onClose={() => setDetailId(null)} />}
     </div>
   );
 }
