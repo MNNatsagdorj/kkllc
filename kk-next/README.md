@@ -24,8 +24,11 @@ npm run dev
    - 관리자: 이메일+비밀번호 생성 후 `profiles`에 `(id, 'manager', '이름')` insert.
    - 기사: 이메일 `driver-{전화숫자}@kkllc.mn`, 비밀번호 = PIN 으로 생성 후
      `profiles`에 `(id, 'driver', '이름')` insert + `drivers.user_id` 연결.
-4. (푸시) Firebase 프로젝트 → 웹앱 설정 JSON을 `NEXT_PUBLIC_FIREBASE_CONFIG`에,
-   Cloud Messaging 서버 키를 `FIREBASE_SERVER_KEY`에. vapidKey는 설정 JSON에 `vapidKey` 필드로 포함.
+4. (푸시) Firebase 프로젝트 생성 후:
+   - 웹앱 추가 → config 객체를 한 줄 JSON으로 `NEXT_PUBLIC_FIREBASE_CONFIG`에.
+     Cloud Messaging → 웹 푸시 인증서(VAPID) 키 쌍 생성 → 그 공개키를 같은 JSON에 `"vapidKey"` 필드로 추가.
+   - 프로젝트 설정 → 서비스 계정 → "새 비공개 키 생성" JSON → `FIREBASE_SERVICE_ACCOUNT`에
+     (원문 또는 base64 한 줄). 발송은 FCM HTTP v1 API 사용 — 레거시 서버 키 불필요.
 
 ## 테스트
 
