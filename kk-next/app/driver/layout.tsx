@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation';
 import { getProfile } from '@/lib/auth';
 import { createClient } from '@/lib/supabase/server';
 import { PushSetup } from './_components/PushSetup';
+import { LogoutButton } from './_components/LogoutButton';
 
 export const dynamic = 'force-dynamic';
 
@@ -35,7 +36,10 @@ export default async function DriverLayout({ children }: { children: React.React
             {vehicle ? `${vehicle.model} · ${vehicle.plate} · ` : ''}{today}
           </div>
         </div>
-        <span className="st-chip" style={{ '--st': 'var(--st-done)' } as React.CSSProperties}>АЖИЛД ✓</span>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 7 }}>
+          <span className="st-chip" style={{ '--st': 'var(--st-done)' } as React.CSSProperties}>АЖИЛД ✓</span>
+          <LogoutButton />
+        </div>
       </header>
       <PushSetup />
       <main style={{ padding: '14px 14px 40px' }}>{children}</main>
