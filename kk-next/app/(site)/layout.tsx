@@ -17,7 +17,6 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
           </Link>
           <div style={{ display: 'flex', gap: 18, marginLeft: 10 }} className="max-sm:hidden">
             <Link href="/#products" style={navLink}>Бүтээгдэхүүн</Link>
-            <Link href="/#delivery" style={navLink}>Хүргэлт</Link>
             <Link href="/track" style={navLink}>Захиалга шалгах</Link>
             <Link href="/#about" style={navLink}>Бидний тухай</Link>
           </div>
@@ -44,7 +43,6 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
           </div>
           <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
             <Link href="/#products" style={{ color: 'rgba(255,255,255,.6)' }}>Бүтээгдэхүүн</Link>
-            <Link href="/#delivery" style={{ color: 'rgba(255,255,255,.6)' }}>Хүргэлт</Link>
             <Link href="/track" style={{ color: 'rgba(255,255,255,.6)' }}>Захиалга шалгах</Link>
           </div>
           <div style={{ color: 'rgba(255,255,255,.4)', fontSize: 12 }} className="mono">

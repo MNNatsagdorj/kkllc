@@ -66,21 +66,6 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* 무료배송 — 옐로 밴드 (시안 CTA 밴드) */}
-      <section id="delivery" style={{ background: 'var(--accent)', color: 'var(--accent-ink)' }}>
-        <div style={{ maxWidth: 1240, margin: '0 auto', padding: '26px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px 28px', flexWrap: 'wrap' }}>
-          <div>
-            <div className="disp" style={{ fontSize: 21, textTransform: 'uppercase' }}>100+ ширхэгт хүргэлт үнэгүй</div>
-            <div style={{ fontSize: 13, marginTop: 4, fontWeight: 600, opacity: .8 }}>
-              УБ хотын бүх дүүрэгт · Өөрийн ачааны машинаар · 09:00–19:00 · 100ш-ээс доош хүргэлт 30,000₮
-            </div>
-          </div>
-          <a href="tel:70112233" style={{ background: '#14181D', color: '#fff', fontWeight: 700, fontSize: 14, padding: '13px 22px', flex: 'none' }}>
-            Холбоо барих →
-          </a>
-        </div>
-      </section>
-
       {/* 카탈로그 (DB 연동) */}
       <section id="products" style={{ ...wrap, marginTop: 52 }}>
         <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 20, marginBottom: 22 }}>
