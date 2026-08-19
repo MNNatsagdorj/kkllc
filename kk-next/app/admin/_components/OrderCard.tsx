@@ -1,7 +1,8 @@
 'use client';
 
-// 주문 카드 (05 문서 필드 그대로) + 웹 주문 승인/거절 (pending)
-import { useState } from 'react';
+// 주문 카드 (05 문서 필드 그대로) + 웹 주문 승인/거절 (pending) + 배송 증빙 썸네일 (delivered)
+import { useEffect, useMemo, useState } from 'react';
+import { createClient } from '@/lib/supabase/client';
 import { StatusChip } from '@/components/StatusChip';
 import { itemsSummary, fmtWeight, type OrderRow } from '@/lib/queries';
 import { fmtMNT, fmtOrderNo } from '@/lib/types';
@@ -20,6 +21,15 @@ export function OrderCard({ order, onAssign, onOpen }: { order: OrderRow; onAssi
   const time = order.created_at ? new Date(order.created_at).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) : '';
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+  const supabase = useMemo(() => createClient(), []);
+  const [proofUrl, setProofUrl] = useState<string | null>(null);
+
+  // 배송 완료 카드: 기사 증빙 사진 썸네일 (클릭 → 드로어에서 크게)
+  useEffect(() => {
+    if (order.status !== 'delivered' || !order.proof_photo_url) { setProofUrl(null); return; }
+    supabase.storage.from('delivery-proofs').createSignedUrl(order.proof_photo_url, 3600)
+      .then(({ data }) => setProofUrl(data?.signedUrl ?? null));
+  }, [supabase, order.status, order.proof_photo_url]);
 
   // pending 승인/거절 — 성공 시 Realtime이 보드를 갱신
   const decide = async (status: 'new' | 'cancelled') => {
@@ -69,6 +79,16 @@ export function OrderCard({ order, onAssign, onOpen }: { order: OrderRow; onAssi
         </span>
         <span className="mono" style={{ fontSize: 11.5, color: 'var(--mut)' }}>{fmtWeight(Number(order.total_weight_kg))}</span>
       </div>
+
+      {proofUrl && (
+        <div style={{ position: 'relative', marginTop: 9, borderRadius: 9, overflow: 'hidden', border: '1px solid var(--line)' }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={proofUrl} alt="Хүргэлтийн баталгаа" style={{ display: 'block', width: '100%', height: 92, objectFit: 'cover' }} />
+          <span style={{ position: 'absolute', bottom: 6, left: 7, borderRadius: 999, padding: '2px 9px', fontSize: 9.5, fontWeight: 800, background: 'rgba(14,27,46,.8)', color: 'var(--st-done)' }}>
+            📷 БАТАЛГАА
+          </span>
+        </div>
+      )}
 
       <div style={{ borderTop: '1px solid var(--line)', marginTop: 9, paddingTop: 8 }}>
         {order.status === 'pending' ? (
