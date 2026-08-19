@@ -93,7 +93,14 @@ export async function POST(request: Request) {
     note: body.note ?? null,
     created_by: profile?.userId ?? null,
   }).select('id').single();
-  if (oErr) return badRequest(oErr.message);
+  if (oErr) {
+    // 0006 마이그레이션 미적용(enum에 pending 없음) — 고객에게 SQL 오류 원문 대신 안내
+    if (oErr.message.includes('invalid input value for enum order_status')) {
+      console.error('order_status enum에 pending 없음 — supabase/migrations/0006_pending_approval.sql을 SQL Editor에서 실행하세요');
+      return badRequest('Систем шинэчлэгдэж байна — түр хүлээгээд дахин оролдоно уу');
+    }
+    return badRequest(oErr.message);
+  }
 
   const { error: iErr } = await db.from('order_items').insert(rows.map((r) => ({
     order_id: order.id,
