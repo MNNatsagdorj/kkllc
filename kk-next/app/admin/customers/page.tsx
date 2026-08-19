@@ -28,22 +28,22 @@ export default function CustomersPage() {
   }, []);
 
   const refetch = useCallback(async () => {
-    let c = await supabase.from('customers')
+    const full = await supabase.from('customers')
       .select('id, name, phone, type, district, address, email, tier, lat, lng, note, credit_balance')
       .order('name');
-    if (c.error) {
+    let data = full.data as Partial<CustomerRow>[] | null;
+    if (full.error) {
       // 0007(email·tier) 미적용 DB — 기존 컬럼만으로 폴백해 페이지는 계속 동작
-      console.error('customers select failed (0007 마이그레이션 적용됐는지 확인)', c.error);
-      c = await supabase.from('customers')
+      console.error('customers select failed (0007 마이그레이션 적용됐는지 확인)', full.error);
+      const fb = await supabase.from('customers')
         .select('id, name, phone, type, district, address, lat, lng, note, credit_balance')
         .order('name');
+      data = fb.data as Partial<CustomerRow>[] | null;
     }
     const o = await supabase.from('orders')
       .select('id, customer_id, status, created_at, subtotal_mnt, delivery_fee_mnt, payment_method')
       .order('created_at', { ascending: false }).limit(1000);
-    setCustomers(((c.data ?? []) as Partial<CustomerRow>[]).map((r) => ({
-      email: null, tier: 'new', ...r,
-    })) as CustomerRow[]);
+    setCustomers((data ?? []).map((r) => ({ email: null, tier: 'new', ...r })) as CustomerRow[]);
     setOrders((o.data ?? []) as MiniOrder[]);
   }, [supabase]);
 
