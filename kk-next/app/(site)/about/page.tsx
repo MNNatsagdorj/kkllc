@@ -36,9 +36,16 @@ const TIMELINE = [
 ];
 
 const STATS = [
-  { value: '50+', label: 'Жижиглэнгийн цэг' },
-  { value: '100+', label: 'Томоохон төсөл' },
-  { value: '500+', label: 'Үйлчлүүлэгч' },
+  { value: '50+', label: 'Жижиглэнгийн цэг', sub: 'Улаанбаатар даяар' },
+  { value: '100+', label: 'Орон сууц, томоохон барилга', sub: 'материал нийлүүлсэн' },
+  { value: '500+', label: 'Үйлчлүүлэгч', sub: 'давтан захиалгатай' },
+];
+
+// 프로젝트 유형 — 실제 건물명·발주처를 넣으려면 title을 그 이름으로 교체
+const PROJECTS = [
+  { title: 'Орон сууцны цогцолбор', desc: 'Дотор ханын замаск, плитаны цавууг үе шаттайгаар, барилгын графикт нийцүүлэн нийлүүлдэг.' },
+  { title: 'Оффис, худалдааны төв', desc: 'Их эзэлхүүний тогтмол нийлүүлэлт — нэг өдрийн дотор паллетаар хүргэнэ.' },
+  { title: 'Сургууль, цэцэрлэг', desc: 'Стандартын шаардлага хангасан, гэрчилгээтэй материалыг хугацаанд нь.' },
 ];
 
 export default function AboutPage() {
@@ -135,19 +142,39 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* 유통망 통계 — 잉크 밴드 */}
+      {/* 유통망 · 프로젝트 실적 — 잉크 밴드 */}
       <section style={{ background: '#14181D', color: '#fff', marginTop: 56 }}>
         <div style={{ ...wrap, padding: '44px 20px' }}>
-          <h2 className="disp" style={{ fontSize: 'clamp(21px, 4vw, 28px)', textTransform: 'uppercase', margin: '0 0 24px' }}>
-            Түгээлтийн сүлжээ
+          <h2 className="disp" style={{ fontSize: 'clamp(21px, 4vw, 28px)', textTransform: 'uppercase', margin: '0 0 8px' }}>
+            Түгээлт ба төслүүд
           </h2>
+          <p style={{ fontSize: 14, lineHeight: 1.65, color: 'rgba(255,255,255,.6)', margin: '0 0 24px', maxWidth: 560 }}>
+            Улаанбаатарын орон сууцны цогцолбор, оффис, олон нийтийн барилгад
+            материал нийлүүлж, ихэнх нь давтан захиалгаар үргэлжлэн ажилладаг.
+          </p>
+
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 18 }}>
             {STATS.map((s) => (
               <div key={s.label} style={{ background: 'rgba(255,255,255,.05)', border: '1px solid rgba(255,255,255,.14)', padding: '22px 24px' }}>
                 <div className="disp" style={{ fontSize: 42, lineHeight: 1, color: 'var(--accent)' }}>{s.value}</div>
-                <div style={{ fontSize: 13.5, color: 'rgba(255,255,255,.65)', marginTop: 8 }}>{s.label}</div>
+                <div style={{ fontSize: 13.5, fontWeight: 700, color: 'rgba(255,255,255,.85)', marginTop: 8 }}>{s.label}</div>
+                <div style={{ fontSize: 12, color: 'rgba(255,255,255,.5)', marginTop: 2 }}>{s.sub}</div>
               </div>
             ))}
+          </div>
+
+          {/* 프로젝트 유형별 실적 */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 18, marginTop: 18 }}>
+            {PROJECTS.map((p) => (
+              <div key={p.title} style={{ borderLeft: '4px solid var(--accent)', padding: '4px 0 4px 15px' }}>
+                <div style={{ fontSize: 15, fontWeight: 700, color: '#fff' }}>{p.title}</div>
+                <p style={{ fontSize: 13, lineHeight: 1.6, color: 'rgba(255,255,255,.6)', margin: '5px 0 0' }}>{p.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ fontSize: 12.5, color: 'rgba(255,255,255,.45)', marginTop: 22, borderTop: '1px solid rgba(255,255,255,.14)', paddingTop: 16 }}>
+            Хийгдсэн төслийн жагсаалт, зураг болон ашигласан материалын тооцоог хүсэлтээр танилцуулна — ☎ 8820-4057
           </div>
         </div>
       </section>
