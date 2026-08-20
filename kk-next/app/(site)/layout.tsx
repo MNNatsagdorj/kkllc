@@ -27,7 +27,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
             <Link href="/#products" style={navLink}>Бүтээгдэхүүн</Link>
             <Link href="/#certificates" style={navLink}>Гэрчилгээ</Link>
             <Link href="/track" style={navLink}>Захиалга шалгах</Link>
-            <Link href="/#about" style={navLink}>Бидний тухай</Link>
+            <Link href="/about" style={navLink}>Бидний тухай</Link>
           </div>
           <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 12 }}>
             <a href="tel:88204057" className="mono site-phone-top"
@@ -46,7 +46,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
           <Link href="/#products">Бүтээгдэхүүн</Link>
           <Link href="/#certificates">Гэрчилгээ</Link>
           <Link href="/track">Захиалга шалгах</Link>
-          <Link href="/#about">Бидний тухай</Link>
+          <Link href="/about">Бидний тухай</Link>
           <a href="tel:88204057" className="mono">☎ 8820-4057</a>
         </nav>
       </header>
@@ -63,6 +63,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
             <Link href="/#products" style={{ color: 'rgba(255,255,255,.6)' }}>Бүтээгдэхүүн</Link>
             <Link href="/#certificates" style={{ color: 'rgba(255,255,255,.6)' }}>Гэрчилгээ</Link>
             <Link href="/track" style={{ color: 'rgba(255,255,255,.6)' }}>Захиалга шалгах</Link>
+            <Link href="/about" style={{ color: 'rgba(255,255,255,.6)' }}>Бидний тухай</Link>
           </div>
           <div style={{ color: 'rgba(255,255,255,.4)', fontSize: 12, lineHeight: 1.7 }} className="mono">
             © 2026 Kokorozashi Kibou ХХК · ☎ 8820-4057
