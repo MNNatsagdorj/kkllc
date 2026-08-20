@@ -64,8 +64,14 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
             <Link href="/#certificates" style={{ color: 'rgba(255,255,255,.6)' }}>Гэрчилгээ</Link>
             <Link href="/track" style={{ color: 'rgba(255,255,255,.6)' }}>Захиалга шалгах</Link>
           </div>
-          <div style={{ color: 'rgba(255,255,255,.4)', fontSize: 12 }} className="mono">
-            © 2026 Kokorozashi Kibou ХХК · ☎ 8820-4057 · Үйлдвэр: СХД, Улаанбаатар
+          <div style={{ color: 'rgba(255,255,255,.4)', fontSize: 12, lineHeight: 1.7 }} className="mono">
+            © 2026 Kokorozashi Kibou ХХК · ☎ 8820-4057
+            <br />
+            Үйлдвэр:{' '}
+            <a href="https://maps.app.goo.gl/j1h1R2w9vvPg5eyWA" target="_blank" rel="noopener noreferrer"
+              style={{ color: 'rgba(255,255,255,.55)', textDecoration: 'underline' }}>
+              СХД, 27-р хороо, 21-р хороолол, Тээвэрчдийн 12, 12 тоот, Улаанбаатар 18080 ↗
+            </a>
           </div>
         </div>
       </footer>
