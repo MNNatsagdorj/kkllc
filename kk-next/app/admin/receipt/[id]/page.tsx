@@ -36,7 +36,7 @@ export default async function ReceiptPage({ params }: { params: Promise<{ id: st
         <div style={{ textAlign: 'center', borderBottom: '2px solid #14263E', paddingBottom: 12, marginBottom: 14 }}>
           <div className="disp" style={{ fontSize: 18 }}>KK LLC</div>
           <div style={{ fontSize: 11, color: '#5E6C80', marginTop: 3 }}>
-            Kokorozashi Kibou LLC · СХД, 27-р хороо, 21-р хороолол, Тээвэрчдийн 12, 12 тоот · ☎ 8820-4057
+            Kokorozashi Kibou LLC · СХД, 27-р хороо, 21-р хороолол, Тээвэрчдийн гудамж 12, 12 тоот · ☎ 8820-4057
           </div>
           <div style={{ fontSize: 13.5, fontWeight: 800, marginTop: 9, letterSpacing: '.06em' }}>ПАДААН</div>
         </div>

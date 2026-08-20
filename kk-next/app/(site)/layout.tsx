@@ -70,7 +70,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
             Үйлдвэр:{' '}
             <a href="https://maps.app.goo.gl/j1h1R2w9vvPg5eyWA" target="_blank" rel="noopener noreferrer"
               style={{ color: 'rgba(255,255,255,.55)', textDecoration: 'underline' }}>
-              СХД, 27-р хороо, 21-р хороолол, Тээвэрчдийн 12, 12 тоот, Улаанбаатар 18080 ↗
+              СХД, 27-р хороо, 21-р хороолол, Тээвэрчдийн гудамж 12, Улаанбаатар 18080 ↗
             </a>
           </div>
         </div>
